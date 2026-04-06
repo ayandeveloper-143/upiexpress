@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>UPIExpress - Dynamic UPI QR Payment Solutions</title>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-777328699">
+</script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-777328699');
+</script>
+    <meta name="description"
+        content="Accept instant UPI payments with zero fees using dynamic QR codes. Fast payments, bank-level security, real-time verification & easy API integration.">
+
+    <meta name="keywords"
+        content="UPIExpress, UPI QR, Dynamic QR, UPI Payment API, Dynamic UPI QR Code, UPI Integration, Payment API India">
+
+    <link rel="canonical" href="https://upiexpress.com/">
+    <meta property="og:title" content="UPIExpress - Dynamic UPI QR Payment Solutions">
+    <meta property="og:description"
+        content="Start accepting instant UPI payments with dynamic QR codes. No gateway, no charges, direct bank settlement.">
+    <meta property="og:image" content="https://upiexpress.com/images/og-image.png">
+    <meta property="og:url" content="https://upiexpress.com/">
+    <meta property="og:type" content="website">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
+    <link rel="icon" href="/images/icon.png" type="image/png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="UPIExpress - Dynamic UPI QR Payments">
+    <meta name="twitter:description" content="Direct bank payments via dynamic UPI QR. Zero fees!">
+    <meta name="twitter:image" content="https://upiexpress.com/images/og-image.png">
+    <script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "Organization",
+ "name": "UPIExpress",
+ "url": "https://upiexpress.com/",
+ "logo": "https://upiexpress.com/images/icon.png",
+ "sameAs": [
+   "https://twitter.com/",
+   "https://facebook.com/",
+   "https://linkedin.com/"
+ ],
+ "description": "Dynamic UPI QR generator with zero transaction fees. Accept payments instantly with real-time verification.",
+ "foundingDate": "2020"
+}
+</script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-777328699"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'AW-777328699');
+    </script>
+    <style>
+        :root {
+            --primary: #181a20;
+            --primary-light: #1e2329;
+            --primary-dark: #2b3139;
+            --primary-transparent: rgba(0, 0, 0, 0.1);
+            --dark-1: #181a20;
+            --dark-2: #1e2329;
+            --dark-3: #2b3139;
+            --light-1: #eaecef;
+            --light-2: #b7bdc6;
+            --light-3: #848e9c;
+        }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+        }
+
+        /* 🛠 Fix for right-side space on mobile (portrait + landscape) */
+        body {
+            overflow-x: hidden !important;
+            width: 100vw !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+        }
+
+
+
+        .btn-theme {
+            background-color: var(--primary);
+            color: var(--light-1);
+            border: 1px solid var(--primary-dark);
+        }
+
+        .btn-theme:hover {
+            background-color: var(--primary-light);
+            color: var(--light-1);
+        }
+
+        .btn-theme:active {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline-theme {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-outline-theme:hover {
+            background-color: var(--primary-transparent);
+            color: var(--primary-dark);
+        }
+
+        .link-theme {
+            color: var(--primary);
+        }
+
+        .link-theme:hover {
+            color: var(--primary-light);
+            text-decoration: underline;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"] {
+            border-width: 1px;
+            border-style: solid;
+            border-color: var(--primary-transparent);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        input[type="number"]:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px var(--primary-transparent);
+        }
+
+        .hero-bg {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+
+        }
+
+        .section-padding {
+            padding: 3rem 0;
+        }
+
+        .feature-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgb(234 236 239 / var(--tw-border-opacity, 1));
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .testimonial-card {
+            border-left: 3px solid var(--primary);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 1px solid rgb(226 232 240 / var(--tw-border-opacity, 1));
+        }
+
+        .image {
+            display: none;
+            width: 100%;
+            max-width: 520px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .image.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile Menu Styles with Animation */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            z-index: 1000;
+            padding: 80px 20px 20px;
+            transform: translateX(-100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .mobile-menu nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .mobile-menu a {
+            font-size: 18px;
+            padding: 16px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: block;
+            transition: all 0.3s ease;
+            transform: translateX(-20px);
+            opacity: 0;
+        }
+
+        .mobile-menu.active a {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .mobile-menu a:nth-child(1) {
+            transition-delay: 0.1s;
+        }
+
+        .mobile-menu a:nth-child(2) {
+            transition-delay: 0.15s;
+        }
+
+        .mobile-menu a:nth-child(3) {
+            transition-delay: 0.2s;
+        }
+
+        .mobile-menu .menu-buttons a:nth-child(1) {
+            transition-delay: 0.25s;
+        }
+
+        .mobile-menu .menu-buttons a:nth-child(2) {
+            transition-delay: 0.3s;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--primary-dark);
+            z-index: 1001;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .close-menu {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--primary-dark);
+            z-index: 1002;
+            transition: transform 0.3s ease;
+        }
+
+        .close-menu:hover {
+            transform: scale(1.1);
+        }
+
+        /* Mobile Menu Login Button Fix */
+        .mobile-menu .btn-outline-theme {
+            border: 1px solid var(--primary) !important;
+            background-color: transparent;
+            color: var(--primary);
+            display: block;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .image {
+                max-width: 280px;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .desktop-nav {
+                display: none !important;
+            }
+
+            .header-buttons {
+                display: none !important;
+            }
+
+            .header-logo {
+                margin-right: auto;
+            }
+
+            .container {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+
+            .section-padding {
+                padding: 2rem 0;
+            }
+
+            h1 {
+                font-size: 2rem !important;
+                line-height: 1.2 !important;
+            }
+
+            h2 {
+                font-size: 1.75rem !important;
+            }
+
+            .btn-theme,
+            .btn-outline-theme {
+                padding: 14px 20px !important;
+                font-size: 16px !important;
+                width: 100%;
+                text-align: center;
+            }
+
+            .flex-col {
+                gap: 12px;
+            }
+
+            /* Reduce spacing between sections on mobile */
+            .section-padding {
+                padding: 1.5rem 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .image {
+                max-width: 220px;
+            }
+
+            h1 {
+                font-size: 1.75rem !important;
+            }
+
+            h2 {
+                font-size: 1.5rem !important;
+            }
+
+            .stat-card {
+                padding: 1rem !important;
+            }
+
+            .feature-card,
+            .testimonial-card {
+                padding: 1.25rem !important;
+            }
+
+            /* Further reduce spacing on very small screens */
+            .section-padding {
+                padding: 1rem 0;
+            }
+        }
+
+
+
+        /* Animation Classes with Delays */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .scale-in.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .stagger-item {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .stagger-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Backdrop for mobile menu */
+        .menu-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .menu-backdrop.active {
+            display: block;
+            opacity: 1;
+        }
+
+        footer {
+            overflow-x: hidden !important;
+            width: 100vw !important;
+        }
+
+        footer input[type="email"] {
+            min-width: 0;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col bg-gray-50">
+    <!-- Menu Backdrop -->
+    <div class="menu-backdrop"></div>
+
+    <!-- Header -->
+    <header
+        class="flex justify-between items-center px-4 sm:px-6 lg:px-8 py-4 border-b border-gray-200 w-full bg-white sticky top-0 z-50 shadow-sm">
+        <div class="flex items-center">
+            <img src="/images/icon.png" alt="UPIExpress" class="w-8 h-8">
+            <span class="sidebar-text font-bold text-xl  mr-[2.2px] text-gray-800">UPI</span>
+            <span class="sidebar-text font-family text-xl text-gray-700">Express</span>
+        </div>
+
+        <nav class="desktop-nav hidden md:flex space-x-6">
+            <a href="/"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm border-b-2 border-[var(--primary)]">Home</a>
+            <a href="/about-us"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">About Us</a>
+            <a href="/faq"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">FAQ</a>
+            
+            <a href="/contact-us"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Contact
+                Us</a>
+            <a href="/doc"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Documentation</a>
+            <a href="/usecases"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Use Cases</a>
+            <a href="/features"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Features</a>
+             <a href="/pricing"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Pricing</a>   
+        </nav>
+
+        <div class="header-buttons flex items-center space-x-3">
+            <a href="/auth/login/"
+                class="btn-outline-theme rounded-lg px-3 py-2 text-sm transition-colors duration-200 font-medium hidden md:block">Login</a>
+            <a href="/auth/signup/"
+                class="btn-theme rounded-lg px-3 py-2 text-sm transition-colors duration-200 font-medium hidden md:block">Create
+                Account</a>
+        </div>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="menu-toggle md:hidden">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu md:hidden">
+        <button class="close-menu">
+            <i class="fas fa-times"></i>
+        </button>
+        <nav class="flex flex-col">
+            <a href="/" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100 text-[var(--primary)] font-semibold">Home</a>
+            <a href="/about-us" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">About Us</a>
+            <a href="/faq" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">FAQ</a>
+            <a href="/contact-us" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Contact Us</a>
+            <a href="/pricing" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Pricing</a>
+            <a href="/doc" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Documentation</a>
+            <a href="/usecases" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Use Cases</a>
+            <a href="/features" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Features</a>
+            <div class="menu-buttons pt-6 border-t border-gray-200 space-y-3">
+                <a href="/auth/login/"
+                    class="btn-outline-theme rounded-lg px-4 py-3 text-base transition-colors duration-200 font-medium block text-center">Login</a>
+                <a href="/auth/signup/"
+                    class="btn-theme rounded-lg px-4 py-3 text-base transition-colors duration-200 font-medium block text-center">Create
+                    Account</a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-bg">
+        <div class="border-b border-t border-gray-200">
+            <div class="container mx-auto px-4 sm:px-6 py-16 flex flex-col md:flex-row items-center ">
+                <div class="md:w-1/2 mb-5 md:mb-0 fade-in">
+                    <div
+                        class="inline-block bg-[var(--primary)] text-white text-xs font-medium px-3 py-1 rounded-full mb-6">
+                        Zero Transaction Fees
+                    </div>
+                    <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4 leading-tight">
+                        Accept Payments Directly to Your Account
+                    </h1>
+                    <p class="text-lg md:text-xl text-gray-600 mb-6">
+                        Revolutionize your payment process with our secure Dynamic UPI QR Code service.
+                    </p>
+                    <p class="text-sm text-gray-500 mb-6">
+                        *UPIExpress provides Dynamic UPI QR Generating service. UPIExpress does not provide payment
+                        gateway
+                        service.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="/auth/"
+                            class="btn-theme rounded-lg px-6 py-3 font-medium text-base md:text-lg transition-all duration-200 inline-block text-center">
+                            Start Accepting Payments <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                        <a href="/doc"
+                            class="btn-outline-theme rounded-lg px-6 py-3 font-medium text-base md:text-lg transition-all duration-200 inline-block text-center">
+                            View Integration Guide
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center mt-6 md:mt-0">
+                    <div class="image-container relative flex flex-col fade-in">
+                        <!-- Top-left background box -->
+                        <img class="absolute -z-10 -top-5 -left-3 w-6 sm:w-8 md:-top-6 md:-left-3"
+                            src="https://upiexpress.com/images/bg_box1.png" alt="bg top left">
+
+                        <!-- Bottom-right background box -->
+                        <img class="absolute -z-10 -bottom-4 -right-3 w-6 sm:w-8 md:-bottom-5 md:-right-5"
+                            src="https://upiexpress.com/images/bg_box1.png" alt="bg bottom right">
+
+                        <!-- Main images -->
+                        <img class="image transition-all border rounded-xl w-full max-w-xs md:max-w-sm z-10"
+                            src="https://upiexpress.com/images/1.png" alt="hero">
+                        <img class="image transition-all border rounded-xl w-full max-w-xs md:max-w-sm z-10"
+                            src="https://upiexpress.com/images/2.png" alt="hero">
+                        <img class="image transition-all border rounded-xl w-full max-w-xs md:max-w-sm z-10"
+                            src="https://upiexpress.com/images/3.png" alt="hero">
+                        <img class="image transition-all border rounded-xl w-full max-w-xs md:max-w-sm z-10"
+                            src="https://upiexpress.com/images/4.png" alt="hero">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-8 bg-white border-b border-t border-gray-200">
+        <div class="container mx-auto px-4 sm:px-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="stat-card rounded-xl p-4 text-center stagger-item">
+                    <div class="text-xl md:text-2xl font-bold mb-2 gradient-text">10,000+</div>
+                    <div class="text-xs md:text-sm text-gray-600">Active Merchants</div>
+                </div>
+                <div class="stat-card rounded-xl p-4 text-center stagger-item">
+                    <div class="text-xl md:text-2xl font-bold mb-2 gradient-text">₹500Cr+</div>
+                    <div class="text-xs md:text-sm text-gray-600">Annual Transaction Volume</div>
+                </div>
+                <div class="stat-card rounded-xl p-4 text-center stagger-item">
+                    <div class="text-xl md:text-2xl font-bold mb-2 gradient-text">99.9%</div>
+                    <div class="text-xs md:text-sm text-gray-600">Uptime Reliability</div>
+                </div>
+                <div class="stat-card rounded-xl p-4 text-center stagger-item">
+                    <div class="text-xl md:text-2xl font-bold mb-2 gradient-text">0%</div>
+                    <div class="text-xs md:text-sm text-gray-600">Transaction Fees</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="section-padding bg-white border-b border-t border-gray-200">
+        <div class="container mx-auto px-4 sm:px-6">
+            <div class="text-center max-w-3xl mx-auto mb-12 fade-in">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">How UPIExpress Dynamic UPI QR Works</h2>
+                <p class="text-base md:text-lg text-gray-600">A seamless four-step process to transform your payment
+                    collection</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="text-center stagger-item">
+                    <div
+                        class="bg-[var(--primary)] w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-white font-bold text-lg md:text-xl">1</span>
+                    </div>
+                    <h3 class="text-base md:text-lg font-semibold mb-2">Customer Selects Product</h3>
+                    <p class="text-sm text-gray-600">Customer selects products on your platform and proceeds to checkout
+                        with the desired payment amount.</p>
+                </div>
+
+                <div class="text-center stagger-item">
+                    <div
+                        class="bg-[var(--primary)] w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-white font-bold text-lg md:text-xl">2</span>
+                    </div>
+                    <h3 class="text-base md:text-lg font-semibold mb-2">QR Code Generation</h3>
+                    <p class="text-sm text-gray-600">Our system instantly generates a unique, dynamic UPI QR code with
+                        the exact payment amount pre-filled.</p>
+                </div>
+
+                <div class="text-center stagger-item">
+                    <div
+                        class="bg-[var(--primary)] w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-white font-bold text-lg md:text-xl">3</span>
+                    </div>
+                    <h3 class="text-base md:text-lg font-semibold mb-2">Customer Scans & Pays</h3>
+                    <p class="text-sm text-gray-600">Customer scans the UPI QR code with any UPI app and completes the
+                        payment in seconds.</p>
+                </div>
+
+                <div class="text-center stagger-item">
+                    <div
+                        class="bg-[var(--primary)] w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-white font-bold text-lg md:text-xl">4</span>
+                    </div>
+                    <h3 class="text-base md:text-lg font-semibold mb-2">Instant Confirmation</h3>
+                    <p class="text-sm text-gray-600">Payment status is instantly verified and confirmed to both merchant
+                        and customer via webhook.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases Section -->
+    <section class="section-padding bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6">
+            <div class="text-center max-w-3xl mx-auto mb-12 fade-in">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">UPIExpress Use Cases</h2>
+                <p class="text-base md:text-lg text-gray-600">Transform payment experiences across multiple business
+                    scenarios</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm feature-card stagger-item">
+                    <div class="flex items-start mb-4">
+                        <div class="bg-[var(--primary)] p-3 rounded-lg mr-4">
+                            <i class="fas fa-shopping-cart text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">E-commerce & Retail Websites</h3>
+                            <p class="text-gray-600 mb-4">Integrate dynamic UPI QR codes into your checkout flow for
+                                seamless payment collection on websites, mobile apps, and e-commerce platforms.</p>
+                            <a href="#" class="link-theme font-medium flex items-center">Integrate Now <i
+                                    class="fas fa-arrow-right ml-2"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm feature-card stagger-item">
+                    <div class="flex items-start mb-4">
+                        <div class="bg-[var(--primary)] p-3 rounded-lg mr-4">
+                            <i class="fas fa-tv text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">OTT & Streaming Platforms</h3>
+                            <p class="text-gray-600 mb-4">Enable subscription payments and in-app purchases through
+                                dynamic UPI QR codes displayed on smart TVs and OTT applications.</p>
+                            <a href="#" class="link-theme font-medium flex items-center">Integrate Now <i
+                                    class="fas fa-arrow-right ml-2"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm feature-card stagger-item">
+                    <div class="flex items-start mb-4">
+                        <div class="bg-[var(--primary)] p-3 rounded-lg mr-4">
+                            <i class="fas fa-store text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">In-Store Retail & POS</h3>
+                            <p class="text-gray-600 mb-4">Replace traditional payment terminals with dynamic UPI QR
+                                codes displayed on tablets or screens for faster, contactless transactions.</p>
+                            <a href="#" class="link-theme font-medium flex items-center">Integrate Now <i
+                                    class="fas fa-arrow-right ml-2"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm feature-card stagger-item">
+                    <div class="flex items-start mb-4">
+                        <div class="bg-[var(--primary)] p-3 rounded-lg mr-4">
+                            <i class="fas fa-tablet-alt text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Self-Service Kiosks</h3>
+                            <p class="text-gray-600 mb-4">Enable contactless payments at self-ordering kiosks, vending
+                                machines, parking lots, and other unattended retail environments.</p>
+                            <a href="#" class="link-theme font-medium flex items-center">Integrate Now <i
+                                    class="fas fa-arrow-right ml-2"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section-padding bg-white border-b border-t border-gray-200">
+        <div class="container mx-auto px-4 sm:px-6">
+            <div class="text-center max-w-3xl mx-auto mb-12 fade-in">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">Why Choose UPIExpress?</h2>
+                <p class="text-base md:text-lg text-gray-600">Advanced features designed for modern businesses</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="text-center stagger-item">
+                    <div
+                        class="bg-[var(--primary)] w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-bolt text-white text-xl md:text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg md:text-xl font-semibold mb-4">Lightning Fast</h3>
+                    <p class="text-gray-600">Process payments in under 10 seconds with our optimized UPI QR generation
+                        and verification system.</p>
+                </div>
+
+                <div class="text-center stagger-item">
+                    <div
+                        class="bg-[var(--primary)] w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-shield-alt text-white text-xl md:text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg md:text-xl font-semibold mb-4">Bank-Grade Security</h3>
+                    <p class="text-gray-600">Each transaction uses a unique, encrypted UPI QR code with real-time
+                        validation for maximum security.</p>
+                </div>
+
+                <div class="text-center stagger-item">
+                    <div
+                        class="bg-[var(--primary)] w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-plug text-white text-xl md:text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg md:text-xl font-semibold mb-4">Easy Integration</h3>
+                    <p class="text-gray-600">Simple API integration, no-code solutions, and comprehensive SDKs for all
+                        major platforms.</p>
+                </div>
+
+                <div class="text-center stagger-item">
+                    <div
+                        class="bg-[var(--primary)] w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-chart-line text-white text-xl md:text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg md:text-xl font-semibold mb-4">Real-Time Analytics</h3>
+                    <p class="text-gray-600">Comprehensive dashboard with real-time transaction tracking, reports, and
+                        business insights.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="section-padding bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6">
+            <div class="text-center max-w-3xl mx-auto mb-12 fade-in">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">Trusted by Industry Leaders</h2>
+                <p class="text-base md:text-lg text-gray-600">See what businesses are saying about UPIExpress</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm testimonial-card stagger-item">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-[var(--primary)] rounded-full flex items-center justify-center mr-4">
+                            <span class="text-white font-bold">AK</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold">Ayan Khan</h4>
+                            <p class="text-sm text-gray-500">CEO, P2PXpert India</p>
+                        </div>
+                    </div>
+                    <div class="flex text-yellow-400 mb-3">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-600">"Implementing UPIExpress reduced our payment failure rate by 78%. The
+                        seamless integration and real-time transaction tracking have transformed our checkout
+                        experience."</p>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm testimonial-card stagger-item">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-[var(--primary)] rounded-full flex items-center justify-center mr-4">
+                            <span class="text-white font-bold">S</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold">Sachin</h4>
+                            <p class="text-sm text-gray-500">CEO, StreamLiveFlix</p>
+                        </div>
+                    </div>
+                    <div class="flex text-yellow-400 mb-3">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-600">"The dynamic UPI QR solution for our OTT platform has significantly
+                        improved subscription conversion rates. Customers appreciate the simplicity of scanning to pay."
+                    </p>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm testimonial-card stagger-item">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-[var(--primary)] rounded-full flex items-center justify-center mr-4">
+                            <span class="text-white font-bold">AM</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold">Anshuman Mondal</h4>
+                            <p class="text-sm text-gray-500">Operations Head, InstaOTP</p>
+                        </div>
+                    </div>
+                    <div class="flex text-yellow-400 mb-3">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-600">"Our self-ordering kiosks with UPIExpress have reduced queue times by 40%.
+                        The reliable transaction verification gives us complete confidence in every payment."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-12 bg-[var(--primary)] border-b border-t border-gray-200">
+        <div class="container mx-auto px-4 sm:px-6 text-center">
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-4 fade-in cta-title">Ready to Transform Your Payment
+                Experience?</h2>
+            <p class="text-base md:text-lg text-gray-300 mb-8 max-w-2xl mx-auto fade-in cta-subtitle">Join thousands of
+                businesses
+                already using UPIExpress to accept payments directly to their bank accounts with zero transaction fees.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center fade-in gap-4">
+                <a href="/auth/signup/"
+                    class="bg-white text-[var(--primary)]  rounded-lg px-6 py-3 font-medium text-base md:text-lg transition-all duration-200 inline-block hover:bg-gray-100">
+                    Start Free Trial
+                </a>
+                <a href="/auth/signup"
+                    class="bg-transparent border border-white text-white rounded-lg px-6 py-3 font-medium text-base md:text-lg transition-all duration-200 inline-block hover:bg-white hover:text-[var(--primary)]">
+                    Schedule a Demo
+                </a>
+            </div>
+            <p class="text-sm text-gray-400 mt-6 fade-in">No credit card required • Setup in minutes</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="w-full px-4 sm:px-6 py-8 text-gray-600 bg-white border-t border-gray-200">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="fade-in cta-title">
+                <div class="flex items-center mb-2">
+                    <img src="/images/icon.png" alt="UPIExpress" class="w-8 h-8">
+                    <span class="sidebar-text font-bold text-xl  mr-[2.2px] text-gray-800">UPI</span>
+                    <span class="sidebar-text font-family text-xl text-gray-700">Express</span>
+                </div>
+                <p class="text-sm mb-4">Revolutionizing payments with secure, dynamic UPI QR code technology.</p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-500 hover:text-[var(--primary)] transition-colors">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-[var(--primary)] transition-colors">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-[var(--primary)] transition-colors">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="fade-in cta-subtitle">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Product</h3>
+                <ul class="space-y-2">
+                    <li><a href="/features" class="text-sm hover:text-[var(--primary)] transition-colors">Features</a>
+                    </li>
+                    <li><a href="/usecases" class="text-sm hover:text-[var(--primary)] transition-colors">Use Cases</a>
+                    </li>
+                    <li><a href="/pricing" class="text-sm hover:text-[var(--primary)] transition-colors">Pricing</a>
+                    </li>
+                    <li><a href="/doc" class="text-sm hover:text-[var(--primary)] transition-colors">Documentation</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="fade-in cta-subtitle">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Company</h3>
+                <ul class="space-y-2">
+                    <li><a href="/about-us" class="text-sm hover:text-[var(--primary)] transition-colors">About Us</a>
+                    </li>
+                    <li><a href="/faq" class="text-sm hover:text-[var(--primary)] transition-colors">FAQ</a></li>
+                    <li><a href="/blog" class="text-sm hover:text-[var(--primary)] transition-colors">Blog</a></li>
+                    <li><a href="/contact-us" class="text-sm hover:text-[var(--primary)] transition-colors">Contact
+                            Us</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="fade-in cta-subtitle">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Contact Us</h3>
+                <p class="text-sm mb-2">Feel free to get in touch with us</p>
+                <p class="text-sm mb-4 flex items-center">
+                    <i class="fas fa-envelope mr-2"></i> support@upiexpress.com
+                </p>
+                <div class="mt-4">
+                    <p class="text-sm mb-2">Subscribe to our Newsletter:</p>
+                    <div class="flex w-full max-w-full overflow-hidden">
+                        <input type="email" placeholder="Enter your email"
+                            class="flex-grow min-w-0 border rounded-l-lg px-3 py-2 text-sm focus:outline-none">
+                        <button class="btn-theme rounded-r-lg px-4 py-2 text-sm flex-shrink-0 w-auto">Submit</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="pt-6 border-t border-gray-200">
+            <p class="text-xs text-gray-500 mb-4">
+                *UPIExpress provides Dynamic UPI QR Generating service. UPIExpress does not offer payment gateway
+                service, nor does it provide UPI ID and UPI Merchant account. Please read our policy and T&C before
+                using our services.
+            </p>
+
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center text-sm">
+                <p class="mb-4 sm:mb-0">
+                    © UPIExpress 2023–25, All Rights Reserved.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a class="hover:text-[var(--primary)] transition-colors" href="/help">Help</a>
+                    <a class="hover:text-[var(--primary)] transition-colors" href="/refund">Refund Policy</a>
+                    <a class="hover:text-[var(--primary)] transition-colors" href="/terms">Terms Of Service</a>
+                    <a class="hover:text-[var(--primary)] transition-colors" href="/privacy">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <script type="module">
+        // Mobile menu functionality with animations
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const closeMenu = document.querySelector('.close-menu');
+            const menuBackdrop = document.querySelector('.menu-backdrop');
+            const mobileLinks = document.querySelectorAll('.mobile-menu a');
+
+            function openMenu() {
+                mobileMenu.classList.add('active');
+                menuBackdrop.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeMobileMenu() {
+                mobileMenu.classList.remove('active');
+                menuBackdrop.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            menuToggle.addEventListener('click', openMenu);
+            closeMenu.addEventListener('click', closeMobileMenu);
+            menuBackdrop.addEventListener('click', closeMobileMenu);
+
+            // Close menu when clicking on a link
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', closeMobileMenu);
+            });
+
+            // Close menu on escape key
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    closeMobileMenu();
+                }
+            });
+        });
+
+        // Hero image rotation
+        document.addEventListener("DOMContentLoaded", function () {
+            const images = document.querySelectorAll('.image-container .image');
+            if (images.length > 0) {
+                let idx = 0;
+                function showImage(i) {
+                    images.forEach((img, j) => {
+                        img.classList.toggle('active', i === j);
+                    });
+                }
+                showImage(idx);
+                setInterval(() => {
+                    idx = (idx + 1) % images.length;
+                    showImage(idx);
+                }, 3000);
+            }
+        });
+
+        // Scroll animations with delays
+        document.addEventListener('DOMContentLoaded', function () {
+            // Function to check if element is in viewport
+            function isInViewport(element) {
+                const rect = element.getBoundingClientRect();
+                return (
+                    rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.85 &&
+                    rect.bottom >= 0
+                );
+            }
+
+            // Function to handle scroll animation
+            function handleScrollAnimation() {
+                const elements = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-in, .stagger-item');
+
+                elements.forEach((element, index) => {
+                    if (isInViewport(element) && !element.classList.contains('visible')) {
+                        // Add delay based on element type and position
+                        let delay = 0;
+
+                        if (element.classList.contains('stagger-item')) {
+                            // Stagger items in grids
+                            const parent = element.closest('.grid');
+                            if (parent) {
+                                const siblings = Array.from(parent.querySelectorAll('.stagger-item'));
+                                const elementIndex = siblings.indexOf(element);
+                                delay = elementIndex * 70; // 80ms delay between each item
+                            }
+                        } else {
+                            // Regular fade-in elements
+                            delay = index * 20; // 30ms delay between different elements
+                        }
+
+                        // Special handling for CTA section elements
+                        if (element.classList.contains('cta-title') ||
+                            element.classList.contains('cta-subtitle')) {
+                            delay = 0; // No delay for CTA elements
+                        }
+                        if (element.classList.contains('cta-title') ||
+                            element.classList.contains('cta-subtitle')) {
+                            delay = 0; // No delay for CTA elements
+                        }
+
+                        setTimeout(() => {
+                            element.classList.add('visible');
+                        }, delay);
+                    }
+                });
+            }
+
+            // Initial check - trigger animations immediately for elements already in view
+            setTimeout(() => {
+                handleScrollAnimation();
+
+                // Force CTA section elements to animate immediately
+                const ctaElements = document.querySelectorAll('.cta-title, .cta-subtitle');
+                ctaElements.forEach(element => {
+                    if (isInViewport(element)) {
+                        element.classList.add('visible');
+                    }
+                });
+            }, 70);
+
+            // Check on scroll with throttle
+            let scrollTimeout;
+            window.addEventListener('scroll', function () {
+                if (!scrollTimeout) {
+                    scrollTimeout = setTimeout(function () {
+                        scrollTimeout = null;
+                        handleScrollAnimation();
+                    }, 20);
+                }
+            });
+        });
+
+        // Prevent zoom on double tap
+        document.addEventListener('touchstart', function (e) {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (e) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 100) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+</body>
+
+</html>

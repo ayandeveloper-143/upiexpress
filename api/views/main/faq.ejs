@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>FAQ - UPIExpress Dynamic UPI QR Payment Solutions</title>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-777328699">
+</script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-777328699');
+</script>
+    <meta name="description"
+        content="Frequently asked questions about UPIExpress dynamic UPI QR payments. Get answers about pricing, features, integration, and more.">
+    <meta name="keywords"
+        content="UPIExpress FAQ, UPI QR questions, pricing plans, dynamic QR code, payment integration, UPI payment support">
+
+    <link rel="canonical" href="https://upiexpress.com/faq">
+    <meta property="og:title" content="FAQ - UPIExpress Dynamic UPI QR Payment Solutions">
+    <meta property="og:description"
+        content="Find answers to common questions about UPIExpress dynamic UPI QR payment solutions.">
+    <meta property="og:image" content="https://upiexpress.com/images/og-image.png">
+    <meta property="og:url" content="https://upiexpress.com/faq">
+    <meta property="og:type" content="website">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
+    <link rel="icon" href="/images/icon.png" type="image/png">
+    
+    <style>
+        :root {
+            --primary: #181a20;
+            --primary-light: #1e2329;
+            --primary-dark: #2b3139;
+            --primary-transparent: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow-x: hidden !important;
+            width: 100vw !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            font-family: "Inter", sans-serif;
+        }
+
+        .btn-theme {
+            background-color: var(--primary);
+            color: white;
+            border: 1px solid var(--primary-dark);
+        }
+
+        .btn-theme:hover {
+            background-color: var(--primary-light);
+            color: white;
+        }
+
+        .btn-outline-theme {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-outline-theme:hover {
+            background-color: var(--primary-transparent);
+            color: var(--primary-dark);
+        }
+
+        .link-theme {
+            color: var(--primary);
+        }
+
+        .link-theme:hover {
+            color: var(--primary-light);
+            text-decoration: underline;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* FAQ Item Styles */
+        .faq-item {
+            border-bottom: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question {
+            padding: 20px 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            color: var(--primary);
+        }
+
+        .faq-question.active {
+            color: var(--primary);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, padding 0.3s ease;
+        }
+
+        .faq-answer.active {
+            max-height: 5000px;
+            padding-bottom: 20px;
+        }
+
+        .faq-icon {
+            transition: transform 0.3s ease;
+            color: var(--primary);
+        }
+
+        .faq-question.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Code Block Styles */
+        .code-block {
+            background: #1a1b26;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            margin: 0;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .code-block code {
+            color: #cbd5e1;
+        }
+
+        .json-key {
+            color: #38bdf8;
+        }
+
+        .json-string {
+            color: #86efac;
+        }
+
+        .json-number {
+            color: #fbbf24;
+        }
+
+        .json-boolean {
+            color: #c084fc;
+        }
+
+        .json-null {
+            color: #f87171;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            z-index: 1000;
+            padding: 80px 20px 20px;
+            transform: translateX(-100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--primary-dark);
+            z-index: 1001;
+        }
+
+        .close-menu {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--primary-dark);
+            z-index: 1002;
+        }
+
+        .menu-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .menu-backdrop.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .desktop-nav {
+                display: none !important;
+            }
+
+            .header-buttons {
+                display: none !important;
+            }
+
+            .faq-question {
+                padding: 16px 0;
+                font-size: 16px;
+            }
+
+            .code-block {
+                padding: 15px;
+                font-size: 13px;
+            }
+
+            .section-padding {
+                padding: 2rem 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section-padding {
+                padding: 1.5rem 0;
+            }
+
+            .faq-question {
+                padding: 14px 0;
+                font-size: 15px;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stagger-item {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .stagger-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col bg-gray-50">
+    <!-- Menu Backdrop -->
+    <div class="menu-backdrop"></div>
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+        <div class="container mx-auto px-4 sm:px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <img src="/images/icon.png" alt="UPIExpress" class="w-8 h-8">
+                    <span class="font-bold text-xl mr-1 text-gray-800">UPI</span>
+                    <span class="text-xl text-gray-700">Express</span>
+                </div>
+
+                <nav class="desktop-nav hidden md:flex space-x-6">
+                    <a href="/" class="text-gray-700 hover:text-gray-900 font-medium text-sm">Home</a>
+                    <a href="/about-us" class="text-gray-700 hover:text-gray-900 font-medium text-sm">About Us</a>
+                    <a href="/faq" class="text-gray-700 hover:text-gray-900 font-medium text-sm border-b-2 border-[var(--primary)]">FAQ</a>
+                    <a href="/contact-us" class="text-gray-700 hover:text-gray-900 font-medium text-sm">Contact Us</a>
+                    <a href="/doc" class="text-gray-700 hover:text-gray-900 font-medium text-sm">Documentation</a>
+                    <a href="/usecases" class="text-gray-700 hover:text-gray-900 font-medium text-sm">Use Cases</a>
+                    <a href="/features" class="text-gray-700 hover:text-gray-900 font-medium text-sm">Features</a>
+                    <a href="/pricing" class="text-gray-700 hover:text-gray-900 font-medium text-sm">Pricing</a>
+                </nav>
+
+                <div class="header-buttons flex items-center space-x-3">
+                    <a href="/auth/login/" class="btn-outline-theme rounded-lg px-3 py-2 text-sm font-medium hidden md:block">Login</a>
+                    <a href="/auth/signup/" class="btn-theme rounded-lg px-3 py-2 text-sm font-medium hidden md:block">Create Account</a>
+                </div>
+
+                <button class="menu-toggle md:hidden">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu md:hidden">
+        <button class="close-menu">
+            <i class="fas fa-times"></i>
+        </button>
+        <nav class="flex flex-col">
+            <a href="/" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Home</a>
+            <a href="/about-us" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">About Us</a>
+            <a href="/faq" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100 text-[var(--primary)] font-semibold">FAQ</a>
+            <a href="/contact-us" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Contact Us</a>
+            <a href="/pricing" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Pricing</a>
+            <a href="/doc" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Documentation</a>
+            <a href="/usecases" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Use Cases</a>
+            <a href="/features" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Features</a>
+            <div class="menu-buttons pt-6 border-t border-gray-200 space-y-3">
+                <a href="/auth/login/" class="btn-outline-theme rounded-lg px-4 py-3 text-base font-medium block text-center">Login</a>
+                <a href="/auth/signup/" class="btn-theme rounded-lg px-4 py-3 text-base font-medium block text-center">Create Account</a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+        <div class="container mx-auto px-4 sm:px-6 py-12 md:py-16">
+            <div class="text-center max-w-3xl mx-auto fade-in">
+                <div class="inline-block bg-[var(--primary)] text-white text-xs font-medium px-3 py-1 rounded-full mb-6">
+                    Frequently Asked Questions
+                </div>
+                <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4">
+                    Get Answers to Your Questions
+                </h1>
+                <p class="text-lg md:text-xl text-gray-600 mb-8">
+                    Everything you need to know about UPIExpress dynamic UPI QR solutions.
+                </p>
+                <div class="relative max-w-md mx-auto">
+                    <input type="text" placeholder="Search for answers..." id="faqSearch"
+                        class="w-full pl-12 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent">
+                    <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Content -->
+    <section class="section-padding bg-white">
+        <div class="container mx-auto px-4 sm:px-6 mt-5">
+            <!-- General Questions -->
+            <div class="mb-12">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-8 fade-in">General Questions</h2>
+                <div class="space-y-1">
+                    <div class="faq-item stagger-item">
+                        <div class="faq-question">
+                            <span class="text-lg font-medium">What is UPIExpress?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer text-gray-600">
+                            <p>UPIExpress is a dynamic UPI QR code generation service that allows businesses to accept payments directly to their bank accounts. We generate unique, time-sensitive QR codes with pre-filled amounts for secure transactions.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item stagger-item">
+                        <div class="faq-question">
+                            <span class="text-lg font-medium">How does the dynamic QR code work?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer text-gray-600">
+                            <p>When a customer initiates a payment, our system generates a unique QR code with the exact amount pre-filled. The customer scans this code with any UPI app, confirms the amount, and completes the payment. Each QR code is valid for a limited time and can only be used once.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item stagger-item">
+                        <div class="faq-question">
+                            <span class="text-lg font-medium">Are there any transaction fees?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer text-gray-600">
+                            <p>No, UPIExpress charges <strong>0% transaction fees</strong>. You only pay our subscription fee based on your chosen plan. All payments go directly to your bank account without any intermediate charges.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Integration & Technical -->
+            <div class="mb-12">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-8 fade-in">Integration & Technical</h2>
+                <div class="space-y-1">
+                    <div class="faq-item stagger-item">
+                        <div class="faq-question">
+                            <span class="text-lg font-medium">How do I integrate UPIExpress?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer text-gray-600">
+                            <p>Integration is simple with our REST API. You can generate QR codes by making a POST request to our endpoint and display the QR image to your customers. We also provide webhooks for real-time payment notifications.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item stagger-item">
+                        <div class="faq-question">
+                            <span class="text-lg font-medium">What webhook data do you send?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer text-gray-600">
+                            <p>We send comprehensive webhook payloads with all transaction details. Here's an example of the JSON payload:</p>
+                            <div class="code-block">
+                                <pre><code>{
+  <span class="json-key">"id"</span>: <span class="json-number">66</span>,
+  <span class="json-key">"amount"</span>: <span class="json-number">100</span>,
+  <span class="json-key">"convenience_fee"</span>: <span class="json-number">0</span>,
+  <span class="json-key">"total_amount"</span>: <span class="json-number">100</span>,
+  <span class="json-key">"txn_id"</span>: <span class="json-string">"UPIEX50004120220115144330001"</span>,
+  <span class="json-key">"orderid"</span>: <span class="json-number">500041</span>,
+  <span class="json-key">"client_txn_id"</span>: <span class="json-string">"abcd1234"</span>,
+  <span class="json-key">"customer_name"</span>: <span class="json-string">"Jon Doe"</span>,
+  <span class="json-key">"customer_email"</span>: <span class="json-string">"jondoe@gmail.com"</span>,
+  <span class="json-key">"customer_mobile"</span>: <span class="json-string">"9876543210"</span>,
+  <span class="json-key">"upi_tn_id"</span>: <span class="json-string">"209876543210"</span>,
+  <span class="json-key">"status"</span>: <span class="json-string">"success"</span>,
+  <span class="json-key">"note"</span>: <span class="json-string">"Product information"</span>,
+  <span class="json-key">"udf1"</span>: <span class="json-string">""</span>,
+  <span class="json-key">"udf2"</span>: <span class="json-string">""</span>,
+  <span class="json-key">"udf3"</span>: <span class="json-string">""</span>,
+  <span class="json-key">"redirect_url"</span>: <span class="json-string">"https://upiexpress.com"</span>,
+  <span class="json-key">"webhook_url"</span>: <span class="json-string">"https://upiexpress.com"</span>,
+  <span class="json-key">"txnAt"</span>: <span class="json-string">"2022-01-15"</span>,
+  <span class="json-key">"createdAt"</span>: <span class="json-string">"2022-01-15T14:43:30.000Z"</span>,
+  <span class="json-key">"MerchantId"</span>: <span class="json-string">"AB12s87d6f5g4h3j2k11Øm9n8o7p6q5r4"</span>,
+  <span class="json-key">"upi_txn_id"</span>: <span class="json-string">"(merchant app txn id or UTR number if payment is success)"</span>
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item stagger-item">
+                        <div class="faq-question">
+                            <span class="text-lg font-medium">What status values can I expect?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer text-gray-600">
+                            <p>The status field in webhook can have these values:</p>
+                            <ul class="list-disc pl-5 space-y-2 mt-2">
+                                <li><strong>"success"</strong> - Payment completed successfully</li>
+                                <li><strong>"failed"</strong> - Payment failed</li>
+                                <li><strong>"pending"</strong> - Payment initiated but not completed</li>
+                                <li><strong>"expired"</strong> - QR code expired before payment</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="faq-item stagger-item">
+                        <div class="faq-question">
+                            <span class="text-lg font-medium">How long is a QR code valid?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer text-gray-600">
+                            <p>Dynamic QR codes are valid for 10 minutes. After this period, the code expires and a new one must be generated for the transaction.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pricing & Plans -->
+            <div class="mb-12">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-8 fade-in">Pricing & Plans</h2>
+                <div class="space-y-1">
+                    <div class="faq-item stagger-item">
+                        <div class="faq-question">
+                            <span class="text-lg font-medium">What plans do you offer?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer text-gray-600">
+                            <p>We offer four plans:</p>
+                            <ul class="list-disc pl-5 space-y-2 mt-2">
+                                <li><strong>Starter:</strong> ₹499/month - Perfect for small businesses</li>
+                                <li><strong>Startup:</strong> ₹999/month - For growing businesses</li>
+                                <li><strong>Business:</strong> ₹1,999/month - For established businesses (Most Popular)</li>
+                                <li><strong>Enterprise:</strong> ₹3,999/month - For large scale operations</li>
+                            </ul>
+                            <p class="mt-4">Save 20% with quarterly billing!</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item stagger-item">
+                        <div class="faq-question">
+                            <span class="text-lg font-medium">Is there a free trial?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer text-gray-600">
+                            <p>Yes! We offer a 14-day free trial for all plans. No credit card required. Start accepting payments immediately and upgrade when ready.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item stagger-item">
+                        <div class="faq-question">
+                            <span class="text-lg font-medium">Can I change my plan later?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer text-gray-600">
+                            <p>Yes, you can upgrade or downgrade at any time. Upgrades take effect immediately, while downgrades apply from the next billing cycle.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item stagger-item">
+                        <div class="faq-question">
+                            <span class="text-lg font-medium">What payment methods do you accept?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer text-gray-600">
+                            <p>We accept credit/debit cards, net banking, UPI, and mobile wallets for subscription payments.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features -->
+            <div class="mb-12">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-8 fade-in">Features</h2>
+                <div class="space-y-1">
+                    <div class="faq-item stagger-item">
+                        <div class="faq-question">
+                            <span class="text-lg font-medium">What features are included?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer text-gray-600">
+                            <p>All plans include:</p>
+                            <ul class="list-disc pl-5 space-y-2 mt-2">
+                                <li>0% Transaction Fee</li>
+                                <li>Real-time Transaction Processing</li>
+                                <li>No Amount Limit per Transaction</li>
+                                <li>Zero Setup Charges</li>
+                                <li>Migration Assistance</li>
+                                <li>24/7 WhatsApp Support</li>
+                            </ul>
+                            <p class="mt-4">Higher plans include additional features like Remove Branding, Direct Intent, Multiple Merchant Support, and more.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item stagger-item">
+                        <div class="faq-question">
+                            <span class="text-lg font-medium">Can I use my own branding?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer text-gray-600">
+                            <p>Yes! Our Business and Enterprise plans include white-label branding options. You can remove UPIExpress branding and use your own logo and colors.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item stagger-item">
+                        <div class="faq-question">
+                            <span class="text-lg font-medium">Do you provide analytics?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer text-gray-600">
+                            <p>Yes, all plans include a comprehensive dashboard with real-time analytics, transaction history, and exportable reports.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Support -->
+            <div>
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-8 fade-in">Support</h2>
+                <div class="space-y-1">
+                    <div class="faq-item stagger-item">
+                        <div class="faq-question">
+                            <span class="text-lg font-medium">What support do you offer?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer text-gray-600">
+                            <p>We provide 24/7 WhatsApp support for all customers. Additionally, we offer email support and comprehensive documentation with code examples for integration.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item stagger-item">
+                        <div class="faq-question">
+                            <span class="text-lg font-medium">How do I contact support?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer text-gray-600">
+                            <p>You can reach us via:</p>
+                            <ul class="list-disc pl-5 space-y-2 mt-2">
+                                <li><strong>WhatsApp:</strong> 24/7 support (Click the WhatsApp icon in bottom right)</li>
+                                <li><strong>Email:</strong> support@upiexpress.com</li>
+                                <li><strong>Documentation:</strong> Full API docs and integration guides</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="faq-item stagger-item">
+                        <div class="faq-question">
+                            <span class="text-lg font-medium">Do you offer integration assistance?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer text-gray-600">
+                            <p>Yes! We provide free migration assistance and integration support for all new customers. Our team will help you integrate UPIExpress into your platform.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-12 bg-[var(--primary)]">
+        <div class="container mx-auto px-4 sm:px-6 text-center">
+            <div class="max-w-3xl mx-auto fade-in">
+                <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">Ready to Get Started?</h2>
+                <p class="text-lg text-gray-300 mb-8">Join thousands of businesses accepting payments with UPIExpress. Zero transaction fees, easy integration.</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="/auth/signup/" class="bg-white text-[var(--primary)] rounded-lg px-6 py-3 font-medium text-base md:text-lg hover:bg-gray-100 transition-colors">
+                        Start Free Trial
+                    </a>
+                    <a href="/contact-us" class="bg-transparent border border-white text-white rounded-lg px-6 py-3 font-medium text-base md:text-lg hover:bg-white hover:text-[var(--primary)] transition-colors">
+                        Contact Sales
+                    </a>
+                </div>
+                <p class="text-sm text-gray-400 mt-6">No credit card required • Setup in 5 minutes</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="w-full px-4 sm:px-6 py-8 text-gray-600 bg-white border-t border-gray-200">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div class="fade-in">
+                    <div class="flex items-center mb-4">
+                        <img src="/images/icon.png" alt="UPIExpress" class="w-8 h-8">
+                        <span class="font-bold text-xl mr-1 text-gray-800">UPI</span>
+                        <span class="text-xl text-gray-700">Express</span>
+                    </div>
+                    <p class="text-sm mb-4">Dynamic UPI QR solutions for modern businesses.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-500 hover:text-[var(--primary)]"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-500 hover:text-[var(--primary)]"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="text-gray-500 hover:text-[var(--primary)]"><i class="fab fa-facebook"></i></a>
+                    </div>
+                </div>
+
+                <div class="fade-in">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Product</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/features" class="text-sm hover:text-[var(--primary)]">Features</a></li>
+                        <li><a href="/usecases" class="text-sm hover:text-[var(--primary)]">Use Cases</a></li>
+                        <li><a href="/pricing" class="text-sm hover:text-[var(--primary)]">Pricing</a></li>
+                        <li><a href="/doc" class="text-sm hover:text-[var(--primary)]">Documentation</a></li>
+                    </ul>
+                </div>
+
+                <div class="fade-in">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Company</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/about-us" class="text-sm hover:text-[var(--primary)]">About Us</a></li>
+                        <li><a href="/faq" class="text-sm hover:text-[var(--primary)]">FAQ</a></li>
+                        <li><a href="/blog" class="text-sm hover:text-[var(--primary)]">Blog</a></li>
+                        <li><a href="/contact-us" class="text-sm hover:text-[var(--primary)]">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="fade-in">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Contact</h3>
+                    <p class="text-sm mb-2">support@upiexpress.com</p>
+                    <p class="text-sm mb-4">24/7 WhatsApp Support</p>
+                    <div class="mt-4">
+                        <p class="text-sm mb-2">Newsletter:</p>
+                        <div class="flex">
+                            <input type="email" placeholder="Your email" class="flex-1 border rounded-l-lg px-3 py-2 text-sm">
+                            <button class="btn-theme rounded-r-lg px-4 py-2 text-sm">Subscribe</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-gray-200">
+                <p class="text-xs text-gray-500 mb-4">
+                    *UPIExpress provides Dynamic UPI QR Generating service. UPIExpress does not offer payment gateway service.
+                </p>
+                <div class="flex flex-col md:flex-row justify-between items-center text-sm">
+                    <p class="mb-4 md:mb-0">© UPIExpress 2023–25. All Rights Reserved.</p>
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <a href="/terms" class="hover:text-[var(--primary)]">Terms</a>
+                        <a href="/privacy" class="hover:text-[var(--primary)]">Privacy</a>
+                        <a href="/refund" class="hover:text-[var(--primary)]">Refund Policy</a>
+                        <a href="/help" class="hover:text-[var(--primary)]">Help</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const closeMenu = document.querySelector('.close-menu');
+            const menuBackdrop = document.querySelector('.menu-backdrop');
+            const mobileLinks = document.querySelectorAll('.mobile-menu a');
+
+            function openMenu() {
+                mobileMenu.classList.add('active');
+                menuBackdrop.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeMobileMenu() {
+                mobileMenu.classList.remove('active');
+                menuBackdrop.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            menuToggle.addEventListener('click', openMenu);
+            closeMenu.addEventListener('click', closeMobileMenu);
+            menuBackdrop.addEventListener('click', closeMobileMenu);
+            mobileLinks.forEach(link => link.addEventListener('click', closeMobileMenu));
+            document.addEventListener('keydown', (e) => e.key === 'Escape' && closeMobileMenu());
+        });
+
+        // FAQ Accordion
+        document.addEventListener('DOMContentLoaded', function () {
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', function () {
+                    const answer = this.nextElementSibling;
+                    const icon = this.querySelector('.faq-icon');
+                    
+                    // Toggle current
+                    this.classList.toggle('active');
+                    answer.classList.toggle('active');
+                    icon.style.transform = this.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
+                    
+                    // Close others
+                    faqQuestions.forEach(other => {
+                        if (other !== this && other.classList.contains('active')) {
+                            other.classList.remove('active');
+                            other.nextElementSibling.classList.remove('active');
+                            other.querySelector('.faq-icon').style.transform = 'rotate(0deg)';
+                        }
+                    });
+                });
+            });
+        });
+
+        // Search Functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.getElementById('faqSearch');
+            
+            searchInput.addEventListener('input', function () {
+                const searchTerm = this.value.toLowerCase();
+                const faqItems = document.querySelectorAll('.faq-item');
+                
+                faqItems.forEach(item => {
+                    const question = item.querySelector('.faq-question span').textContent.toLowerCase();
+                    const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+                    
+                    if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                        item.style.display = 'block';
+                        // Open matching items
+                        if (searchTerm && !item.querySelector('.faq-question').classList.contains('active')) {
+                            item.querySelector('.faq-question').click();
+                        }
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Scroll Animations
+        document.addEventListener('DOMContentLoaded', function () {
+            function isInViewport(element) {
+                const rect = element.getBoundingClientRect();
+                return rect.top <= window.innerHeight * 0.85 && rect.bottom >= 0;
+            }
+
+            function handleScrollAnimation() {
+                document.querySelectorAll('.fade-in, .stagger-item').forEach((el, index) => {
+                    if (isInViewport(el) && !el.classList.contains('visible')) {
+                        setTimeout(() => el.classList.add('visible'), index * 50);
+                    }
+                });
+            }
+
+            handleScrollAnimation();
+            window.addEventListener('scroll', handleScrollAnimation);
+        });
+
+        // Smooth Scroll for Anchor Links
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+                    if (href !== '#') {
+                        e.preventDefault();
+                        const target = document.querySelector(href);
+                        if (target) {
+                            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

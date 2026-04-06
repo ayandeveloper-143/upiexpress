@@ -1,0 +1,1642 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="/images/icon.png" type="image/png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <link id="material-symbols-link" rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <style>
+        :root {
+            --primary: #ffffff;
+            --primary-light: #f3f4f6;
+            --primary-dark: #e5e7eb;
+            --primary-transparent: rgba(255, 255, 255, 0.1);
+            --dark-1: #0f1117;
+            --dark-2: #161b22;
+            --dark-3: #21262d;
+            --light-1: #8b949e;
+            --light-2: #6e7681;
+            --light-3: #484f58;
+            --background-primary: #161b22;
+            --background-secondary: #21262d;
+            --text-primary: #58a6ff;
+            --text-secondary: #8b949e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: sans-serif;
+            background-color: #0f1117;
+            color: #e6edf3;
+            overflow-x: hidden;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        body {
+            overflow: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        .page-content {
+            animation: feedPageFadeIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes feedPageFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Desktop Sidebar Styles */
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: #161b22;
+            border-right: 1px solid #21262d;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            overflow-x: hidden;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0 !important;
+                padding-bottom: 80px;
+            }
+        }
+
+        .sidebar.collapsed {
+            width: 70px;
+        }
+
+        .sidebar.collapsed .sidebar-text,
+        .sidebar.collapsed .sidebar-section,
+        .sidebar.collapsed .nav-header {
+            display: none !important;
+        }
+
+        .sidebar.collapsed .sidebar-top {
+            justify-content: center;
+            padding: 1rem 0;
+        }
+
+        .sidebar.collapsed .sidebar-toggle {
+            display: none;
+        }
+
+        .sidebar.collapsed .nav-link-text {
+            width: 0;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .sidebar.collapsed .menu-item {
+            padding: 6px 0 !important;
+            justify-content: center;
+            height: 48px;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar.collapsed .menu-gap {
+            height: 0;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover {
+            width: 280px;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover .sidebar-text,
+        .sidebar.collapsed.hover-enabled:hover .sidebar-section,
+        .sidebar.collapsed.hover-enabled:hover .nav-header {
+            display: block !important;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover .sidebar-top {
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover .menu-item {
+            justify-content: flex-start;
+            padding: 12px 24px !important;
+            height: 48px;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover .sidebar-toggle {
+            display: block;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover .nav-link-text {
+            width: auto;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover .menu-gap {
+            height: 1rem;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            transition: margin-left 0.3s ease;
+            min-height: 100vh;
+            padding: 20px;
+            padding-bottom: 0px;
+        }
+
+        .sidebar.collapsed~.main-content {
+            margin-left: 70px;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover~.main-content {
+            margin-left: 280px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 24px;
+            border-radius: 16px;
+            margin-left: 8px;
+            margin-bottom: 2px;
+            margin-right: 8px;
+            color: #8b949e;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:hover {
+            background-color: #21262d;
+            color: #e6edf3;
+        }
+
+        .menu-item.active {
+            background-color: #21262d;
+            color: #58a6ff;
+        }
+
+        .nav-icon-wrap {
+            width: 24px;
+            text-align: center;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar.collapsed .nav-icon-wrap {
+            margin-right: 0;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover .nav-icon-wrap {
+            margin-right: 12px;
+        }
+
+        .nav-link-text {
+            transition: all 0.3s ease;
+        }
+
+        .svg-icon {
+            width: 20px;
+            height: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Sidebar Top Styles */
+        .sidebar-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #21262d;
+        }
+
+        .sidebar-text {
+            transition: all 0.3s ease;
+        }
+
+        /* Menu Content Wrapper */
+        .menu-content-wrap {
+            padding: 0.5rem 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            max-height: calc(100vh - 100px);
+        }
+
+        /* Menu Group Styles */
+        .menu-group {
+            margin: 0.5rem 0;
+        }
+
+        .menu-gap {
+            height: 1rem;
+            transition: height 0.2s ease;
+        }
+
+        /* Navigation Header */
+        .nav-header {
+            padding: 0.5rem 1.5rem;
+            font-size: 0.75rem;
+            color: #484f58;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Navigation List */
+        .navbar-nav {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav-item {
+            list-style: none;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Flex Column Utility */
+        .flex-column {
+            flex-direction: column;
+        }
+
+        .sidebar-toggle {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .brand-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: #58a6ff;
+        }
+
+        .brand-subtext {
+            font-size: 14px;
+            color: #8b949e;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .header-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .header-text {
+            font-size: 14px;
+            font-weight: 500;
+            color: #e6edf3;
+        }
+
+        .profile-dropdown {
+            position: relative;
+        }
+
+        .profile-btn {
+            background: none;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            background: #21262d;
+            color: #58a6ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+            border: 1px solid #30363d;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: auto;
+            background: #21262d;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            padding: 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.3s ease;
+            z-index: 101;
+        }
+
+        .dropdown-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-header {
+            padding: 16px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .user-details {
+            flex: 1;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #e6edf3;
+            margin-bottom: 1px;
+        }
+
+        .user-email {
+            font-size: 14px;
+            color: #8b949e;
+            margin-bottom: 2px;
+        }
+
+        .logout-link {
+            font-size: 14px;
+            color: #f85149;
+            text-decoration: underline;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: #30363d;
+            margin: 0;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 8px 16px;
+            color: #8b949e;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .dropdown-item:hover {
+            background-color: #30363d;
+            color: #e6edf3;
+        }
+
+        .mobile-hamburger {
+            display: none;
+            background: none;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+            color: #8b949e;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+
+        .mobile-hamburger:hover {
+            background-color: #21262d;
+            color: #e6edf3;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-hamburger {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .header-item {
+                display: flex;
+                padding: 6px;
+            }
+
+            .header-item .header-text {
+                display: none;
+            }
+
+            .header-brand {
+                display: none;
+            }
+
+            .brand-subtext {
+                display: none;
+            }
+
+            .dropdown-menu {
+                width: auto;
+                right: -10px;
+            }
+
+            .header-left {
+                gap: 0;
+            }
+        }
+
+        @media (min-width: 769px) {
+
+            .mobile-sidebar,
+            .sidebar-overlay {
+                display: none !important;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .header-item .header-text {
+                display: none;
+            }
+
+            .header-item {
+                padding: 8px;
+            }
+        }
+
+        .card {
+            border-color: #30363d;
+            border-radius: .5rem;
+            box-shadow: 0 2px 2px rgba(0, 0, 0, .3);
+            margin-bottom: .875rem;
+        }
+
+        .card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #161b22;
+            background-clip: border-box;
+            border: 1px solid #30363d;
+            border-radius: .25rem;
+        }
+
+        .footer {
+            border-top: 1px solid #21262d;
+            padding: 16px 20px;
+            background-color: #161b22;
+            margin-top: 20px;
+        }
+
+        .footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .footer-left,
+        .footer-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .footer-link {
+            text-decoration: none;
+            margin: 0 15px;
+            color: #58a6ff;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: #79c0ff;
+        }
+
+        .footer-content p {
+            color: #8b949e;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+            }
+
+            .footer-left,
+            .footer-right {
+                justify-content: center;
+            }
+        }
+
+        /* Mobile Bottom Navigation Styles */
+        .mobile-bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 64px;
+            background-color: var(--background-primary);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 6px 0;
+            z-index: 999;
+            border-top: 1px solid #30363d;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-bottom-nav {
+                display: flex;
+            }
+        }
+
+        .nav-badge-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 7px;
+            flex: 1;
+        }
+
+        .nav-badge {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 60px;
+            height: 32px;
+            border-radius: 16px;
+            background-color: var(--background-primary);
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+            z-index: 2;
+        }
+
+        .material-symbols-rounded {
+            position: relative;
+            z-index: 3;
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24;
+        }
+
+        .nav-badge.active .material-symbols-rounded {
+            font-variation-settings:
+                'FILL' 1,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24;
+        }
+
+        .nav-badge::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: var(--background-secondary);
+            border-radius: 16px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+            left: 0;
+            top: 0;
+        }
+
+        .nav-badge.touched::after {
+            opacity: 0.2;
+        }
+
+        .nav-badge.active::after {
+            opacity: 0.3;
+        }
+
+        .nav-badge::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 100%;
+            background-color: var(--background-secondary);
+            border-radius: 16px;
+            opacity: 0;
+            transition: width 0.5s ease, opacity 0.3s ease;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .nav-badge.active::before {
+            width: 100%;
+            opacity: 1;
+        }
+
+        .nav-badge.active {
+            color: var(--text-primary);
+        }
+
+        .nav-text {
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1;
+            transition: color 0.2s ease;
+        }
+
+        .nav-badge-wrapper.active .nav-text {
+            color: var(--text-primary);
+        }
+
+        /* Mobile Sidebar Styles */
+        .mobile-sidebar {
+            position: fixed;
+            top: 0;
+            left: -280px;
+            width: 280px;
+            height: 100vh;
+            background: #161b22;
+            border-right: 1px solid #21262d;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .mobile-sidebar.active {
+            left: 0;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Mobile Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Mobile Sidebar -->
+    <div class="mobile-sidebar" id="mobileSidebar">
+        <div class="sidebar-top flex items-center justify-between px-6 py-4">
+            <div class="flex items-center">
+                <img src="/images/icon.png" alt="UPIExpress" class="w-8 h-8">
+                <span class="sidebar-text font-bold text-xl mr-[2.2px] text-gray-200">UPI</span>
+                <span class="sidebar-text font-family text-xl text-gray-400">Express</span>
+            </div>
+            <button class="flex items-center justify-center text-gray-400 hover:text-gray-300" id="mobileSidebarClose">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Menu Content -->
+        <div class="menu-content-wrap mt-3">
+            <div class="menu-group">
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item active" href="/admin/dashboard">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-layout-2"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <rect x="4" y="4" width="6" height="5" rx="2"></rect>
+                                        <rect x="4" y="13" width="6" height="7" rx="2"></rect>
+                                        <rect x="14" y="4" width="6" height="7" rx="2"></rect>
+                                        <rect x="14" y="15" width="6" height="5" rx="2"></rect>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/admin/users">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-users" xmlns="http://www.w3.org/2000/svg"
+                                        width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+                                        stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <circle cx="9" cy="7" r="4"></circle>
+                                        <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
+                                        <circle cx="15" cy="11" r="2"></circle>
+                                        <path d="M12 17h6"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Users</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/admin/transactions">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-arrow-autofit-height"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M12 20h-6a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h6"></path>
+                                        <path d="M18 14v7"></path>
+                                        <path d="M18 3v7"></path>
+                                        <path d="M15 18l3 3l3 -3"></path>
+                                        <path d="M15 6l3 -3l3 3"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Transactions</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-gap"></div>
+
+            <div class="menu-group">
+                <div class="nav-header"><span>Plans</span></div>
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/admin/plans">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-shopping-cart"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <circle cx="6" cy="19" r="2"></circle>
+                                        <circle cx="17" cy="19" r="2"></circle>
+                                        <path d="M17 17h-11v-14h-2"></path>
+                                        <path d="M6 5l14 1l-1 7h-13"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">All Plans</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/admin/subscriptions">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-toggle-right"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <circle cx="16" cy="12" r="2"></circle>
+                                        <rect x="2" y="6" width="20" height="12" rx="6"></rect>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Subscriptions</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-gap"></div>
+
+            <div class="menu-group">
+                <div class="nav-header"><span>Settings</span></div>
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/admin/settings">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-settings"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path
+                                            d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z">
+                                        </path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Settings</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/admin/reports">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-file-invoice"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                                        <path
+                                            d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z">
+                                        </path>
+                                        <line x1="9" y1="7" x2="10" y2="7"></line>
+                                        <line x1="9" y1="13" x2="15" y2="13"></line>
+                                        <line x1="13" y1="17" x2="15" y2="17"></line>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Reports</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Desktop Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-top flex items-center justify-between px-6 py-4">
+            <div class="flex items-center">
+                <img src="/images/icon.png" alt="UPIExpress" class="w-8 h-8">
+                <span class="sidebar-text font-bold text-xl mr-[2.2px] text-gray-200">UPI</span>
+                <span class="sidebar-text font-family text-xl text-gray-400">Express</span>
+            </div>
+            <button class="sidebar-toggle flex items-center justify-center text-gray-400 hover:text-gray-700"
+                id="toggleSidebar">
+                <span class="svg-icon">
+                    <svg class="icon icon-tabler icon-tabler-arrow-bar-to-left" xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <line x1="10" y1="12" x2="20" y2="12"></line>
+                        <line x1="10" y1="12" x2="14" y2="16"></line>
+                        <line x1="10" y1="12" x2="14" y2="8"></line>
+                        <line x1="4" y1="4" x2="4" y2="20"></line>
+                    </svg>
+                </span>
+            </button>
+        </div>
+
+        <!-- Menu Content -->
+        <div class="menu-content-wrap mt-3">
+            <div class="menu-group">
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item active" href="/admin/dashboard">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-layout-2"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <rect x="4" y="4" width="6" height="5" rx="2"></rect>
+                                        <rect x="4" y="13" width="6" height="7" rx="2"></rect>
+                                        <rect x="14" y="4" width="6" height="7" rx="2"></rect>
+                                        <rect x="14" y="15" width="6" height="5" rx="2"></rect>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/admin/users">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-users" xmlns="http://www.w3.org/2000/svg"
+                                        width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+                                        stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <circle cx="9" cy="7" r="4"></circle>
+                                        <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
+                                        <circle cx="15" cy="11" r="2"></circle>
+                                        <path d="M12 17h6"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Users</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/admin/transactions">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-arrow-autofit-height"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M12 20h-6a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h6"></path>
+                                        <path d="M18 14v7"></path>
+                                        <path d="M18 3v7"></path>
+                                        <path d="M15 18l3 3l3 -3"></path>
+                                        <path d="M15 6l3 -3l3 3"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Transactions</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-gap"></div>
+
+            <div class="menu-group">
+                <div class="nav-header"><span>Plans</span></div>
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/admin/plans">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-shopping-cart"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <circle cx="6" cy="19" r="2"></circle>
+                                        <circle cx="17" cy="19" r="2"></circle>
+                                        <path d="M17 17h-11v-14h-2"></path>
+                                        <path d="M6 5l14 1l-1 7h-13"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">All Plans</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/admin/subscriptions">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-toggle-right"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <circle cx="16" cy="12" r="2"></circle>
+                                        <rect x="2" y="6" width="20" height="12" rx="6"></rect>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Subscriptions</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-gap"></div>
+
+            <div class="menu-group">
+                <div class="nav-header"><span>Settings</span></div>
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/admin/settings">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-settings"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path
+                                            d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z">
+                                        </path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Settings</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/admin/reports">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-file-invoice"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                                        <path
+                                            d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z">
+                                        </path>
+                                        <line x1="9" y1="7" x2="10" y2="7"></line>
+                                        <line x1="9" y1="13" x2="15" y2="13"></line>
+                                        <line x1="13" y1="17" x2="15" y2="17"></line>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Reports</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+
+        <!-- Page Content -->
+        <div class="content-header">
+            <div class="header-container">
+                <!-- Left Section -->
+                <div class="header-left">
+                    <button class="mobile-hamburger" id="mobileHamburger">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
+
+                </div>
+
+                <!-- Right Section -->
+                <div class="header-right">
+                    <div class="profile-dropdown">
+                        <button class="profile-btn" id="profileDropdown">
+                            <div class="avatar">
+                                <span class="avatar-text">A</span>
+                            </div>
+                        </button>
+
+                        <div class="dropdown-menu" id="dropdownMenu">
+                            <div class="dropdown-header">
+                                <div class="user-info">
+                                    <div class="avatar">
+                                        <span class="avatar-text">A</span>
+                                    </div>
+                                    <div class="user-details">
+                                        <div class="user-name">Administrator</div>
+                                        <div class="user-email">admin@upiexpress.com</div>
+                                        <a href="/auth/logout" class="logout-link">Sign Out</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <a href="/admin/profile" class="dropdown-item">Profile</a>
+                            <a href="/admin/settings" class="dropdown-item">Settings</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page Content -->
+        <div class="page-content mx-[2px] md:mx-[20px] lg:mx-[60px] min-h-[calc(100vh-180px)] pb-[100px] md:pb-[40px]">
+            <!-- Welcome Section -->
+            <h1 class="text-2xl font-bold mb-1 lg:pt-[28px] text-white">Admin Dashboard</h1>
+            <p class="text-gray-400">System overview and management tools</p>
+
+            <!-- Key Metrics Section -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+
+                <!-- Card 1: Total Users -->
+                <div class="bg-[#161b22] border border-[#30363d] rounded-xl p-5">
+                    <div class="flex items-center">
+                        <svg class="mr-4" width="64" height="64" viewBox="0 0 800 800" fill="none">
+                            <path
+                                d="M400.001 733.333C584.095 733.333 733.335 584.093 733.335 400C733.335 215.905 584.095 66.6667 400.001 66.6667C215.906 66.6667 66.668 215.905 66.668 400C66.668 584.093 215.906 733.333 400.001 733.333Z"
+                                fill="#30363d"></path>
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M400 400C433.137 400 460 373.137 460 340C460 306.863 433.137 280 400 280C366.863 280 340 306.863 340 340C340 373.137 366.863 400 400 400ZM400 480C460 480 533 506.667 533 540V560H267V540C267 506.667 340 480 400 480Z"
+                                fill="#58a6ff"></path>
+                        </svg>
+                        <div>
+                            <h3 class="text-xl text-white">1,245</h3>
+                            <p class="text-sm text-gray-400">Total Users</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Active Subscriptions -->
+                <div class="bg-[#161b22] border border-[#30363d] rounded-xl p-5">
+                    <div class="flex items-center">
+                        <svg class="mr-4" width="64" height="64" viewBox="0 0 800 800" fill="none">
+                            <path
+                                d="M400.001 733.333C584.095 733.333 733.335 584.093 733.335 400C733.335 215.905 584.095 66.6667 400.001 66.6667C215.906 66.6667 66.668 215.905 66.668 400C66.668 584.093 215.906 733.333 400.001 733.333Z"
+                                fill="#30363d"></path>
+                            <path
+                                d="M357.917 491.249C351.583 491.249 345.25 488.915 340.25 483.915L290.25 433.915C280.583 424.249 280.583 408.249 290.25 398.582C299.917 388.915 315.917 388.915 325.583 398.582L357.917 430.915L473.583 315.25C483.25 305.583 499.25 305.583 508.917 315.25C518.583 324.917 518.583 340.917 508.917 350.583L375.583 483.915C370.583 488.915 364.25 491.249 357.917 491.249Z"
+                                fill="#3fb950"></path>
+                        </svg>
+                        <div>
+                            <h3 class="text-xl text-white">856</h3>
+                            <p class="text-sm text-gray-400">Active Subscriptions</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Total Revenue -->
+                <div class="bg-[#161b22] border border-[#30363d] rounded-xl p-5">
+                    <div class="flex items-center">
+                        <svg class="mr-4" width="64" height="64" viewBox="0 0 800 800" fill="none">
+                            <path
+                                d="M400.001 733.333C584.095 733.333 733.335 584.093 733.335 400C733.335 215.905 584.095 66.6667 400.001 66.6667C215.906 66.6667 66.668 215.905 66.668 400C66.668 584.093 215.906 733.333 400.001 733.333Z"
+                                fill="#30363d"></path>
+                            <path
+                                d="M312 290C312 277.85 321.85 268 334 268H466C478.15 268 488 277.85 488 290C488 302.15 478.15 312 466 312H422.237C432.845 328.073 438.173 346.766 438.486 365.259C438.893 389.331 430.822 413.986 413.687 433.076C404.323 443.507 392.579 451.912 378.731 457.619L415.556 494.444C424.148 503.035 424.148 516.965 415.556 525.556C406.965 534.148 393.035 534.148 384.444 525.556L321.119 462.233C313.297 454.405 312.897 443.706 316.234 436.109C319.485 428.706 327.028 422.287 337.125 421.949C358.131 421.24 372.137 413.495 380.944 403.684C390.017 393.577 394.728 379.971 394.492 366.004C394.256 352.048 389.097 338.654 379.603 328.88C370.372 319.377 355.789 312 334 312C321.85 312 312 302.15 312 290Z"
+                                fill="#58a6ff"></path>
+                        </svg>
+                        <div>
+                            <h3 class="text-xl text-white">₹45,230</h3>
+                            <p class="text-sm text-gray-400">Total Revenue</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4: Pending Approvals -->
+                <div class="bg-[#161b22] border border-[#30363d] rounded-xl p-5">
+                    <div class="flex items-center">
+                        <svg class="mr-4" width="64" height="64" viewBox="0 0 800 800" fill="none">
+                            <path
+                                d="M400.001 733.333C584.095 733.333 733.335 584.093 733.335 400C733.335 215.905 584.095 66.6667 400.001 66.6667C215.906 66.6667 66.668 215.905 66.668 400C66.668 584.093 215.906 733.333 400.001 733.333Z"
+                                fill="#30363d"></path>
+                            <path
+                                d="M400 458.333C413.667 458.333 425 447 425 433.333V266.667C425 253 413.667 241.667 400 241.667C386.333 241.667 375 253 375 266.667V433.333C375 447 386.333 458.333 400 458.333Z"
+                                fill="#d29922"></path>
+                            <path
+                                d="M430.668 520.663C429.001 516.663 426.668 512.997 423.668 509.663C420.335 506.663 416.668 504.33 412.668 502.663C404.668 499.33 395.335 499.33 387.335 502.663C383.335 504.33 379.668 506.663 376.335 509.663C373.335 512.997 371.001 516.663 369.335 520.663C367.668 524.663 366.668 528.997 366.668 533.33C366.668 537.663 367.668 541.997 369.335 545.997C371.001 550.33 373.335 553.663 376.335 556.997C379.668 559.997 383.335 562.33 387.335 563.997C391.335 565.663 395.668 566.663 400.001 566.663C404.335 566.663 408.668 565.663 412.668 563.997C416.668 562.33 420.335 559.997 423.668 556.997C426.668 553.663 429.001 550.33 430.668 545.997C432.335 541.997 433.335 537.663 433.335 533.33C433.335 528.997 432.335 524.663 430.668 520.663Z"
+                                fill="#d29922"></path>
+                        </svg>
+                        <div>
+                            <h3 class="text-xl text-white">23</h3>
+                            <p class="text-sm text-gray-400">Pending Approvals</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Charts Section -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6 mb-6">
+                <!-- Revenue Chart -->
+                <div class="bg-[#161b22] rounded-xl border border-[#30363d] lg:col-span-2">
+                    <div class="px-6 py-4 border-b border-[#30363d] flex justify-between items-center">
+                        <h2 class="text-lg font-semibold text-white">Monthly Revenue</h2>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-center mb-4">
+                            <div class="inline-flex items-center gap-2">
+                                <span class="w-3 h-3 bg-[#58a6ff] rounded-full"></span>
+                                <span class="text-sm text-gray-400">Revenue Growth</span>
+                            </div>
+                        </div>
+                        <div id="revenue_chart" class="w-full" style="min-height: 300px;"></div>
+                    </div>
+                </div>
+
+                <!-- User Growth -->
+                <div class="bg-[#161b22] rounded-xl border border-[#30363d] lg:col-span-1">
+                    <div class="px-6 py-4 border-b border-[#30363d] flex justify-between items-center">
+                        <h2 class="text-lg font-semibold text-white">User Growth</h2>
+                    </div>
+                    <div class="p-6">
+                        <div id="user_growth_chart" class="flex justify-center" style="min-height: 300px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Transactions -->
+            <div class="bg-[#161b22] rounded-xl border border-[#30363d] mb-6">
+                <div class="px-6 py-4 border-b border-[#30363d] flex justify-between items-center">
+                    <h2 class="text-lg font-semibold text-white">Recent Transactions</h2>
+                    <a href="/admin/transactions"
+                        class="px-4 py-2 text-sm font-medium text-gray-300 bg-[#21262d] border border-[#30363d] rounded-md hover:bg-[#30363d] transition-colors">
+                        View All
+                    </a>
+                </div>
+
+                <div class="p-6">
+                    <div class="hidden md:block overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="border-b border-[#30363d]">
+                                    <th class="text-left py-3 px-4 font-semibold text-gray-300">User</th>
+                                    <th class="text-left py-3 px-4 font-semibold text-gray-300">Amount</th>
+                                    <th class="text-left py-3 px-4 font-semibold text-gray-300">Plan</th>
+                                    <th class="text-left py-3 px-4 font-semibold text-gray-300">Status</th>
+                                    <th class="text-left py-3 px-4 font-semibold text-gray-300">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-[#21262d] hover:bg-[#21262d]">
+                                    <td class="py-3 px-4 text-gray-100">John Doe</td>
+                                    <td class="py-3 px-4 text-gray-300">₹499</td>
+                                    <td class="py-3 px-4 text-gray-300">Premium</td>
+                                    <td class="py-3 px-4">
+                                        <span
+                                            class="px-3 py-1 bg-[#0d3922] text-[#3fb950] rounded-full text-xs font-semibold">Completed</span>
+                                    </td>
+                                    <td class="py-3 px-4 text-gray-300">Dec 8, 2025</td>
+                                </tr>
+                                <tr class="border-b border-[#21262d] hover:bg-[#21262d]">
+                                    <td class="py-3 px-4 text-gray-100">Jane Smith</td>
+                                    <td class="py-3 px-4 text-gray-300">₹299</td>
+                                    <td class="py-3 px-4 text-gray-300">Standard</td>
+                                    <td class="py-3 px-4">
+                                        <span
+                                            class="px-3 py-1 bg-[#0d3922] text-[#3fb950] rounded-full text-xs font-semibold">Completed</span>
+                                    </td>
+                                    <td class="py-3 px-4 text-gray-300">Dec 8, 2025</td>
+                                </tr>
+                                <tr class="border-b border-[#21262d] hover:bg-[#21262d]">
+                                    <td class="py-3 px-4 text-gray-100">Mike Johnson</td>
+                                    <td class="py-3 px-4 text-gray-300">₹999</td>
+                                    <td class="py-3 px-4 text-gray-300">Enterprise</td>
+                                    <td class="py-3 px-4">
+                                        <span
+                                            class="px-3 py-1 bg-[#3d2817] text-[#d29922] rounded-full text-xs font-semibold">Pending</span>
+                                    </td>
+                                    <td class="py-3 px-4 text-gray-300">Dec 7, 2025</td>
+                                </tr>
+                                <tr class="border-b border-[#21262d] hover:bg-[#21262d]">
+                                    <td class="py-3 px-4 text-gray-100">Sarah Williams</td>
+                                    <td class="py-3 px-4 text-gray-300">₹199</td>
+                                    <td class="py-3 px-4 text-gray-300">Basic</td>
+                                    <td class="py-3 px-4">
+                                        <span
+                                            class="px-3 py-1 bg-[#0d3922] text-[#3fb950] rounded-full text-xs font-semibold">Completed</span>
+                                    </td>
+                                    <td class="py-3 px-4 text-gray-300">Dec 7, 2025</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Bottom Navigation -->
+        <div class="mobile-bottom-nav">
+            <div class="nav-badge-wrapper active">
+                <div class="nav-badge active" id="navDashboard">
+                    <span class="material-symbols-rounded">dashboard</span>
+                </div>
+                <div class="nav-text">Dashboard</div>
+            </div>
+
+            <div class="nav-badge-wrapper">
+                <div class="nav-badge" id="navUsers">
+                    <span class="material-symbols-rounded">people</span>
+                </div>
+                <div class="nav-text">Users</div>
+            </div>
+
+            <div class="nav-badge-wrapper">
+                <div class="nav-badge" id="navTransactions">
+                    <span class="material-symbols-rounded">sync_alt</span>
+                </div>
+                <div class="nav-text">Transactions</div>
+            </div>
+
+            <div class="nav-badge-wrapper">
+                <div class="nav-badge" id="navSettings">
+                    <span class="material-symbols-rounded">settings</span>
+                </div>
+                <div class="nav-text">Settings</div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <script>
+        // Get DOM elements
+        const profileDropdown = document.getElementById('profileDropdown');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        const sidebar = document.getElementById('sidebar');
+        const toggleSidebar = document.getElementById('toggleSidebar');
+        const mobileSidebar = document.getElementById('mobileSidebar');
+        const mobileHamburger = document.getElementById('mobileHamburger');
+        const mobileSidebarClose = document.getElementById('mobileSidebarClose');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        // Profile Dropdown Toggle
+        if (profileDropdown && dropdownMenu) {
+            profileDropdown.addEventListener('click', () => {
+                dropdownMenu.classList.toggle('show');
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!profileDropdown.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                    dropdownMenu.classList.remove('show');
+                }
+            });
+        }
+
+        let hoverEnabled = false;
+        let isCollapsed = false;
+
+        // Desktop sidebar toggle
+        if (toggleSidebar && sidebar) {
+            toggleSidebar.addEventListener('click', function () {
+                isCollapsed = !isCollapsed;
+
+                if (isCollapsed) {
+                    sidebar.classList.add('collapsed');
+                    sidebar.classList.remove('hover-enabled');
+
+                    setTimeout(() => {
+                        sidebar.classList.add('hover-enabled');
+                        hoverEnabled = true;
+                    }, 1000);
+
+                } else {
+                    sidebar.classList.remove('collapsed');
+                    sidebar.classList.remove('hover-enabled');
+                    hoverEnabled = false;
+                }
+            });
+        }
+
+        // Mobile sidebar toggle
+        if (mobileHamburger && mobileSidebar) {
+            mobileHamburger.addEventListener('click', () => {
+                mobileSidebar.classList.add('active');
+                sidebarOverlay.classList.add('active');
+            });
+        }
+
+        // Close mobile sidebar
+        if (mobileSidebarClose && mobileSidebar) {
+            mobileSidebarClose.addEventListener('click', () => {
+                mobileSidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            });
+        }
+
+        // Close mobile sidebar when clicking overlay
+        if (sidebarOverlay) {
+            sidebarOverlay.addEventListener('click', () => {
+                mobileSidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            });
+        }
+
+        // Close mobile sidebar when clicking menu items
+        const mobileMenuItems = document.querySelectorAll('.mobile-sidebar .menu-item');
+        mobileMenuItems.forEach(item => {
+            item.addEventListener('click', () => {
+                mobileSidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            });
+        });
+
+        // Revenue Chart (ApexCharts)
+        if (document.getElementById('revenue_chart')) {
+            const revenueChart = new ApexCharts(document.getElementById('revenue_chart'), {
+                series: [{
+                    name: 'Revenue',
+                    data: [12000, 15000, 18000, 16000, 19000, 21000, 25000, 23000, 26000, 29000, 31000, 35000]
+                }],
+                chart: {
+                    type: 'line',
+                    height: 350,
+                    toolbar: {
+                        show: false
+                    },
+                    background: 'transparent'
+                },
+                colors: ['#58a6ff'],
+                stroke: {
+                    width: 3,
+                    curve: 'smooth'
+                },
+                xaxis: {
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    labels: {
+                        style: {
+                            colors: '#8b949e'
+                        }
+                    }
+                },
+                yaxis: {
+                    labels: {
+                        formatter: function (value) {
+                            return '₹' + (value / 1000).toFixed(0) + 'k';
+                        },
+                        style: {
+                            colors: '#8b949e'
+                        }
+                    }
+                },
+                tooltip: {
+                    theme: 'dark',
+                    y: {
+                        formatter: function (value) {
+                            return '₹' + value.toFixed(0);
+                        }
+                    }
+                },
+                grid: {
+                    borderColor: '#30363d'
+                }
+            });
+            revenueChart.render();
+        }
+
+        // User Growth Chart (Donut/Radial)
+        if (document.getElementById('user_growth_chart')) {
+            const userGrowthChart = new ApexCharts(document.getElementById('user_growth_chart'), {
+                series: [65, 35],
+                chart: {
+                    type: 'donut',
+                    height: 350,
+                    background: 'transparent'
+                },
+                colors: ['#58a6ff', '#21262d'],
+                labels: ['Active', 'Inactive'],
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        colors: '#8b949e'
+                    }
+                },
+                tooltip: {
+                    theme: 'dark'
+                }
+            });
+            userGrowthChart.render();
+        }
+
+        // Mobile Bottom Navigation
+        document.addEventListener('DOMContentLoaded', function () {
+            const navWrappers = document.querySelectorAll('.nav-badge-wrapper');
+            const materialSymbolsLink = document.getElementById('material-symbols-link');
+
+            // Set initial active state for Dashboard
+            navWrappers[0].classList.add('active');
+            navWrappers[0].querySelector('.nav-badge').classList.add('active');
+            materialSymbolsLink.href = "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0";
+
+            navWrappers.forEach((wrapper, index) => {
+                wrapper.addEventListener('touchstart', function (e) {
+                    const badge = this.querySelector('.nav-badge');
+                    badge.classList.add('touched');
+                });
+
+                wrapper.addEventListener('touchend', function (e) {
+                    const badge = this.querySelector('.nav-badge');
+                    badge.classList.remove('touched');
+                });
+
+                wrapper.addEventListener('touchcancel', function (e) {
+                    const badge = this.querySelector('.nav-badge');
+                    badge.classList.remove('touched');
+                });
+
+                wrapper.addEventListener('click', function () {
+                    navWrappers.forEach((b, i) => {
+                        b.classList.remove('active');
+                        b.querySelector('.nav-badge').classList.remove('active', 'touched');
+                    });
+
+                    this.classList.add('active');
+                    const currentBadge = this.querySelector('.nav-badge');
+                    currentBadge.classList.add('active');
+
+                    // Update font FILL axis based on active state
+                    if (this.classList.contains('active')) {
+                        materialSymbolsLink.href = "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0";
+                    } else {
+                        materialSymbolsLink.href = "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0";
+                    }
+
+                    // Handle navigation based on which item was clicked
+                    switch (index) {
+                        case 0: // Dashboard
+                            window.location.href = '/admin/dashboard';
+                            break;
+                        case 1: // Users
+                            window.location.href = '/admin/users';
+                            break;
+                        case 2: // Transactions
+                            window.location.href = '/admin/transactions';
+                            break;
+                        case 3: // Settings
+                            window.location.href = '/admin/settings';
+                            break;
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>

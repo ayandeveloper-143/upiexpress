@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<title>UPIExpress - Error Page</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
+	<link rel="icon" href="/images/icon.png" type="image/png">
+	<style>
+		:root {
+			--primary: #181a20;
+			--primary-light: #1e2329;
+			--primary-dark: #2b3139;
+			--primary-transparent: rgba(0, 0, 0, 0.1);
+			--dark-1: #181a20;
+			--dark-2: #1e2329;
+			--dark-3: #2b3139;
+			--light-1: #eaecef;
+			--light-2: #b7bdc6;
+			--light-3: #848e9c;
+		}
+
+		* {
+			-webkit-tap-highlight-color: transparent;
+			box-sizing: border-box;
+		}
+
+		body {
+			overflow-x: hidden !important;
+			width: 100vw !important;
+			margin: 0 !important;
+			padding: 0 !important;
+			font-family: "Inter", sans-serif;
+		}
+
+		.btn-theme {
+			background-color: var(--primary);
+			color: var(--light-1);
+			border: 1px solid var(--primary-dark);
+		}
+
+		.btn-theme:hover {
+			background-color: var(--primary-light);
+			color: var(--light-1);
+		}
+
+		.btn-theme:active {
+			background-color: var(--primary-dark);
+		}
+
+		.btn-outline-theme {
+			background-color: transparent;
+			color: var(--primary);
+			border: 1px solid var(--primary);
+		}
+
+		.btn-outline-theme:hover {
+			background-color: var(--primary-transparent);
+			color: var(--primary-dark);
+		}
+
+		.link-theme {
+			color: var(--primary);
+		}
+
+		.link-theme:hover {
+			color: var(--primary-light);
+			text-decoration: underline;
+		}
+
+		.hero-bg {
+			background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+		}
+
+		.gradient-text {
+			background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+		}
+
+		.error-animation {
+			animation: float 6s ease-in-out infinite;
+		}
+
+		@keyframes float {
+			0% {
+				transform: translateY(0px);
+			}
+
+			50% {
+				transform: translateY(-20px);
+			}
+
+			100% {
+				transform: translateY(0px);
+			}
+		}
+
+
+
+		/* Mobile Menu Styles */
+		.mobile-menu {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: white;
+			z-index: 1000;
+			padding: 80px 20px 20px;
+			transform: translateX(-100%);
+			transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+			overflow-y: auto;
+			box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+		}
+
+		.mobile-menu.active {
+			transform: translateX(0);
+		}
+
+		.menu-toggle {
+			display: none;
+			background: none;
+			border: none;
+			font-size: 24px;
+			cursor: pointer;
+			color: var(--primary-dark);
+			z-index: 1001;
+			transition: transform 0.3s ease;
+		}
+
+		.menu-toggle:hover {
+			transform: scale(1.1);
+		}
+
+		.close-menu {
+			position: absolute;
+			top: 20px;
+			right: 20px;
+			background: none;
+			border: none;
+			font-size: 24px;
+			cursor: pointer;
+			color: var(--primary-dark);
+			z-index: 1002;
+			transition: transform 0.3s ease;
+		}
+
+		.close-menu:hover {
+			transform: scale(1.1);
+		}
+
+		/* Responsive styles */
+		@media (max-width: 768px) {
+			.menu-toggle {
+				display: block;
+			}
+
+			.desktop-nav {
+				display: none !important;
+			}
+
+			.header-buttons {
+				display: none !important;
+			}
+
+			.header-logo {
+				margin-right: auto;
+			}
+
+			.container {
+				padding-left: 16px;
+				padding-right: 16px;
+			}
+
+			h1 {
+				font-size: 2rem !important;
+				line-height: 1.2 !important;
+			}
+
+			h2 {
+				font-size: 1.75rem !important;
+			}
+
+			.btn-theme,
+			.btn-outline-theme {
+				padding: 14px 20px !important;
+				font-size: 16px !important;
+				width: 100%;
+				text-align: center;
+			}
+		}
+
+		@media (max-width: 480px) {
+			h1 {
+				font-size: 1.75rem !important;
+			}
+
+			h2 {
+				font-size: 1.5rem !important;
+			}
+		}
+	</style>
+</head>
+
+<body class="min-h-screen flex flex-col bg-gray-50">
+	<!-- Menu Backdrop -->
+	<div class="menu-backdrop"></div>
+
+	<!-- Header -->
+	<header
+		class="flex justify-between items-center px-4 sm:px-6 lg:px-8 py-4 border-b border-gray-200 w-full bg-white sticky top-0 z-50 shadow-sm">
+		<div class="flex items-center space-x-2">
+			<img src="/auth/assets/images/logo1.svg" alt="UPIExpress"
+				class="object-contain h-[50px] w-[120px] scale-125" />
+		</div>
+
+		<nav class="desktop-nav hidden md:flex space-x-6">
+			<a href="/"
+				class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Home</a>
+			<a href="/faq"
+				class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">FAQ</a>
+			<a href="/privacy"
+				class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Privacy
+				Policy</a>
+			<a href="/terms"
+				class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Terms Of
+				Service</a>
+			<a href="/refund"
+				class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Refund
+				Policy</a>
+
+			<a href="/contact-us"
+				class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Contact
+				Us</a>
+		</nav>
+
+		<div class="header-buttons flex items-center space-x-3">
+			<a href="/auth/login/"
+				class="btn-outline-theme rounded-lg px-3 py-2 text-sm transition-colors duration-200 font-medium hidden md:block">Login</a>
+			<a href="/auth/signup/"
+				class="btn-theme rounded-lg px-3 py-2 text-sm transition-colors duration-200 font-medium hidden md:block">Create
+				Account</a>
+		</div>
+
+		<!-- Mobile Menu Toggle -->
+		<button class="menu-toggle md:hidden">
+			<i class="fas fa-bars"></i>
+		</button>
+	</header>
+
+	<!-- Mobile Menu -->
+	<div class="mobile-menu md:hidden">
+		<button class="close-menu">
+			<i class="fas fa-times"></i>
+		</button>
+		<nav class="flex flex-col">
+			<a href="/" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Home</a>
+			<a href="/faq" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">FAQ</a>
+			<a href="/contact-us" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Contact Us</a>
+			<a href="/privacy" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Privacy
+				Policy</a>
+			<a href="/terms" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Terms of
+				Service</a>
+			<a href="/refund" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Refund Policy</a>
+			<div class="menu-buttons pt-6 border-t border-gray-200 space-y-3">
+				<a href="/auth/login/"
+					class="btn-outline-theme rounded-lg px-4 py-3 text-base transition-colors duration-200 font-medium block text-center">Login</a>
+				<a href="/auth/signup/"
+					class="btn-theme rounded-lg px-4 py-3 text-base transition-colors duration-200 font-medium block text-center">Create
+					Account</a>
+			</div>
+		</nav>
+	</div>
+
+
+	<!-- Error Content Section -->
+	<main class="flex-grow">
+		<section class="hero-bg py-16 md:py-24">
+			<div class="container mx-auto px-4 sm:px-6">
+				<div class="max-w-4xl mx-auto text-center">
+					<!-- Error Icon/Animation -->
+					<div class="mb-8 error-animation">
+						<div class="relative inline-block">
+							<div
+								class="w-32 h-32 md:w-40 md:h-40 bg-[var(--primary)] rounded-full flex items-center justify-center mx-auto mb-4 pulse">
+								<i class="fas fa-exclamation-triangle text-white text-4xl md:text-5xl"></i>
+							</div>
+							<div id="error-code"
+								class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-12 h-12 flex items-center justify-center text-lg font-bold">
+								404
+							</div>
+						</div>
+					</div>
+
+					<!-- Error Message -->
+					<h1 id="error-title" class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4">Page Not
+						Found</h1>
+					<p id="error-description" class="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+						We're sorry, but the page you're looking for doesn't exist. It might have been moved, deleted,
+						or you may have entered the wrong URL.
+					</p>
+
+					<!-- Action Buttons -->
+					<div class="flex flex-col sm:flex-row justify-center gap-4 mb-12">
+						<a href="/"
+							class="btn-theme rounded-lg px-6 py-3 font-medium text-base md:text-lg transition-all duration-200 inline-block text-center">
+							<i class="fas fa-home mr-2"></i> Go to Homepage
+						</a>
+						<a href="/auth/login/"
+							class="btn-outline-theme rounded-lg px-6 py-3 font-medium text-base md:text-lg transition-all duration-200 inline-block text-center">
+							<i class="fas fa-sign-in-alt mr-2"></i> Login to Dashboard
+						</a>
+					</div>
+
+				</div>
+			</div>
+			</div>
+		</section>
+	</main>
+	<!-- CTA Section -->
+	<section class="py-12 bg-[var(--primary)] border-b border-t border-gray-200">
+		<div class="container mx-auto px-4 sm:px-6 text-center">
+			<h2 class="text-2xl md:text-3xl font-bold text-white mb-4 fade-in cta-title">Ready to Transform Your Payment
+				Experience?</h2>
+			<p class="text-base md:text-lg text-gray-300 mb-8 max-w-2xl mx-auto fade-in cta-subtitle">Join thousands of
+				businesses
+				already using UPIExpress to accept payments directly to their bank accounts with zero transaction fees.
+			</p>
+			<div class="flex flex-col sm:flex-row justify-center gap-4">
+				<a href="/auth/signup/"
+					class="bg-white text-[var(--primary)] rounded-lg px-6 py-3 font-medium text-base md:text-lg transition-all duration-200 inline-block hover:bg-gray-100">
+					Start Free Trial
+				</a>
+				<a href="/auth/signup"
+					class="bg-transparent border border-white text-white rounded-lg px-6 py-3 font-medium text-base md:text-lg transition-all duration-200 inline-block hover:bg-white hover:text-[var(--primary)]">
+					Schedule a Demo
+				</a>
+			</div>
+			<p class="text-sm text-gray-400 mt-6 fade-in">No credit card required • Setup in minutes</p>
+		</div>
+	</section>
+
+	<!-- Footer -->
+	<footer class="w-full px-4 sm:px-6 py-8 text-gray-600 bg-white border-t border-gray-200">
+		<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+			<div class="fade-in cta-title">
+				<div class="flex items-center space-x-2">
+					<img src="/auth/assets/images/logo1.svg" alt="UPIExpress"
+						class="object-contain h-[50px] w-[120px] scale-125" />
+				</div>
+				<p class="text-sm mb-4">Revolutionizing payments with secure, dynamic UPI QR code technology.</p>
+				<div class="flex space-x-4">
+					<a href="#" class="text-gray-500 hover:text-[var(--primary)] transition-colors">
+						<i class="fab fa-twitter"></i>
+					</a>
+					<a href="#" class="text-gray-500 hover:text-[var(--primary)] transition-colors">
+						<i class="fab fa-linkedin"></i>
+					</a>
+					<a href="#" class="text-gray-500 hover:text-[var(--primary)] transition-colors">
+						<i class="fab fa-facebook"></i>
+					</a>
+				</div>
+			</div>
+
+			<div class="fade-in cta-subtitle">
+				<h3 class="text-lg font-semibold text-gray-800 mb-4">Product</h3>
+				<ul class="space-y-2">
+					<li><a href="/features" class="text-sm hover:text-[var(--primary)] transition-colors">Features</a>
+					</li>
+					<li><a href="/usecases" class="text-sm hover:text-[var(--primary)] transition-colors">Use Cases</a>
+					</li>
+					<li><a href="/pricing" class="text-sm hover:text-[var(--primary)] transition-colors">Pricing</a>
+					</li>
+					<li><a href="/doc" class="text-sm hover:text-[var(--primary)] transition-colors">Documentation</a>
+					</li>
+				</ul>
+			</div>
+
+			<div class="fade-in cta-subtitle">
+				<h3 class="text-lg font-semibold text-gray-800 mb-4">Company</h3>
+				<ul class="space-y-2">
+					<li><a href="/about-us" class="text-sm hover:text-[var(--primary)] transition-colors">About Us</a>
+					</li>
+					<li><a href="/faq" class="text-sm hover:text-[var(--primary)] transition-colors">FAQ</a></li>
+					<li><a href="/blog" class="text-sm hover:text-[var(--primary)] transition-colors">Blog</a></li>
+					<li><a href="/contact-us" class="text-sm hover:text-[var(--primary)] transition-colors">Contact
+							Us</a>
+					</li>
+				</ul>
+			</div>
+
+			<div class="fade-in cta-subtitle">
+				<h3 class="text-lg font-semibold text-gray-800 mb-4">Contact Us</h3>
+				<p class="text-sm mb-2">Feel free to get in touch with us</p>
+				<p class="text-sm mb-4 flex items-center">
+					<i class="fas fa-envelope mr-2"></i> support@upiexpress.com
+				</p>
+				<div class="mt-4">
+					<p class="text-sm mb-2">Subscribe to our Newsletter:</p>
+					<div class="flex w-full max-w-full overflow-hidden">
+						<input type="email" placeholder="Enter your email"
+							class="flex-grow min-w-0 border rounded-l-lg px-3 py-2 text-sm focus:outline-none">
+						<button class="btn-theme rounded-r-lg px-4 py-2 text-sm flex-shrink-0 w-auto">Submit</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="pt-6 border-t border-gray-200">
+			<p class="text-xs text-gray-500 mb-4">
+				*UPIExpress provides Dynamic UPI QR Generating service. UPIExpress does not offer payment gateway
+				service, nor does it provide UPI ID and UPI Merchant account. Please read our policy and T&C before
+				using our services.
+			</p>
+
+			<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center text-sm">
+				<p class="mb-4 sm:mb-0">
+					© UPIExpress 2020–25, All Rights Reserved.
+				</p>
+				<div class="flex flex-wrap gap-4">
+					<a class="hover:text-[var(--primary)] transition-colors" href="/help">Help</a>
+					<a class="hover:text-[var(--primary)] transition-colors" href="/refund">Refund Policy</a>
+					<a class="hover:text-[var(--primary)] transition-colors" href="/terms">Terms Of Service</a>
+					<a class="hover:text-[var(--primary)] transition-colors" href="/privacy">Privacy Policy</a>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<script>
+		// Mobile menu functionality
+		document.addEventListener('DOMContentLoaded', function () {
+			const menuToggle = document.querySelector('.menu-toggle');
+			const mobileMenu = document.querySelector('.mobile-menu');
+			const closeMenu = document.querySelector('.close-menu');
+			const menuBackdrop = document.querySelector('.menu-backdrop');
+			const mobileLinks = document.querySelectorAll('.mobile-menu a');
+
+			function openMenu() {
+				mobileMenu.classList.add('active');
+				menuBackdrop.classList.add('active');
+				document.body.style.overflow = 'hidden';
+			}
+
+			function closeMobileMenu() {
+				mobileMenu.classList.remove('active');
+				menuBackdrop.classList.remove('active');
+				document.body.style.overflow = '';
+			}
+
+			menuToggle.addEventListener('click', openMenu);
+			closeMenu.addEventListener('click', closeMobileMenu);
+			menuBackdrop.addEventListener('click', closeMobileMenu);
+
+			// Close menu when clicking on a link
+			mobileLinks.forEach(link => {
+				link.addEventListener('click', closeMobileMenu);
+			});
+
+			// Close menu on escape key
+			document.addEventListener('keydown', function (e) {
+				if (e.key === 'Escape') {
+					closeMobileMenu();
+				}
+			});
+		});
+
+		// Error page configuration
+		document.addEventListener('DOMContentLoaded', function () {
+			// Get URL parameters to determine error type
+			const urlParams = new URLSearchParams(window.location.search);
+			const errorType = urlParams.get('type') || '402';
+
+			// Configure page based on error type
+			configureErrorPage(errorType);
+		});
+
+		function configureErrorPage(errorType) {
+			const errorCode = document.getElementById('error-code');
+			const errorTitle = document.getElementById('error-title');
+			const errorDescription = document.getElementById('error-description');
+
+			switch (errorType) {
+				case '502':
+					errorCode.textContent = '502';
+					errorTitle.textContent = 'Bad Gateway';
+					errorDescription.textContent = 'We\'re experiencing temporary server issues. Our team is working to resolve this as quickly as possible. Please try again in a few moments.';
+					break;
+				case '503':
+					errorCode.textContent = '503';
+					errorTitle.textContent = 'Service Unavailable';
+					errorDescription.textContent = 'Our services are temporarily unavailable due to maintenance or high traffic. We\'ll be back online shortly.';
+					break;
+				case '500':
+					errorCode.textContent = '500';
+					errorTitle.textContent = 'Internal Server Error';
+					errorDescription.textContent = 'Something went wrong on our end. Our technical team has been notified and is working to fix the issue.';
+					break;
+				default: // 404
+					errorCode.textContent = '404';
+					errorTitle.textContent = 'Page Not Found';
+					errorDescription.textContent = 'We\'re sorry, but the page you\'re looking for doesn\'t exist. It might have been moved, deleted, or you may have entered the wrong URL.';
+					break;
+			}
+		}
+	</script>
+</body>
+
+</html>

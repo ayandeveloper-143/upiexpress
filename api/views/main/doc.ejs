@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Documentation - UPIExpress Dynamic UPI QR Payment API</title>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-777328699">
+</script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-777328699');
+</script>
+    <meta name="description"
+        content="Complete API documentation for integrating UPIExpress Dynamic UPI QR payment solutions. Learn how to integrate our API, use webhooks, and accept UPI payments with zero fees.">
+
+    <meta name="keywords"
+        content="UPIExpress documentation, UPI API documentation, Dynamic QR API, Payment API docs, UPI integration guide, API reference, Webhook setup">
+
+    <link rel="canonical" href="https://upiexpress.com/doc">
+    <meta property="og:title" content="API Documentation - UPIExpress Dynamic UPI QR Payments">
+    <meta property="og:description"
+        content="Complete API documentation for integrating UPIExpress Dynamic UPI QR payment solutions.">
+    <meta property="og:image" content="https://upiexpress.com/images/og-image.png">
+    <meta property="og:url" content="https://upiexpress.com/doc">
+    <meta property="og:type" content="website">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
+    <link rel="icon" href="/images/icon.png" type="image/png">
+    
+    <style>
+        :root {
+            --primary: #181a20;
+            --primary-light: #1e2329;
+            --primary-dark: #2b3139;
+            --primary-transparent: rgba(0, 0, 0, 0.1);
+            --dark-1: #181a20;
+            --dark-2: #1e2329;
+            --dark-3: #2b3139;
+            --light-1: #eaecef;
+            --light-2: #b7bdc6;
+            --light-3: #848e9c;
+        }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow-x: hidden !important;
+            width: 100vw !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            font-family: "Inter", sans-serif;
+        }
+
+        .btn-theme {
+            background-color: var(--primary);
+            color: var(--light-1);
+            border: 1px solid var(--primary-dark);
+        }
+
+        .btn-theme:hover {
+            background-color: var(--primary-light);
+            color: var(--light-1);
+        }
+
+        .btn-outline-theme {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-outline-theme:hover {
+            background-color: var(--primary-transparent);
+            color: var(--primary-dark);
+        }
+
+        .link-theme {
+            color: var(--primary);
+        }
+
+        .link-theme:hover {
+            color: var(--primary-light);
+            text-decoration: underline;
+        }
+
+        .hero-bg {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .section-padding {
+            padding: 3rem 0;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* API Documentation Styles */
+        .api-section {
+            background: white;
+            border: 1px solid #eaecef;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .api-endpoint {
+            background: white;
+            border: 1px solid #eaecef;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .code-block {
+            background: #f8fafc;
+            color: #181a20;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 1rem 0;
+            position: relative;
+        }
+
+        .param-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        .param-table th,
+        .param-table td {
+            border: 1px solid #eaecef;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .param-table th {
+            background: white;
+            font-weight: 600;
+            color: #181a20;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+
+        .badge-get {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .badge-post {
+            background: #e1f5fe;
+            color: #0277bd;
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: #181a20;
+            color: white;
+            border-radius: 50%;
+            font-weight: 600;
+            margin-right: 12px;
+        }
+
+        /* Mobile Menu Styles */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            z-index: 1000;
+            padding: 80px 20px 20px;
+            transform: translateX(-100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--primary-dark);
+            z-index: 1001;
+        }
+
+        .close-menu {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--primary-dark);
+            z-index: 1002;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .desktop-nav {
+                display: none !important;
+            }
+
+            .header-buttons {
+                display: none !important;
+            }
+
+            .section-padding {
+                padding: 2rem 0;
+            }
+
+            h1 {
+                font-size: 2rem !important;
+            }
+
+            h2 {
+                font-size: 1.75rem !important;
+            }
+
+            .api-section {
+                padding: 1.5rem;
+            }
+
+            .api-endpoint {
+                padding: 1rem;
+            }
+
+            .code-block {
+                padding: 1rem;
+                font-size: 12px;
+            }
+
+            .param-table {
+                font-size: 12px;
+            }
+
+            .param-table th,
+            .param-table td {
+                padding: 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.75rem !important;
+            }
+
+            h2 {
+                font-size: 1.5rem !important;
+            }
+
+            .api-section {
+                padding: 1rem;
+            }
+
+            .code-block {
+                padding: 0.75rem;
+                font-size: 11px;
+            }
+        }
+
+        /* Sidebar navigation for docs */
+        .docs-sidebar {
+            position: sticky;
+            top: 100px;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+            padding-right: 20px;
+        }
+
+        .docs-sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .docs-sidebar li {
+            margin-bottom: 8px;
+        }
+
+        .docs-sidebar a {
+            color: var(--light-3);
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            display: block;
+            transition: all 0.2s;
+        }
+
+        .docs-sidebar a:hover {
+            color: var(--primary);
+            background: var(--primary-transparent);
+        }
+
+        .docs-sidebar a.active {
+            color: var(--primary);
+            background: var(--primary-transparent);
+            font-weight: 600;
+        }
+
+        .nav-indent {
+            padding-left: 24px;
+        }
+
+        /* Scrollspy highlight */
+        .docs-content section {
+            scroll-margin-top: 100px;
+        }
+
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Copy code button */
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .code-block:hover .copy-btn {
+            opacity: 1;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .copy-btn.copied {
+            background: #10b981;
+        }
+
+        /* Additional responsive adjustments */
+        @media (max-width: 1024px) {
+            .docs-sidebar {
+                position: static;
+                max-height: none;
+                margin-bottom: 2rem;
+                padding-right: 0;
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col bg-gray-50">
+    <!-- Menu Backdrop -->
+    <div class="menu-backdrop"></div>
+
+    <!-- Header -->
+    <header
+        class="flex justify-between items-center px-4 sm:px-6 lg:px-8 py-4 border-b border-gray-200 w-full bg-white sticky top-0 z-50 shadow-sm">
+        <div class="flex items-center">
+            <img src="/images/icon.png" alt="UPIExpress" class="w-8 h-8">
+            <span class="sidebar-text font-bold text-xl  mr-[2.2px] text-gray-800">UPI</span>
+            <span class="sidebar-text font-family text-xl text-gray-700">Express</span>
+        </div>
+
+        <nav class="desktop-nav hidden md:flex space-x-6">
+            <a href="/"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Home</a>
+            <a href="/about-us"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">About Us</a>
+            <a href="/faq"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">FAQ</a>
+            <a href="/contact-us"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Contact
+                Us</a>
+            <a href="/doc"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm border-b-2 border-[var(--primary)]">Documentation</a>
+            <a href="/usecases"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Use Cases</a>
+            <a href="/features"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Features</a>
+             <a href="/pricing"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Pricing</a>   
+        </nav>
+
+        <div class="header-buttons flex items-center space-x-3">
+            <a href="/auth/login/"
+                class="btn-outline-theme rounded-lg px-3 py-2 text-sm transition-colors duration-200 font-medium hidden md:block">Login</a>
+            <a href="/auth/signup/"
+                class="btn-theme rounded-lg px-3 py-2 text-sm transition-colors duration-200 font-medium hidden md:block">Create
+                Account</a>
+        </div>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="menu-toggle md:hidden">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu md:hidden">
+        <button class="close-menu">
+            <i class="fas fa-times"></i>
+        </button>
+        <nav class="flex flex-col">
+            <a href="/" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Home</a>
+            <a href="/about-us" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">About Us</a>
+            <a href="/faq" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">FAQ</a>
+            <a href="/contact-us" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Contact Us</a>
+            <a href="/pricing" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Pricing</a>
+            <a href="/doc" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100 text-[var(--primary)] font-semibold">Documentation</a>
+            <a href="/usecases" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Use Cases</a>
+            <a href="/features" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Features</a>
+            <div class="menu-buttons pt-6 border-t border-gray-200 space-y-3">
+                <a href="/auth/login/"
+                    class="btn-outline-theme rounded-lg px-4 py-3 text-base transition-colors duration-200 font-medium block text-center">Login</a>
+                <a href="/auth/signup/"
+                    class="btn-theme rounded-lg px-4 py-3 text-base transition-colors duration-200 font-medium block text-center">Create
+                    Account</a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Documentation Hero Section -->
+    <section class="hero-bg border-b border-t border-gray-200">
+        <div class="container mx-auto px-4 sm:px-6 py-12">
+            <div class="max-w-4xl mx-auto text-center">
+                <div class="inline-block bg-[var(--primary)] text-white text-xs font-medium px-3 py-1 rounded-full mb-6">
+                    API Documentation
+                </div>
+                <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4 leading-tight">
+                    Complete API Documentation
+                </h1>
+                <p class="text-lg md:text-xl text-gray-600 mb-6">
+                    Everything you need to integrate UPIExpress Dynamic UPI QR payments into your application.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="#quick-start"
+                        class="btn-theme rounded-lg px-6 py-3 font-medium text-base md:text-lg transition-all duration-200 inline-block text-center">
+                        Get Started <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                    <a href="#api-reference"
+                        class="btn-outline-theme rounded-lg px-6 py-3 font-medium text-base md:text-lg transition-all duration-200 inline-block text-center">
+                        View API Reference
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Documentation Main Content -->
+    <div class="container mx-auto px-4 sm:px-6 py-12">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Sidebar Navigation -->
+            <div class="lg:w-1/4">
+                <div class="docs-sidebar">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Contents</h3>
+                    <ul>
+                        <li><a href="#quick-start" class="active">Quick Start</a></li>
+                        <li><a href="#authentication">Authentication</a></li>
+                        <li><a href="#api-reference">API Reference</a>
+                            <ul>
+                                <li class="nav-indent"><a href="#create-order">Create Order</a></li>
+                                <li class="nav-indent"><a href="#check-status">Check Order Status</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#webhooks">Webhooks</a></li>
+                        <li><a href="#error-handling">Error Handling</a></li>
+                        <li><a href="#best-practices">Best Practices</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#support">Support</a></li>
+                    </ul>
+                    
+                    <div class="mt-8 pt-6 border-t border-gray-200">
+                        <h4 class="font-semibold text-gray-800 mb-3">Resources</h4>
+                        <ul>
+                            <li><a href="/doc/integration-guide" class="flex items-center gap-2">
+                                <i class="fas fa-book text-gray-400"></i>
+                                <span>Integration Guide</span>
+                            </a></li>
+                            <li><a href="/user/api_credentials" class="flex items-center gap-2">
+                                <i class="fas fa-key text-gray-400"></i>
+                                <span>API Credentials</span>
+                            </a></li>
+                            <li><a href="https://github.com/upiexpress" target="_blank" class="flex items-center gap-2">
+                                <i class="fab fa-github text-gray-400"></i>
+                                <span>GitHub Examples</span>
+                            </a></li>
+                            <li><a href="/doc/postman-collection" class="flex items-center gap-2">
+                                <i class="fab fa-get-pocket text-gray-400"></i>
+                                <span>Postman Collection</span>
+                            </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Documentation Content -->
+            <div class="lg:w-3/4">
+                <div class="docs-content">
+                    <!-- Quick Start Section -->
+                    <section id="quick-start" class="api-section">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">🚀 Quick Start</h2>
+                        <p class="text-gray-700 mb-4">
+                            Get started with UPIExpress API in just a few simple steps:
+                        </p>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <span class="step-number">1</span>
+                                <div>
+                                    <h3 class="text-lg font-semibold mb-2">Sign Up & Get API Keys</h3>
+                                    <p class="text-gray-600">Create an account and get your API credentials from the dashboard.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <span class="step-number">2</span>
+                                <div>
+                                    <h3 class="text-lg font-semibold mb-2">Connect UPI Merchant Account</h3>
+                                    <p class="text-gray-600">Connect your existing UPI merchant account (BharatPe, PhonePe, GPay, etc.) with UPIExpress.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <span class="step-number">3</span>
+                                <div>
+                                    <h3 class="text-lg font-semibold mb-2">Create Your First Order</h3>
+                                    <p class="text-gray-600">Use the <code>/api/create_order</code> endpoint to generate a dynamic QR code.</p>
+                                    <div class="code-block mt-2">
+                                        <button class="copy-btn">Copy</button>
+                                        <pre>curl -X POST https://upiexpress.com/api/create_order \
+  -H "Content-Type: application/json" \
+  -d '{
+    "key": "your-api-key",
+    "client_txn_id": "unique-id-123",
+    "amount": "100",
+    "customer_name": "John Doe",
+    "customer_email": "john@example.com",
+    "customer_mobile": "9876543210",
+    "redirect_url": "https://yourwebsite.com/thank-you"
+  }'</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <span class="step-number">4</span>
+                                <div>
+                                    <h3 class="text-lg font-semibold mb-2">Handle Payment Status</h3>
+                                    <p class="text-gray-600">Use webhooks or poll the status API to get payment confirmation.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-4">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-lightbulb text-blue-400 text-xl"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <h3 class="text-sm font-medium text-blue-800">Pro Tip</h3>
+                                    <div class="mt-2 text-sm text-blue-700">
+                                        <p>For testing, use our sandbox environment. Contact support to get sandbox credentials.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Authentication Section -->
+                    <section id="authentication" class="api-section">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">🔐 Authentication</h2>
+                        <p class="text-gray-700 mb-4">
+                            All API requests require authentication using your API key. Include the API key in the request body for all endpoints.
+                        </p>
+                        
+                        <div class="api-endpoint">
+                            <h3 class="text-lg font-semibold mb-4">Getting Your API Key</h3>
+                            <ol class="list-decimal pl-5 space-y-2 text-gray-700">
+                                <li>Login to your UPIExpress dashboard</li>
+                                <li>Navigate to <strong>API & Docs → API Keys & Webhooks</strong></li>
+                                <li>Generate a new API key or use the existing one</li>
+                                <li>Keep your API key secure and never expose it in client-side code</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="api-endpoint">
+                            <h3 class="text-lg font-semibold mb-4">Request Format</h3>
+                            <p class="text-gray-700 mb-3">Include your API key in the request body:</p>
+                            <div class="code-block">
+                                <button class="copy-btn">Copy</button>
+                                <pre>{
+  "key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+  // other parameters...
+}</pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- API Reference Section -->
+                    <section id="api-reference" class="api-section">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">📚 API Reference</h2>
+                        
+                        <!-- Create Order Endpoint -->
+                        <div id="create-order" class="api-endpoint">
+                            <div class="flex items-center mb-4">
+                                <span class="badge badge-post">POST</span>
+                                <h3 class="text-lg font-semibold">Create Payment Order</h3>
+                            </div>
+                            <code class="text-gray-700 font-mono text-sm block mb-4">https://upiexpress.com/api/create_order</code>
+                            
+                            <p class="text-gray-700 mb-4">Create a new payment order and generate a dynamic UPI QR code.</p>
+                            
+                            <h4 class="font-semibold mb-2">Request Parameters</h4>
+                            <table class="param-table">
+                                <thead>
+                                    <tr>
+                                        <th>Parameter</th>
+                                        <th>Type</th>
+                                        <th>Required</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>key</td>
+                                        <td>string</td>
+                                        <td>Yes</td>
+                                        <td>Your API key</td>
+                                    </tr>
+                                    <tr>
+                                        <td>client_txn_id</td>
+                                        <td>string</td>
+                                        <td>Yes</td>
+                                        <td>Unique transaction ID from your system</td>
+                                    </tr>
+                                    <tr>
+                                        <td>amount</td>
+                                        <td>string</td>
+                                        <td>Yes</td>
+                                        <td>Transaction amount (in INR)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>customer_name</td>
+                                        <td>string</td>
+                                        <td>Yes</td>
+                                        <td>Customer's full name</td>
+                                    </tr>
+                                    <tr>
+                                        <td>customer_email</td>
+                                        <td>string</td>
+                                        <td>Yes</td>
+                                        <td>Customer's email address</td>
+                                    </tr>
+                                    <tr>
+                                        <td>customer_mobile</td>
+                                        <td>string</td>
+                                        <td>Yes</td>
+                                        <td>Customer's mobile number (10 digits)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>redirect_url</td>
+                                        <td>string</td>
+                                        <td>Yes</td>
+                                        <td>URL to redirect after payment</td>
+                                    </tr>
+                                    <tr>
+                                        <td>webhook_url</td>
+                                        <td>string</td>
+                                        <td>No</td>
+                                        <td>Callback URL for payment status updates</td>
+                                    </tr>
+                                    <tr>
+                                        <td>note</td>
+                                        <td>string</td>
+                                        <td>No</td>
+                                        <td>Product/service description (max 25 chars)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>udf1 - udf5</td>
+                                        <td>string</td>
+                                        <td>No</td>
+                                        <td>Custom fields for your reference</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <h4 class="font-semibold mt-4 mb-2">Example Request</h4>
+                            <div class="code-block">
+                                <button class="copy-btn">Copy</button>
+                                <pre>{
+  "key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+  "client_txn_id": "order_123456",
+  "amount": "100.50",
+  "customer_name": "John Doe",
+  "customer_email": "john@example.com",
+  "customer_mobile": "9876543210",
+  "redirect_url": "https://yourstore.com/thank-you",
+  "webhook_url": "https://yourstore.com/webhook/upi",
+  "note": "Premium Subscription",
+  "udf1": "user_id_123"
+}</pre>
+                            </div>
+                            
+                            <h4 class="font-semibold mt-4 mb-2">Success Response</h4>
+                            <div class="code-block">
+                                <button class="copy-btn">Copy</button>
+                                <pre>{
+  "status": true,
+  "msg": "Order Created",
+  "data": {
+    "order_id": 500041,
+    "payment_url": "https://upiexpress.com/payment/yiVaLXVNv4PDi5H72k4u0nx0C7DAfHHXXxwKMJ8xL855PX6ByS",
+    "upi_id_hash": "caccc40fd94...",
+    "upi_intent": {
+      "bhim_link": "upi://pay?pa=...",
+      "phonepe_link": "phonepe://pay?pa=...",
+      "paytm_link": "paytmmp://pay?pa=...",
+      "gpay_link": "tez://upi/pay?pa=..."
+    }
+  }
+}</pre>
+                            </div>
+                        </div>
+                        
+                        <!-- Check Order Status Endpoint -->
+                        <div id="check-status" class="api-endpoint">
+                            <div class="flex items-center mb-4">
+                                <span class="badge badge-post">POST</span>
+                                <h3 class="text-lg font-semibold">Check Order Status</h3>
+                            </div>
+                            <code class="text-gray-700 font-mono text-sm block mb-4">https://upiexpress.com/api/check_order_status</code>
+                            
+                            <p class="text-gray-700 mb-4">Check the status of a payment order. Rate limited to 500 requests per minute.</p>
+                            
+                            <h4 class="font-semibold mb-2">Request Parameters</h4>
+                            <table class="param-table">
+                                <thead>
+                                    <tr>
+                                        <th>Parameter</th>
+                                        <th>Type</th>
+                                        <th>Required</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>key</td>
+                                        <td>string</td>
+                                        <td>Yes</td>
+                                        <td>Your API key</td>
+                                    </tr>
+                                    <tr>
+                                        <td>client_txn_id</td>
+                                        <td>string</td>
+                                        <td>Yes</td>
+                                        <td>Your unique transaction ID</td>
+                                    </tr>
+                                    <tr>
+                                        <td>txn_date</td>
+                                        <td>string</td>
+                                        <td>No</td>
+                                        <td>Transaction date (DD-MM-YYYY format)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <h4 class="font-semibold mt-4 mb-2">Example Request</h4>
+                            <div class="code-block">
+                                <button class="copy-btn">Copy</button>
+<pre>{
+  "key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+  "client_txn_id": "order_123456"
+}</pre>
+                            </div>
+                            
+                            <h4 class="font-semibold mt-4 mb-2">Success Response</h4>
+                            <div class="code-block">
+                                <button class="copy-btn">Copy</button>
+<pre>{
+  "status": true,
+  "msg": "Transaction found",
+  "data": {
+    "id": 66,
+    "amount": 100.50,
+    "txn_id": "UPIEX50004120220115144330001",
+    "order_id": 500041,
+    "client_txn_id": "order_123456",
+    "customer_name": "John Doe",
+    "customer_email": "john@example.com",
+    "customer_mobile": "9876543210",
+    "upi_txn_id": "209876543210",
+    "status": "success",
+    "note": "Premium Subscription",
+    "udf1": "user_id_123",
+    "txnAt": "2022-01-15",
+    "createdAt": "2022-01-15T14:43:30.000Z"
+  }
+}</pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Webhooks Section -->
+                    <section id="webhooks" class="api-section">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">🔔 Webhooks</h2>
+                        
+                        <p class="text-gray-700 mb-4">
+                            Webhooks allow you to receive real-time notifications about payment status changes. Configure your webhook URL to automatically receive updates.
+                        </p>
+                        
+                        <div class="api-endpoint">
+                            <h3 class="text-lg font-semibold mb-4">Webhook Payload</h3>
+                            <p class="text-gray-700 mb-3">When a payment status changes, we'll POST JSON data to your webhook URL:</p>
+                            <div class="code-block">
+                                <button class="copy-btn">Copy</button>
+<pre>{
+  "id": 66,
+  "amount": 100,
+  "convenience_fee": 0,
+  "total_amount": 100,
+  "txn_id": "UPIEX50004120220115144330001",
+  "order_id": 500041,
+  "client_txn_id": "abcd1234",
+  "customer_name": "Jon Doe",
+  "customer_email": "jondoe@gmail.com",
+  "customer_mobile": "9876543210",
+  "upi_txn_id": "209876543210",
+  "status": "success",
+  "note": "Product information",
+  "udf1": "",
+  "udf2": "",
+  "udf3": "",
+  "redirect_url": "https://upiexpress.com",
+  "webhook_url": "https://upiexpress.com",
+  "txnAt": "2022-01-15",
+  "createdAt": "2022-01-15T14:43:30.000Z",
+  "MerchantId": "AB12s87d6f5g4h3j2k11Øm9n8o7p6q5r4"
+}</pre>
+                            </div>
+                        </div>
+                        
+                        <div class="api-endpoint">
+                            <h3 class="text-lg font-semibold mb-4">Event Types</h3>
+                            <table class="param-table">
+                                <thead>
+                                    <tr>
+                                        <th>Event</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>payment.success</td>
+                                        <td>Payment completed successfully</td>
+                                    </tr>
+                                    <tr>
+                                        <td>payment.failed</td>
+                                        <td>Payment failed</td>
+                                    </tr>
+                                    <tr>
+                                        <td>payment.pending</td>
+                                        <td>Payment initiated but pending</td>
+                                    </tr>
+                                    <tr>
+                                        <td>payment.expired</td>
+                                        <td>Payment link expired</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- Error Handling Section -->
+                    <section id="error-handling" class="api-section">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">⚠️ Error Handling</h2>
+                        
+                        <p class="text-gray-700 mb-4">
+                            All API endpoints return consistent error responses. Always handle errors gracefully in your implementation.
+                        </p>
+                        
+                        <div class="api-endpoint">
+                            <h3 class="text-lg font-semibold mb-4">Common Error Responses</h3>
+                            <table class="param-table">
+                                <thead>
+                                    <tr>
+                                        <th>HTTP Status</th>
+                                        <th>Error Code</th>
+                                        <th>Message</th>
+                                        <th>Solution</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>400</td>
+                                        <td>INVALID_API_KEY</td>
+                                        <td>Invalid API key provided</td>
+                                        <td>Check your API key</td>
+                                    </tr>
+                                    <tr>
+                                        <td>400</td>
+                                        <td>MISSING_PARAMETER</td>
+                                        <td>Required parameter missing</td>
+                                        <td>Check request parameters</td>
+                                    </tr>
+                                    <tr>
+                                        <td>402</td>
+                                        <td>PLAN_EXPIRED</td>
+                                        <td>Your plan has expired</td>
+                                        <td>Renew your subscription</td>
+                                    </tr>
+                                    <tr>
+                                        <td>404</td>
+                                        <td>ORDER_NOT_FOUND</td>
+                                        <td>Transaction not found</td>
+                                        <td>Verify order ID</td>
+                                    </tr>
+                                    <tr>
+                                        <td>429</td>
+                                        <td>RATE_LIMITED</td>
+                                        <td>Too many requests</td>
+                                        <td>Wait and retry</td>
+                                    </tr>
+                                    <tr>
+                                        <td>500</td>
+                                        <td>INTERNAL_ERROR</td>
+                                        <td>Internal server error</td>
+                                        <td>Contact support</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="api-endpoint">
+                            <h3 class="text-lg font-semibold mb-4">Example Error Response</h3>
+                            <div class="code-block">
+                                <button class="copy-btn">Copy</button>
+<pre>{
+  "status": false,
+  "error": {
+    "code": "INVALID_API_KEY",
+    "message": "Invalid API key provided",
+    "details": "The API key provided is invalid or expired"
+  }
+}</pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Best Practices Section -->
+                    <section id="best-practices" class="api-section">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">💡 Best Practices</h2>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">1. Unique Transaction IDs</h3>
+                                <p class="text-gray-700">Always generate unique <code>client_txn_id</code> for each transaction. Never reuse IDs.</p>
+                            </div>
+                            
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">2. Implement Webhooks</h3>
+                                <p class="text-gray-700">Use webhooks for real-time updates instead of polling the status API frequently.</p>
+                            </div>
+                            
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">3. Handle Timeouts</h3>
+                                <p class="text-gray-700">Payment links expire after 15 minutes. Handle expired payments gracefully.</p>
+                            </div>
+                            
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">4. Secure API Keys</h3>
+                                <p class="text-gray-700">Store API keys securely in environment variables, never in client-side code.</p>
+                            </div>
+                            
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">5. Validate Responses</h3>
+                                <p class="text-gray-700">Always verify the <code>upi_id_hash</code> before redirecting users to payment URLs.</p>
+                            </div>
+                            
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">6. Monitor Webhook Deliveries</h3>
+                                <p class="text-gray-700">Implement logging for webhook deliveries and set up alerts for failures.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- FAQ Section -->
+                    <section id="faq" class="api-section">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">❓ Frequently Asked Questions</h2>
+                        
+                        <div class="space-y-4">
+                            <div class="border border-gray-200 rounded-lg p-4">
+                                <h3 class="font-semibold text-gray-800 mb-2">Q: How long are payment links valid?</h3>
+                                <p class="text-gray-700">Payment links are valid for 15 minutes. After that, a new order must be created.</p>
+                            </div>
+                            
+                            <div class="border border-gray-200 rounded-lg p-4">
+                                <h3 class="font-semibold text-gray-800 mb-2">Q: Can I customize the QR code appearance?</h3>
+                                <p class="text-gray-700">Yes, you can customize QR code size and colors through our dashboard settings.</p>
+                            </div>
+                            
+                            <div class="border border-gray-200 rounded-lg p-4">
+                                <h3 class="font-semibold text-gray-800 mb-2">Q: Is there a sandbox environment?</h3>
+                                <p class="text-gray-700">Yes, contact support to get access to our sandbox environment for testing.</p>
+                            </div>
+                            
+                            <div class="border border-gray-200 rounded-lg p-4">
+                                <h3 class="font-semibold text-gray-800 mb-2">Q: What UPI apps are supported?</h3>
+                                <p class="text-gray-700">All major UPI apps: GPay, PhonePe, Paytm, BHIM, Amazon Pay, and 200+ other banks.</p>
+                            </div>
+                            
+                            <div class="border border-gray-200 rounded-lg p-4">
+                                <h3 class="font-semibold text-gray-800 mb-2">Q: How do I handle refunds?</h3>
+                                <p class="text-gray-700">Refunds are processed directly from your connected UPI merchant account dashboard.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Support Section -->
+                    <section id="support" class="api-section">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">🛠️ Support</h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-white border border-gray-200 rounded-lg p-6">
+                                <div class="flex items-center mb-4">
+                                    <div class="bg-blue-100 p-3 rounded-lg mr-4">
+                                        <i class="fas fa-book text-blue-600 text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold">Documentation</h3>
+                                        <p class="text-gray-600 text-sm">Detailed guides and tutorials</p>
+                                    </div>
+                                </div>
+                                <a href="/doc/integration-guide" class="link-theme font-medium flex items-center">
+                                    View Integration Guide <i class="fas fa-arrow-right ml-2"></i>
+                                </a>
+                            </div>
+                            
+                            <div class="bg-white border border-gray-200 rounded-lg p-6">
+                                <div class="flex items-center mb-4">
+                                    <div class="bg-green-100 p-3 rounded-lg mr-4">
+                                        <i class="fas fa-headset text-green-600 text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold">Contact Support</h3>
+                                        <p class="text-gray-600 text-sm">Get help from our team</p>
+                                    </div>
+                                </div>
+                                <a href="/contact-us" class="link-theme font-medium flex items-center">
+                                    Contact Us <i class="fas fa-arrow-right ml-2"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                            <h3 class="font-semibold text-gray-800 mb-2">API Status</h3>
+                            <p class="text-gray-700 mb-2">Current API Status: <span class="text-green-600 font-semibold">● Operational</span></p>
+                            <p class="text-gray-700 text-sm">Last updated: Just now | Uptime: 99.9%</p>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <section class="py-12 bg-[var(--primary)]">
+        <div class="container mx-auto px-4 sm:px-6 text-center">
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">Ready to Start Integrating?</h2>
+            <p class="text-base md:text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
+                Join thousands of businesses accepting payments with UPIExpress. Get started in minutes with our easy-to-use API.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="/auth/signup/"
+                    class="bg-white text-[var(--primary)] rounded-lg px-6 py-3 font-medium text-base md:text-lg transition-all duration-200 inline-block hover:bg-gray-100">
+                    Start Free Trial
+                </a>
+                <a href="/contact-us"
+                    class="bg-transparent border border-white text-white rounded-lg px-6 py-3 font-medium text-base md:text-lg transition-all duration-200 inline-block hover:bg-white hover:text-[var(--primary)]">
+                    Contact Sales
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="w-full px-4 sm:px-6 py-8 text-gray-600 bg-white border-t border-gray-200">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div>
+                <div class="flex items-center mb-2">
+                    <img src="/images/icon.png" alt="UPIExpress" class="w-8 h-8">
+                    <span class="sidebar-text font-bold text-xl  mr-[2.2px] text-gray-800">UPI</span>
+                    <span class="sidebar-text font-family text-xl text-gray-700">Express</span>
+                </div>
+                <p class="text-sm mb-4">Revolutionizing payments with secure, dynamic UPI QR code technology.</p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-500 hover:text-[var(--primary)] transition-colors">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-[var(--primary)] transition-colors">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-[var(--primary)] transition-colors">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Product</h3>
+                <ul class="space-y-2">
+                    <li><a href="/features" class="text-sm hover:text-[var(--primary)] transition-colors">Features</a></li>
+                    <li><a href="/usecases" class="text-sm hover:text-[var(--primary)] transition-colors">Use Cases</a></li>
+                    <li><a href="/pricing" class="text-sm hover:text-[var(--primary)] transition-colors">Pricing</a></li>
+                    <li><a href="/doc" class="text-sm hover:text-[var(--primary)] transition-colors">Documentation</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Company</h3>
+                <ul class="space-y-2">
+                    <li><a href="/about-us" class="text-sm hover:text-[var(--primary)] transition-colors">About Us</a></li>
+                    <li><a href="/faq" class="text-sm hover:text-[var(--primary)] transition-colors">FAQ</a></li>
+                    <li><a href="/blog" class="text-sm hover:text-[var(--primary)] transition-colors">Blog</a></li>
+                    <li><a href="/contact-us" class="text-sm hover:text-[var(--primary)] transition-colors">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Contact Us</h3>
+                <p class="text-sm mb-2">Feel free to get in touch with us</p>
+                <p class="text-sm mb-4 flex items-center">
+                    <i class="fas fa-envelope mr-2"></i> support@upiexpress.com
+                </p>
+                <div class="mt-4">
+                    <p class="text-sm mb-2">Subscribe to our Newsletter:</p>
+                    <div class="flex w-full max-w-full overflow-hidden">
+                        <input type="email" placeholder="Enter your email"
+                            class="flex-grow min-w-0 border rounded-l-lg px-3 py-2 text-sm focus:outline-none">
+                        <button class="btn-theme rounded-r-lg px-4 py-2 text-sm flex-shrink-0 w-auto">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pt-6 border-t border-gray-200">
+            <p class="text-xs text-gray-500 mb-4">
+                *UPIExpress provides Dynamic UPI QR Generating service. UPIExpress does not offer payment gateway
+                service, nor does it provide UPI ID and UPI Merchant account. Please read our policy and T&C before
+                using our services.
+            </p>
+
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center text-sm">
+                <p class="mb-4 sm:mb-0">
+                    © UPIExpress 2023–25, All Rights Reserved.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a class="hover:text-[var(--primary)] transition-colors" href="/help">Help</a>
+                    <a class="hover:text-[var(--primary)] transition-colors" href="/refund">Refund Policy</a>
+                    <a class="hover:text-[var(--primary)] transition-colors" href="/terms">Terms Of Service</a>
+                    <a class="hover:text-[var(--primary)] transition-colors" href="/privacy">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+        // Mobile menu functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const closeMenu = document.querySelector('.close-menu');
+            const menuBackdrop = document.querySelector('.menu-backdrop');
+            const mobileLinks = document.querySelectorAll('.mobile-menu a');
+
+            function openMenu() {
+                mobileMenu.classList.add('active');
+                menuBackdrop.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeMobileMenu() {
+                mobileMenu.classList.remove('active');
+                menuBackdrop.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            menuToggle.addEventListener('click', openMenu);
+            closeMenu.addEventListener('click', closeMobileMenu);
+            menuBackdrop.addEventListener('click', closeMobileMenu);
+
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', closeMobileMenu);
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    closeMobileMenu();
+                }
+            });
+
+            // Back to top button
+            const backToTop = document.getElementById('backToTop');
+            
+            window.addEventListener('scroll', function () {
+                if (window.pageYOffset > 300) {
+                    backToTop.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
+                }
+            });
+
+            backToTop.addEventListener('click', function () {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+            // Copy code button functionality
+            document.querySelectorAll('.copy-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    const codeBlock = this.nextElementSibling.textContent;
+                    navigator.clipboard.writeText(codeBlock).then(() => {
+                        const originalText = this.textContent;
+                        this.textContent = 'Copied!';
+                        this.classList.add('copied');
+                        
+                        setTimeout(() => {
+                            this.textContent = originalText;
+                            this.classList.remove('copied');
+                        }, 2000);
+                    });
+                });
+            });
+
+            // Scrollspy for sidebar navigation
+            const sections = document.querySelectorAll('.docs-content section');
+            const navLinks = document.querySelectorAll('.docs-sidebar a');
+            
+            function updateActiveNavLink() {
+                let currentSection = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 150;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if (window.pageYOffset >= sectionTop && 
+                        window.pageYOffset < sectionTop + sectionHeight) {
+                        currentSection = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${currentSection}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', updateActiveNavLink);
+            
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        e.preventDefault();
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Update URL without page reload
+                        history.pushState(null, null, targetId);
+                    }
+                });
+            });
+            
+            // Initialize scrollspy
+            updateActiveNavLink();
+        });
+    </script>
+</body>
+
+</html>

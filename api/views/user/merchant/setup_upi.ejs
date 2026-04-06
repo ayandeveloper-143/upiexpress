@@ -1,0 +1,3883 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect UPI Merchant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="/images/icon.png" type="image/png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #181a20;
+            --primary-light: #1e2329;
+            --primary-dark: #2b3139;
+            --primary-transparent: rgba(0, 0, 0, 0.1);
+            --dark-1: #181a20;
+            --dark-2: #1e2329;
+            --dark-3: #2b3139;
+            --light-1: #eaecef;
+            --light-2: #b7bdc6;
+            --light-3: #848e9c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: sans-serif;
+            background-color: white;
+            overflow-x: hidden;
+            user-select: auto;
+
+        }
+
+        /* Hide scrollbar while keeping scroll functionality */
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            /* temporarily hides scroll */
+        }
+
+        body {
+            overflow: auto;
+            /* allow scroll inside body */
+
+            /* Firefox */
+            scrollbar-width: none;
+            /* IE, Edge */
+            -ms-overflow-style: none;
+        }
+
+        /* Chrome, Safari, Opera */
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        /* Desktop Sidebar Styles */
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: white;
+            border-right: 1px solid rgb(234 236 239 / var(--tw-border-opacity, 1));
+            transition: all 0.3s ease;
+            z-index: 1000;
+            overflow-x: hidden;
+        }
+
+        /* Hide desktop sidebar on mobile */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0 !important;
+            }
+        }
+
+        .sidebar.collapsed {
+            width: 70px;
+        }
+
+        /* Hide text when collapsed */
+        .sidebar.collapsed .sidebar-text,
+        .sidebar.collapsed .sidebar-section,
+        .sidebar.collapsed .nav-header {
+            display: none !important;
+        }
+
+        /* Center logo when collapsed */
+        .sidebar.collapsed .sidebar-top {
+            justify-content: center;
+            padding: 1rem 0;
+        }
+
+        /* Hide toggle button when collapsed */
+        .sidebar.collapsed .sidebar-toggle {
+            display: none;
+        }
+
+        /* Remove extra space for labels when collapsed */
+        .sidebar.collapsed .nav-link-text {
+            width: 0;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* Remove top/bottom padding from menu items when collapsed */
+        .sidebar.collapsed .menu-item {
+            padding: 6px 0 !important;
+            justify-content: center;
+            height: 48px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Remove menu gaps when collapsed */
+        .sidebar.collapsed .menu-gap {
+            height: 0;
+        }
+
+        /* Hover effects when collapsed AND hover-enabled */
+        .sidebar.collapsed.hover-enabled:hover {
+            width: 280px;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover .sidebar-text,
+        .sidebar.collapsed.hover-enabled:hover .sidebar-section,
+        .sidebar.collapsed.hover-enabled:hover .nav-header {
+            display: block !important;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover .sidebar-top {
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover .menu-item {
+            justify-content: flex-start;
+            padding: 12px 24px !important;
+            height: 48px;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover .sidebar-toggle {
+            display: block;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover .nav-link-text {
+            width: auto;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover .menu-gap {
+            height: 1rem;
+        }
+
+        /* Main content adjustment */
+        .main-content {
+            margin-left: 280px;
+            transition: margin-left 0.3s ease;
+            min-height: 100vh;
+            padding: 20px;
+            padding-bottom: 0px;
+        }
+
+        .sidebar.collapsed~.main-content {
+            margin-left: 70px;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover~.main-content {
+            margin-left: 280px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 24px;
+            border-radius: 16px;
+            margin-left: 8px;
+            margin-bottom: 2px;
+            margin-right: 8px;
+            color: var(--primary-dark);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:hover {
+            background-color: #f3f4f6;
+        }
+
+        .menu-item.active {
+            background-color: var(--primary-transparent);
+            color: var(--primary);
+        }
+
+        .nav-icon-wrap {
+            width: 24px;
+            text-align: center;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar.collapsed .nav-icon-wrap {
+            margin-right: 0;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover .nav-icon-wrap {
+            margin-right: 12px;
+        }
+
+        .nav-link-text {
+            transition: all 0.3s ease;
+        }
+
+        /* SVG icon styles */
+        .svg-icon {
+            width: 20px;
+            height: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Toggle icon rotation */
+        .sidebar-toggle .toggle-icon {
+            transition: transform 0.2s ease;
+        }
+
+        .sidebar.collapsed .sidebar-toggle .toggle-icon {
+            transform: scaleX(-1);
+        }
+
+        /* Menu groups */
+        .menu-gap {
+            height: 1rem;
+            transition: height 0.2s ease;
+        }
+
+        .sidebar.collapsed .menu-gap {
+            height: 0;
+        }
+
+        .nav-header {
+            padding: 0.5rem 1.5rem;
+            font-size: 0.75rem;
+            color: #6b7280;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* Mobile Sidebar Styles */
+        .mobile-sidebar {
+            position: fixed;
+            top: 0;
+            left: -280px;
+            width: 280px;
+            height: 100vh;
+            background: white;
+            border-right: 1px solid #eaecef;
+            transition: all 0.3s ease;
+            z-index: 1001;
+
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-sidebar.active {
+            left: 0;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            animation: feedFadeIn 0.4s ease forwards;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            animation: feedFadeIn 0.4s ease forwards;
+        }
+
+        .sidebar-overlay.hidden {
+            animation: feedFadeOut 0.3s ease forwards;
+        }
+
+        @keyframes feedFadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes feedFadeOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+
+        /* Header Styles */
+        .content-header {
+            background: white;
+            border-bottom: 1px solid #eaecef;
+            margin: -20px -20px 20px -20px;
+            padding: 0 20px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .footer {
+            background: white;
+            border-top: 1px solid #eaecef;
+            margin: 20px -20px 0px -20px;
+            /* keep for border cropping */
+            padding: 20px;
+            /* enough height to center content visually */
+            font-size: 14px;
+            display: flex;
+            justify-content: center;
+            /* centers footer-content horizontally */
+
+        }
+
+        .footer-content {
+            display: flex;
+            align-items: center;
+            /* vertical center content */
+            justify-content: space-between;
+            width: 100%;
+
+            /* optional, keeps content aligned on large screens */
+        }
+
+        .footer-left,
+        .footer-right {
+            display: flex;
+            align-items: center;
+            /* vertical center children */
+            gap: 15px;
+        }
+
+        .footer p,
+        .footer a {
+            margin: 0;
+            /* remove default margins that break centering */
+        }
+
+        /* Responsive tweaks */
+        @media (max-width: 768px) {
+            .footer-content {
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+                /* centers content on mobile */
+            }
+
+            .footer-left,
+            .footer-right {
+                justify-content: center;
+            }
+        }
+
+
+
+
+
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .brand-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: #181a20;
+        }
+
+        .brand-subtext {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .brand-logo {
+            height: 20px;
+            margin-left: 5px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: rgba(24, 26, 32, 0.05);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .header-item:hover {
+            background: rgba(24, 26, 32, 0.1);
+        }
+
+        .header-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-text {
+            font-size: 14px;
+            font-weight: 500;
+            color: #181a20;
+        }
+
+        .profile-dropdown {
+            position: relative;
+        }
+
+        .profile-btn {
+            background: none;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            background: #181a20;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: auto;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            padding: 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.3s ease;
+            z-index: 101;
+        }
+
+        .dropdown-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-header {
+            padding: 16px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .user-details {
+            flex: 1;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #181a20;
+            margin-bottom: 1px;
+        }
+
+        .user-email {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 2px;
+        }
+
+        .logout-link {
+            font-size: 14px;
+            color: #ef4444;
+            text-decoration: underline;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: #e5e7eb;
+            margin: 0;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 8px 16px;
+            color: #374151;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .animate-spin {
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Feed Animation Styles */
+        #warn_modal {
+            animation: feedBackgroundFadeIn 0.4s ease forwards;
+        }
+
+        #warn_modal.hidden {
+            animation: feedBackgroundFadeOut 0.3s ease forwards;
+        }
+
+        #warn_modal:not(.hidden)>div {
+            animation: feedModalSlideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        #warn_modal.hidden>div {
+            animation: feedModalSlideDown 0.3s ease forwards;
+        }
+
+        /* Feed Animation Styles */
+        #merchantConnectPopup {
+            animation: feedBackgroundFadeIn 0.4s ease forwards;
+        }
+
+        #merchantConnectPopup.hidden {
+            animation: feedBackgroundFadeOut 0.3s ease forwards;
+        }
+
+        #merchantConnectPopup:not(.hidden)>div {
+            animation: feedModalSlideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        #merchantConnectPopup.hidden>div {
+            animation: feedModalSlideDown 0.3s ease forwards;
+        }
+
+
+        /* Feed Animation Styles */
+        #otpPopup {
+            animation: feedBackgroundFadeIn 0.4s ease forwards;
+        }
+
+        #otpPopup.hidden {
+            animation: feedBackgroundFadeOut 0.3s ease forwards;
+        }
+
+        #otpPopup:not(.hidden)>div {
+            animation: feedModalSlideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        #otpPopup.hidden>div {
+            animation: feedModalSlideDown 0.3s ease forwards;
+        }
+
+        @keyframes feedBackgroundFadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes feedBackgroundFadeOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+
+        @keyframes feedModalSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes feedModalSlideDown {
+            from {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+        }
+
+        /* Page Animation Styles */
+        .page-content {
+            animation: feedPageFadeIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .page-content.page-fade-out {
+            animation: feedPageFadeOut 0.3s ease forwards;
+        }
+
+        #page2 {
+            animation: feedPageFadeIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        #page2.page-fade-out {
+            animation: feedPageFadeOut 0.3s ease forwards;
+        }
+
+        #page3 {
+            animation: feedPageFadeIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        #page3.page-fade-out {
+            animation: feedPageFadeOut 0.3s ease forwards;
+        }
+
+        @keyframes feedPageFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes feedPageFadeOut {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Mobile Hamburger */
+        .mobile-hamburger {
+            display: none;
+            background: none;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+            color: #374151;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+
+        .mobile-hamburger:hover {
+            background-color: #f3f4f6;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .mobile-hamburger {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .header-item {
+                display: flex;
+                /* ✅ Yeh line change karein */
+                padding: 6px;
+                /* ✅ Mobile ke liye padding adjust karein */
+            }
+
+            .header-item .header-text {
+                display: none;
+                /* ✅ Text hide karein, sirf icon dikhe */
+            }
+
+            .header-brand {
+                display: none;
+            }
+
+            .brand-subtext {
+                display: none;
+            }
+
+            .dropdown-menu {
+                width: auto;
+                right: -10px;
+            }
+
+            .header-left {
+                gap: 0;
+            }
+        }
+
+        @media (min-width: 769px) {
+
+            .mobile-sidebar,
+            .sidebar-overlay {
+                display: none !important;
+            }
+        }
+
+        /* Header Right Section - Responsive Behavior */
+        @media (max-width: 1024px) {
+            .header-item .header-text {
+                display: none;
+            }
+
+            .header-item {
+                padding: 8px;
+            }
+        }
+
+
+        @media (max-width: 480px) {
+            .header-right {
+                gap: 8px;
+            }
+        }
+
+
+        .card.card-border {
+            border: 1px solid #eaeaea;
+            box-shadow: none;
+        }
+
+        .card {
+            border-color: #eaeaea;
+            border-radius: .5rem;
+            box-shadow: 0 2px 2px rgba(0, 0, 0, .1);
+            margin-bottom: .875rem;
+        }
+
+        .card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #fff;
+            background-clip: border-box;
+            border: 1px solid rgba(0, 0, 0, .125);
+            border-radius: .25rem;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-card {
+                border: 1px solid #e5e7eb;
+                border-radius: 0.5rem;
+                margin-bottom: 0.75rem;
+                padding: 1rem;
+                background: white;
+            }
+
+            .mobile-row {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 0.5rem;
+                padding-bottom: 0.5rem;
+                border-bottom: 1px solid #f3f4f6;
+            }
+
+            .mobile-row:last-child {
+                border-bottom: none;
+                margin-bottom: 0;
+            }
+
+            .mobile-label {
+                font-weight: 600;
+                color: #4b5563;
+                min-width: 100px;
+            }
+
+            .mobile-value {
+                text-align: right;
+                flex: 1;
+            }
+        }
+
+        .tab-pane {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+
+        @media (max-width: 640px) {
+            .modal-container {
+                margin: 1rem;
+            }
+
+            .tab-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .tab-buttons button {
+                width: 100%;
+            }
+        }
+
+        /* From Uiverse.io by dovatgabriel */
+        .three-body {
+            --uib-size: 35px;
+            --uib-speed: 0.8s;
+            --uib-color: var(--dark-2);
+            position: relative;
+            display: inline-block;
+            height: var(--uib-size);
+            width: var(--uib-size);
+            animation: spin78236 calc(var(--uib-speed) * 2.5) infinite linear;
+        }
+
+        .three-body__dot {
+            position: absolute;
+            height: 100%;
+            width: 30%;
+        }
+
+        .three-body__dot:after {
+            content: '';
+            position: absolute;
+            height: 0%;
+            width: 100%;
+            padding-bottom: 100%;
+            background-color: var(--uib-color);
+            border-radius: 50%;
+        }
+
+        .three-body__dot:nth-child(1) {
+            bottom: 5%;
+            left: 0;
+            transform: rotate(60deg);
+            transform-origin: 50% 85%;
+        }
+
+        .three-body__dot:nth-child(1)::after {
+            bottom: 0;
+            left: 0;
+            animation: wobble1 var(--uib-speed) infinite ease-in-out;
+            animation-delay: calc(var(--uib-speed) * -0.3);
+        }
+
+        .three-body__dot:nth-child(2) {
+            bottom: 5%;
+            right: 0;
+            transform: rotate(-60deg);
+            transform-origin: 50% 85%;
+        }
+
+        .three-body__dot:nth-child(2)::after {
+            bottom: 0;
+            left: 0;
+            animation: wobble1 var(--uib-speed) infinite calc(var(--uib-speed) * -0.15) ease-in-out;
+        }
+
+        .three-body__dot:nth-child(3) {
+            bottom: -5%;
+            left: 0;
+            transform: translateX(116.666%);
+        }
+
+        .three-body__dot:nth-child(3)::after {
+            top: 0;
+            left: 0;
+            animation: wobble2 var(--uib-speed) infinite ease-in-out;
+        }
+
+        @keyframes spin78236 {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes wobble1 {
+
+            0%,
+            100% {
+                transform: translateY(0%) scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: translateY(-66%) scale(0.65);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes wobble2 {
+
+            0%,
+            100% {
+                transform: translateY(0%) scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: translateY(66%) scale(0.65);
+                opacity: 0.8;
+            }
+        }
+
+
+        /* Error animation for toast and fields (bottom to up) */
+        .error-animate {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.4s cubic-bezier(.4, 0, .2, 1), transform 0.4s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .error-animate.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* For error fields */
+        .error-field {
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 100%;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .error-field.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Only for password error, move further down */
+        #errorPassword {
+            bottom: -18px;
+        }
+
+        .field-group {
+            position: relative;
+            transition: background 0.3s cubic-bezier(.4, 0, .2, 1), min-height 0.3s cubic-bezier(.4, 0, .2, 1);
+            min-height: 56px;
+            /* Reserve space for error message */
+        }
+
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"] {
+            border-width: 1px;
+            border-style: solid;
+            border-color: var(--primary-transparent);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        input[type="number"]:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px var(--primary-transparent);
+        }
+
+        .btn-theme {
+            background-color: var(--primary);
+            color: var(--light-1);
+            border: 1px solid var(--primary-dark);
+        }
+
+        .btn-theme:hover {
+            background-color: var(--primary-light);
+            color: var(--light-1);
+        }
+
+        .btn-theme:active {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline-theme {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-outline-theme:hover {
+            background-color: var(--primary-transparent);
+            color: var(--primary-dark);
+        }
+
+        .link-theme {
+            color: var(--primary);
+        }
+
+        .link-theme:hover {
+            color: var(--primary-light);
+            text-decoration: underline;
+        }
+
+        /* Error animation for toast and fields (bottom to up) */
+        .error-animate {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.4s cubic-bezier(.4, 0, .2, 1), transform 0.4s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .error-animate.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* For error fields */
+        .error-field {
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 100%;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .error-field.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Only for password error, move further down */
+        #errorPassword {
+            bottom: -18px;
+        }
+
+        .field-group {
+            position: relative;
+            transition: background 0.3s cubic-bezier(.4, 0, .2, 1), min-height 0.3s cubic-bezier(.4, 0, .2, 1);
+            min-height: 56px;
+            /* Reserve space for error message */
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- Mobile Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Mobile Sidebar -->
+    <div class="mobile-sidebar" id="mobileSidebar">
+        <div class="sidebar-top flex items-center justify-between px-6 py-4">
+            <div class="flex items-center">
+                <img src="/images/icon.png" alt="UPIExpress" class="w-8 h-8">
+                <span class="sidebar-text font-bold text-xl mr-[2.2px] text-gray-800">UPI</span>
+                <span class="sidebar-text font-family text-xl text-gray-700">Express</span>
+            </div>
+
+            <button class="mobile-sidebar-close text-gray-400 hover:text-gray-700" id="mobileSidebarClose">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Menu Content -->
+        <div class="menu-content-wrap mt-3">
+            <div class="menu-group">
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item " href="/user/dashboard">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-layout-2"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <rect x="4" y="4" width="6" height="5" rx="2"></rect>
+                                        <rect x="4" y="13" width="6" height="7" rx="2"></rect>
+                                        <rect x="14" y="4" width="6" height="7" rx="2"></rect>
+                                        <rect x="14" y="15" width="6" height="5" rx="2"></rect>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item active" href="/user/merchant/setup_upi">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-building-store"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <line x1="3" y1="21" x2="21" y2="21"></line>
+                                        <path
+                                            d="M3 7v1a3 3 0 0 0 6 0v-1m0 1a3 3 0 0 0 6 0v-1m0 1a3 3 0 0 0 6 0v-1h-18l2 -4h14l2 4">
+                                        </path>
+                                        <line x1="5" y1="21" x2="5" y2="10.85"></line>
+                                        <line x1="19" y1="21" x2="19" y2="10.85"></line>
+                                        <path d="M9 21v-4a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v4"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Connect Merchant</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/merchant/multi_merchant">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icons-tabler-outline icon-tabler-buildings"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M4 21v-15c0 -1 1 -2 2 -2h5c1 0 2 1 2 2v15"></path>
+                                        <path d="M16 8h2c1 0 2 1 2 2v11"></path>
+                                        <path d="M3 21h18"></path>
+                                        <path d="M10 12v0"></path>
+                                        <path d="M10 16v0"></path>
+                                        <path d="M10 8v0"></path>
+                                        <path d="M7 12v0"></path>
+                                        <path d="M7 16v0"></path>
+                                        <path d="M7 8v0"></path>
+                                        <path d="M17 12v0"></path>
+                                        <path d="M17 16v0"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Multi Merchant</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-gap"></div>
+
+            <div class="menu-group">
+                <div class="nav-header"><span>Reports</span></div>
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/txn_report">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-arrow-autofit-height"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M12 20h-6a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h6"></path>
+                                        <path d="M18 14v7"></path>
+                                        <path d="M18 3v7"></path>
+                                        <path d="M15 18l3 3l3 -3"></path>
+                                        <path d="M15 6l3 -3l3 3"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Transaction</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-gap"></div>
+
+            <div class="menu-group">
+                <div class="nav-header"><span>Plans</span></div>
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/payment/plan_list">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-shopping-cart"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <circle cx="6" cy="19" r="2"></circle>
+                                        <circle cx="17" cy="19" r="2"></circle>
+                                        <path d="M17 17h-11v-14h-2"></path>
+                                        <path d="M6 5l14 1l-1 7h-13"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Buy Plan</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/active_subs">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-toggle-right"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <circle cx="16" cy="12" r="2"></circle>
+                                        <rect x="2" y="6" width="20" height="12" rx="6"></rect>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Active Subscription</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/payment_report">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-file-invoice"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                                        <path
+                                            d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z">
+                                        </path>
+                                        <line x1="9" y1="7" x2="10" y2="7"></line>
+                                        <line x1="9" y1="13" x2="15" y2="13"></line>
+                                        <line x1="13" y1="17" x2="15" y2="17"></line>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Payment Report</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-gap"></div>
+
+            <div class="menu-group">
+                <div class="nav-header"><span>Settings</span></div>
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/settings/payment_settings">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-settings"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path
+                                            d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z">
+                                        </path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Payment Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-gap"></div>
+
+            <div class="menu-group">
+                <div class="nav-header"><span>API & Docs</span></div>
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/api_credentials">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-terminal-2"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M8 9l3 3l-3 3"></path>
+                                        <line x1="13" y1="15" x2="16" y2="15"></line>
+                                        <rect x="3" y="4" width="18" height="16" rx="2"></rect>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">API Keys & Webhooks</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/doc">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-file-code-2"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M10 12h-1v5h1"></path>
+                                        <path d="M14 12h1v5h-1"></path>
+                                        <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                                        <path
+                                            d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z">
+                                        </path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">API Documentation</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/plugins">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-plug" xmlns="http://www.w3.org/2000/svg"
+                                        width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+                                        stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M7 7h10v6a3 3 0 0 1 -3 3h-4a3 3 0 0 1 -3 -3v-6"></path>
+                                        <line x1="9" y1="3" x2="9" y2="7"></line>
+                                        <line x1="15" y1="3" x2="15" y2="7"></line>
+                                        <path d="M12 16v2a2 2 0 0 0 2 2h3"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Plugins</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Desktop Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-top flex items-center justify-between px-6 py-4">
+            <div class="flex items-center">
+                <img src="/images/icon.png" alt="UPIExpress" class="w-8 h-8">
+                <span class="sidebar-text font-bold text-xl   mr-[2.2px] text-gray-800">UPI</span>
+                <span class="sidebar-text font-family text-xl text-gray-700">Express</span>
+            </div>
+            <button class="sidebar-toggle flex items-center justify-center text-gray-400 hover:text-gray-700"
+                id="toggleSidebar">
+                <span class="icon flex items-center justify-center">
+                    <span class="svg-icon fs-5 toggle-icon flex items-center justify-center">
+                        <svg class="icon icon-tabler icon-tabler-arrow-bar-to-left" xmlns="http://www.w3.org/2000/svg"
+                            width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <line x1="10" y1="12" x2="20" y2="12"></line>
+                            <line x1="10" y1="12" x2="14" y2="16"></line>
+                            <line x1="10" y1="12" x2="14" y2="8"></line>
+                            <line x1="4" y1="4" x2="4" y2="20"></line>
+                        </svg>
+                    </span>
+                </span>
+            </button>
+        </div>
+
+
+        <!-- Menu Content -->
+        <div class="menu-content-wrap mt-3">
+            <div class="menu-group">
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item " href="/user/dashboard">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-layout-2"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <rect x="4" y="4" width="6" height="5" rx="2"></rect>
+                                        <rect x="4" y="13" width="6" height="7" rx="2"></rect>
+                                        <rect x="14" y="4" width="6" height="7" rx="2"></rect>
+                                        <rect x="14" y="15" width="6" height="5" rx="2"></rect>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item active" href="/user/merchant/setup_upi">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-building-store"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <line x1="3" y1="21" x2="21" y2="21"></line>
+                                        <path
+                                            d="M3 7v1a3 3 0 0 0 6 0v-1m0 1a3 3 0 0 0 6 0v-1m0 1a3 3 0 0 0 6 0v-1h-18l2 -4h14l2 4">
+                                        </path>
+                                        <line x1="5" y1="21" x2="5" y2="10.85"></line>
+                                        <line x1="19" y1="21" x2="19" y2="10.85"></line>
+                                        <path d="M9 21v-4a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v4"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Connect Merchant</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/merchant/multi_merchant">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icons-tabler-outline icon-tabler-buildings"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M4 21v-15c0 -1 1 -2 2 -2h5c1 0 2 1 2 2v15"></path>
+                                        <path d="M16 8h2c1 0 2 1 2 2v11"></path>
+                                        <path d="M3 21h18"></path>
+                                        <path d="M10 12v0"></path>
+                                        <path d="M10 16v0"></path>
+                                        <path d="M10 8v0"></path>
+                                        <path d="M7 12v0"></path>
+                                        <path d="M7 16v0"></path>
+                                        <path d="M7 8v0"></path>
+                                        <path d="M17 12v0"></path>
+                                        <path d="M17 16v0"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Multi Merchant</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-gap"></div>
+
+            <div class="menu-group">
+                <div class="nav-header"><span>Reports</span></div>
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/txn_report">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-arrow-autofit-height"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M12 20h-6a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h6"></path>
+                                        <path d="M18 14v7"></path>
+                                        <path d="M18 3v7"></path>
+                                        <path d="M15 18l3 3l3 -3"></path>
+                                        <path d="M15 6l3 -3l3 3"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Transaction</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-gap"></div>
+
+            <div class="menu-group">
+                <div class="nav-header"><span>Plans</span></div>
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/payment/plan_list">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-shopping-cart"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <circle cx="6" cy="19" r="2"></circle>
+                                        <circle cx="17" cy="19" r="2"></circle>
+                                        <path d="M17 17h-11v-14h-2"></path>
+                                        <path d="M6 5l14 1l-1 7h-13"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Buy Plan</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/active_subs">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-toggle-right"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <circle cx="16" cy="12" r="2"></circle>
+                                        <rect x="2" y="6" width="20" height="12" rx="6"></rect>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Active Subscription</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/payment_report">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-file-invoice"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                                        <path
+                                            d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z">
+                                        </path>
+                                        <line x1="9" y1="7" x2="10" y2="7"></line>
+                                        <line x1="9" y1="13" x2="15" y2="13"></line>
+                                        <line x1="13" y1="17" x2="15" y2="17"></line>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Payment Report</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-gap"></div>
+
+            <div class="menu-group">
+                <div class="nav-header"><span>Settings</span></div>
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/settings/payment_settings">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-settings"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path
+                                            d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z">
+                                        </path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Payment Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-gap"></div>
+
+            <div class="menu-group">
+                <div class="nav-header"><span>API & Docs</span></div>
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/api_credentials">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-terminal-2"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M8 9l3 3l-3 3"></path>
+                                        <line x1="13" y1="15" x2="16" y2="15"></line>
+                                        <rect x="3" y="4" width="18" height="16" rx="2"></rect>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">API Keys & Webhooks</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/doc">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-file-code-2"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M10 12h-1v5h1"></path>
+                                        <path d="M14 12h1v5h-1"></path>
+                                        <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                                        <path
+                                            d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z">
+                                        </path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">API Documentation</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/plugins">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-plug" xmlns="http://www.w3.org/2000/svg"
+                                        width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+                                        stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M7 7h10v6a3 3 0 0 1 -3 3h-4a3 3 0 0 1 -3 -3v-6"></path>
+                                        <line x1="9" y1="3" x2="9" y2="7"></line>
+                                        <line x1="15" y1="3" x2="15" y2="7"></line>
+                                        <path d="M12 16v2a2 2 0 0 0 2 2h3"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Plugins</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- HEADER -->
+        <div class="content-header">
+            <div class="header-container">
+                <!-- Left Section -->
+                <div class="header-left">
+                    <!-- Mobile Hamburger -->
+                    <button class="mobile-hamburger" id="mobileHamburger">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
+
+                    <!-- Desktop Brand -->
+                    <div class="header-brand">
+                        <span class="brand-text">Dynamic QR</span>
+                        <span class="brand-subtext">Solutions</span>
+                    </div>
+                </div>
+
+                <!-- Right Section -->
+                <div class="header-right">
+                    <!-- Desktop Menu Items -->
+                    <div class="header-item" onclick="window.location.href='/user/how_its_works'">
+                        <div class="header-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="feather-settings animate-spin">
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path
+                                    d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l-.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                                </path>
+                            </svg>
+                        </div>
+                        <span class="header-text">How Its Work</span>
+                    </div>
+
+                    <div class="header-item"
+                        onclick="window.location.href='https://api.whatsapp.com/send/?phone=918509517215'">
+                        <div class="header-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path
+                                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                                </path>
+                            </svg>
+                        </div>
+                        <span class="header-text">Customer Care</span>
+                    </div>
+
+                    <div class="header-item" onclick="window.location.href='/user/wallet'">
+                        <div class="header-icon">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                <path
+                                    d="M21,6H5c-.859,0-1.672-.372-2.235-.999,.55-.614,1.349-1.001,2.235-1.001H23c.553,0,1-.448,1-1s-.447-1-1-1H5C2.239,2,0,4.239,0,7v10c0,2.761,2.239,5,5,5H21c1.657,0,3-1.343,3-3V9c0-1.657-1.343-3-3-3Zm1,13c0,.551-.448,1-1,1H5c-1.654,0-3-1.346-3-3V6.998c.854,.639,1.904,1.002,3,1.002H21c.552,0,1,.449,1,1v10Zm-2-5c0,.552-.448,1-1,1s-1-.448-1-1,.448-1,1-1,1,.448,1,1Z" />
+                            </svg>
+                        </div>
+                        <span class="header-text">My Wallet</span>
+                    </div>
+
+                    <!-- Profile Dropdown - Always visible -->
+                    <div class="profile-dropdown">
+                        <button class="profile-btn" id="profileDropdown">
+                            <div class="avatar">
+                                <span class="avatar-text">
+                                    <%= user.user_iconLetter %>
+                                </span>
+                            </div>
+                        </button>
+
+                        <div class="dropdown-menu" id="dropdownMenu">
+                            <div class="dropdown-header">
+                                <div class="user-info">
+                                    <div class="avatar">
+                                        <span class="avatar-text">
+                                            <%= user.user_iconLetter %>
+                                        </span>
+                                    </div>
+                                    <div class="user-details">
+                                        <div class="user-name">
+                                            <%= user.name %>
+                                        </div>
+                                        <div class="user-email">
+                                            <%= user.email %>
+                                        </div>
+                                        <a href="/user/logout" class="logout-link">Sign Out</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <a href="/user/profile" class="dropdown-item">Profile</a>
+                            <a href="https://api.whatsapp.com/send/?phone=918509517215" class="dropdown-item">Help &
+                                Support</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 1 Content -->
+        <div class="page-content  mx-[5px] lg:mx-[84px] min-h-[calc(100vh-180px)]" id="page1">
+            <!-- Welcome Section -->
+            <h1 class="text-2xl font-bold mb-1 lg:pt-[28px]">Connect UPI Merchant</h1>
+            <p class="text-gray-700">Connect your Merchant App to the UPIExpress and accept payments online.</p>
+            <div class="bg-white border border-gray-200 rounded-xl p-6 mt-10 mb-10">
+
+                <div class="flex flex-col lg:flex-row items-start lg:items-start justify-between">
+
+                    <!-- LEFT SECTION -->
+                    <div class="max-w-xl">
+                        <h2 class="text-3xl sm:text-4xl font-semibold text-gray-900 leading-snug">
+                            You are one step away<br class="hidden sm:block">
+                            from accepting the payment via QR
+                        </h2>
+
+                        <p class="text-gray-600 mt-4 text-sm sm:text-base">
+                            Available Merchant: PhonePe Business, HDFC Bank SmartHub Vyapar, YONO SBI Merchant,
+                            Paytm for Business, BharatPe for Merchants, QuintusPay Business
+                        </p>
+
+                        <!-- Button -->
+                        <a onclick="openModal()"
+                            class="inline-flex items-center bg-[var(--primary)] text-white px-5 py-2 rounded-xl mt-6 hover:bg-[var(--primary-dark)] transition whitespace-nowrap">
+                            Select Merchant
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="ml-2 feather feather-arrow-right flex-shrink-0">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </a>
+                    </div>
+
+                    <!-- RIGHT IMAGE -->
+                    <div class="mt-8 lg:mt-0 lg:ml-6">
+                        <img src="/images/step2.png" alt="QR Merchant Reference"
+                            class="w-full max-w-sm h-80 sm:h-80 object-contain rounded-xl border border-gray-200">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <h1 class="text-2xl font-bold mb-1  lg:pt-[28px]">How UPIExpress - Merchant Connect Work!</h1>
+            <p class="text-gray-700">By following the below steps, you can get a better understanding of the functioning
+                of the UPIExpress service.</p>
+
+            <div class="bg-white border border-gray-200 rounded-xl p-6 mt-10 mb-10">
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+
+                    <!-- Step 1 -->
+                    <div>
+                        <div class="border border-gray-200 rounded-xl p-4 flex justify-center">
+                            <img src="/images/setup_upi/4.png" class="h-70 object-contain" alt="Step 1">
+                        </div>
+
+                        <h3 class="font-semibold text-gray-900 mt-4">Step 1</h3>
+                        <p class="text-gray-600 text-sm mt-2">
+                            You must have a UPI Merchant account that is supported by UPIExpress to use our service.
+                            Create new merchant account if you don't have one.
+                        </p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div>
+                        <div class="border border-gray-200 rounded-xl p-4 flex justify-center">
+                            <img src="/images/setup_upi/3.png" class="h-70 object-contain" alt="Step 2">
+                        </div>
+
+                        <h3 class="font-semibold text-gray-900 mt-4">Step 2</h3>
+                        <p class="text-gray-600 text-sm mt-2">
+                            <a href="/user/merchant/setup_upi" class="text-[var(--primary)] underline">Connect your
+                                preferred UPI
+                                Merchant
+                                account</a>
+                            with UPIExpress, and
+                            <a href="/user/api_doc" class="text-[var(--primary)] underline">integrate our API</a>
+                            with your portal for seamless integration of our UPIExpress service.
+                        </p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div>
+                        <div class="border border-gray-200 rounded-xl p-4 flex justify-center">
+                            <img src="/images/setup_upi/2.png" class="h-70 object-contain" alt="Step 3">
+                        </div>
+
+                        <h3 class="font-semibold text-gray-900 mt-4">Step 3</h3>
+                        <p class="text-gray-600 text-sm mt-2">
+                            We will create the QR code for your merchant account on your behalf as part of our service,
+                            allowing you to receive UPI payments effortlessly.
+                        </p>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div>
+                        <div class="border border-gray-200 rounded-xl p-4 flex justify-center">
+                            <img src="/images/setup_upi/1.png" class="h-70 object-contain" alt="Step 4">
+                        </div>
+
+                        <h3 class="font-semibold text-gray-900 mt-4">Step 4</h3>
+                        <p class="text-gray-600 text-sm mt-2">
+                            Our QR code enables easy and secure payment acceptance from any UPI app, with automatic
+                            transaction confirmation via
+                            <a href="/user/api" class="text-[var(--primary)] underline">Webhook</a>.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+        <!-- Dynamic Content Container -->
+        <div id="dynamic-content"></div>
+
+
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <p class="text-gray-600">&copy; 2025 UPI Express. All rights reserved.</p>
+                </div>
+                <div class="footer-right">
+
+                    <a href="/terms" class="footer-link text-[var(--primary)]">Terms of Service</a>
+                    <a href="/privacy" class="footer-link text-[var(--primary)]">Privacy Policy</a>
+                    <a href="/contact-us" class="footer-link text-[var(--primary)]">Contact Us</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal Background -->
+    <div id="warn_modal" class="fixed inset-0 bg-black/40 flex items-center justify-center z-[9999] hidden">
+
+        <!-- Modal Container -->
+        <div
+            class="bg-white w-full max-w-[500px] rounded-xl border border-gray-200 shadow-lg mx-4 max-h-[90vh] flex flex-col">
+
+            <!-- Header -->
+            <div class="flex items-center justify-between p-4 border-b flex-shrink-0">
+                <h2 class="text-lg font-semibold">Terms and Conditions</h2>
+
+                <div class="flex items-center gap-3">
+
+                    <!-- Tabs -->
+                    <div class="flex border-b border-gray-200 tab-buttons">
+                        <button
+                            class="px-4 py-2 text-sm font-medium border-b-2 border-[var(--primary)] text-[var(--primary)]"
+                            onclick="toggleTab('english_info')">
+                            English
+                        </button>
+                        <button class="px-4 py-2 text-sm font-medium text-gray-600 hover:text-black"
+                            onclick="toggleTab('hindi_info')">
+                            Hindi
+                        </button>
+                    </div>
+
+                    <!-- Close Button -->
+                    <button onclick="closeModal()"
+                        class="text-gray-500 hover:text-black text-2xl leading-none">&times;</button>
+                </div>
+            </div>
+
+            <!-- Body - THIS SECTION SCROLLS -->
+            <div class="px-6 py-4 overflow-y-auto flex-grow">
+
+                <!-- English Tab -->
+                <div id="english_info" class="tab-pane block">
+
+                    <!-- 1 -->
+                    <div class="flex gap-4 mb-4">
+                        <div class="w-12 flex-shrink-0">
+                            <svg class="w-full h-12" viewBox="0 0 800 800" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M216.665 666.667H416.665V133.333H216.665C142.999 133.333 83.332 193 83.332 266.667V533.333C83.332 607 142.999 666.667 216.665 666.667Z"
+                                    fill="#848e9c"></path>
+                                <path
+                                    d="M600 666.667H500V133.333H600C673.667 133.333 733.333 193 733.333 266.667V533.333C733.333 607 673.667 666.667 600 666.667Z"
+                                    fill="#848e9c"></path>
+                                <path
+                                    d="M500 733.333C486.333 733.333 475 722 475 708.333V91.6665C475 77.9998 486.333 66.6665 500 66.6665C513.667 66.6665 525 77.9998 525 91.6665V708.333C525 722 513.667 733.333 500 733.333Z"
+                                    fill="#2b3139"></path>
+                                <path
+                                    d="M268.591 267H230.409C208.645 267 197 278.455 197 300.409V338.591C197 360.545 208.645 372 230.409 372H268.591C290.355 372 302 360.545 302 338.591V300.409C302 278.455 290.355 267 268.591 267Z"
+                                    fill="#2b3139"></path>
+                                <path
+                                    d="M268.591 428H230.409C208.645 428 197 439.455 197 461.409V499.591C197 521.545 208.645 533 230.409 533H268.591C290.355 533 302 521.545 302 499.591V461.409C302 439.455 290.355 428 268.591 428Z"
+                                    fill="#2b3139"></path>
+                            </svg>
+                        </div>
+                        <p class="text-gray-600 text-sm">
+                            We generate QR codes on your behalf so that you can accept payments with ease.
+                        </p>
+                    </div>
+                    <hr class="border-dashed mb-4">
+
+                    <!-- 2 -->
+                    <div class="flex gap-4 mb-4">
+                        <div class="w-12 flex-shrink-0">
+                            <svg class="w-full h-12" viewBox="0 0 800 800" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M733.335 258.997V299.997H66.668V251.33C66.668 174.997 128.668 113.33 205.001 113.33H533.335V198.997C533.335 241.33 558.668 266.663 601.001 266.663H699.001C712.335 266.663 723.668 264.33 733.335 258.997Z"
+                                    fill="#848e9c"></path>
+                                <path
+                                    d="M66.668 300V548.667C66.668 625 128.668 686.667 205.001 686.667H595.001C671.335 686.667 733.335 625 733.335 548.667V300H66.668ZM266.668 575H200.001C186.335 575 175.001 563.667 175.001 550C175.001 536.333 186.335 525 200.001 525H266.668C280.335 525 291.668 536.333 291.668 550C291.668 563.667 280.335 575 266.668 575ZM483.335 575H350.001C336.335 575 325.001 563.667 325.001 550C325.001 536.333 336.335 525 350.001 525H483.335C497.001 525 508.335 536.333 508.335 550C508.335 563.667 497.001 575 483.335 575Z"
+                                    fill="#2b3139"></path>
+                                <path
+                                    d="M698.999 33.3335H600.999C558.665 33.3335 533.332 58.6668 533.332 101V199C533.332 241.333 558.665 266.667 600.999 266.667H698.999C741.332 266.667 766.665 241.333 766.665 199V101C766.665 58.6668 741.332 33.3335 698.999 33.3335ZM711.332 183C714.999 187.333 716.999 192 716.999 197.667C716.999 202.333 714.999 207.667 711.332 211.333C703.665 219 690.665 219 682.999 211.333L649.999 178.333L617.332 211.667C609.665 219.333 596.665 219.333 588.665 211.333C580.999 203.667 580.999 190.667 588.665 183L621.999 150.333L588.999 117.333C581.332 109.667 580.999 96.6668 588.665 88.6668C596.332 80.6668 609.332 81.0002 617.332 89.0002L649.999 122L683.332 88.6668C690.999 81.0002 703.999 81.0002 711.665 88.6668C715.332 93.0002 716.999 98.0002 717.332 103.333C717.332 108 715.332 113.333 711.999 117.333L678.665 150.667L711.332 183Z"
+                                    fill="#2b3139"></path>
+                            </svg>
+                        </div>
+                        <p class="text-gray-600 text-sm">
+                            We do not provide payment gateway services, and we are not involved in the payment
+                            process.
+                        </p>
+                    </div>
+                    <hr class="border-dashed mb-4">
+
+                    <!-- 3 -->
+                    <div class="flex gap-4 mb-4">
+                        <div class="w-12 flex-shrink-0">
+                            <svg class="w-full h-12" viewBox="0 0 800 800" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path opacity="0.8"
+                                    d="M712.363 379.67V579.337C712.363 671.337 637.697 746.004 545.697 746.004H254.362C162.362 746.004 87.6953 671.337 87.6953 579.337V382.004C113.029 409.337 149.029 425.004 188.029 425.004C230.029 425.004 270.362 404.004 295.695 370.337C318.362 404.004 357.03 425.004 400.03 425.004C442.697 425.004 480.697 405.004 503.697 371.67C529.363 404.67 569.03 425.004 610.363 425.004C650.697 425.004 687.363 408.67 712.363 379.67Z"
+                                    fill="#848e9c"></path>
+                                <path
+                                    d="M745.328 275.667L735.661 183.333C721.661 82.6665 675.995 41.6665 578.328 41.6665H450.328L474.995 291.666C475.328 295 475.661 298.666 475.661 305C477.661 322.333 482.995 338.333 490.995 352.666C514.995 396.666 561.661 425 610.328 425C654.661 425 694.661 405.333 719.661 370.666C739.661 344 748.661 310.333 745.328 275.667Z"
+                                    fill="#848e9c"></path>
+                                <path
+                                    d="M219.655 41.6665C121.655 41.6665 76.3217 82.6665 61.9883 184.333L52.9883 276C49.655 311.666 59.3217 346.333 80.3217 373.333C105.655 406.333 144.655 425 187.988 425C236.655 425 283.322 396.667 306.988 353.333C315.655 338.333 321.322 321 322.988 303L348.99 41.9998H219.655V41.6665Z"
+                                    fill="#848e9c"></path>
+                                <path
+                                    d="M378.305 555.333C335.971 559.667 303.973 595.667 303.973 638.333V746H495.638V650C495.971 580.333 454.971 547.333 378.305 555.333Z"
+                                    fill="#2b3139"></path>
+                                <path
+                                    d="M499.647 41.6665H299.645L274.979 287C272.979 309.666 276.312 331 284.645 350.333C303.979 395.666 349.313 425 399.98 425C451.313 425 495.647 396.333 515.647 350.667C521.647 336.333 525.313 319.666 525.647 302.666V296.333L499.647 41.6665Z"
+                                    fill="#2b3139"></path>
+                            </svg>
+                        </div>
+                        <p class="text-gray-600 text-sm">
+                            The payment made by the user through the QR code will be received in your merchant
+                            account.
+                        </p>
+                    </div>
+                    <hr class="border-dashed mb-4">
+
+                    <!-- 4 -->
+                    <div class="flex gap-4 mb-4">
+                        <div class="w-12 flex-shrink-0">
+                            <svg class="w-full h-12" viewBox="0 0 800 800" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M733.335 300V500C733.335 616.667 666.668 666.667 566.668 666.667H324.668C330.334 651 333.335 634.333 333.335 616.667C333.335 534 266.335 466.667 183.335 466.667C136.335 466.667 94.0013 488.667 66.668 522.667V300C66.668 183.333 133.335 133.333 233.335 133.333H566.668C666.668 133.333 733.335 183.333 733.335 300Z"
+                                    fill="#848e9c"></path>
+                                <path
+                                    d="M400.001 483.333C446.025 483.333 483.335 446.023 483.335 400C483.335 353.977 446.025 316.667 400.001 316.667C353.978 316.667 316.668 353.977 316.668 400C316.668 446.023 353.978 483.333 400.001 483.333Z"
+                                    fill="#2b3139"></path>
+                                <path
+                                    d="M616.668 491.667C603.001 491.667 591.668 480.333 591.668 466.667V333.333C591.668 319.667 603.001 308.333 616.668 308.333C630.335 308.333 641.668 319.667 641.668 333.333V466.667C641.668 480.333 630.335 491.667 616.668 491.667Z"
+                                    fill="#2b3139"></path>
+                                <path
+                                    d="M183.332 466.667C136.332 466.667 93.9987 488.667 66.6654 522.667C45.6654 548.333 33.332 581 33.332 616.667C33.332 699.666 100.665 766.667 183.332 766.667C248.665 766.667 304.332 725 324.665 666.667C330.332 651 333.332 634.333 333.332 616.667C333.332 534 266.332 466.667 183.332 466.667ZM271.998 682C270.998 684 269.665 686.333 267.998 688L240.998 714.667C237.665 718.333 232.998 720 228.331 720C223.331 720 218.666 718.333 215.333 714.667C209.333 709 208.665 700 212.332 693.333H136.998C112.998 693.333 93.3317 673.666 93.3317 649.333V645.667C93.3317 635.333 101.665 627.333 111.665 627.333C121.665 627.333 129.999 635.333 129.999 645.667V649.333C129.999 653.333 132.998 656.667 136.998 656.667H212.332C208.665 649.667 209.333 641 215.333 635C222.333 628 233.998 628 240.998 635L267.998 662C269.665 663.667 270.998 665.667 271.998 668C273.664 672.333 273.664 677.333 271.998 682ZM273.332 587.666C273.332 598 264.999 606 254.999 606C244.999 606 236.665 598 236.665 587.666V584C236.665 580 233.666 576.666 229.666 576.666H154.332C157.999 583.666 157.331 592.333 151.331 598.333C147.998 601.667 143.333 603.667 138.333 603.667C133.666 603.667 128.999 601.667 125.666 598.333L98.666 571.333C96.9994 569.666 95.6664 567.666 94.6664 565.333C92.9997 561 92.9997 556 94.6664 551.333C95.6664 549.333 96.9994 547 98.666 545.333L125.666 518.667C132.666 511.333 144.331 511.333 151.331 518.667C157.331 524.333 157.999 533.333 154.332 540H229.666C253.666 540 273.332 559.667 273.332 584V587.666Z"
+                                    fill="#2b3139"></path>
+                            </svg>
+                        </div>
+                        <p class="text-gray-600 text-sm">
+                            We are not liable for any fraudulent activity that takes place with your merchant
+                            account.
+                        </p>
+                    </div>
+                    <hr class="border-dashed mb-4">
+
+                    <!-- 5 -->
+                    <div class="flex gap-4">
+                        <div class="w-12 flex-shrink-0">
+                            <svg class="w-full h-12" viewBox="0 0 800 800" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M725.351 530.667L512.018 146.667C483.351 94.9998 443.684 66.6665 400.018 66.6665C356.351 66.6665 316.683 94.9998 288.017 146.667L74.6835 530.667C47.6835 579.667 44.6835 626.667 66.3502 663.667C88.0168 700.667 130.683 721 186.683 721H613.351C669.351 721 712.018 700.667 733.685 663.667C755.351 626.667 752.351 579.333 725.351 530.667Z"
+                                    fill="#848e9c"></path>
+                                <path
+                                    d="M400 491.667C386.333 491.667 375 480.333 375 466.667V300C375 286.333 386.333 275 400 275C413.667 275 425 286.333 425 300V466.667C425 480.333 413.667 491.667 400 491.667Z"
+                                    fill="#2b3139"></path>
+                                <path
+                                    d="M400.001 600.003C398.001 600.003 395.668 599.67 393.335 599.337C391.335 599.003 389.335 598.337 387.335 597.337C385.335 596.67 383.335 595.67 381.335 594.337C379.668 593.003 378.001 591.67 376.335 590.337C370.335 584.003 366.668 575.337 366.668 566.67C366.668 558.003 370.335 549.337 376.335 543.003C378.001 541.67 379.668 540.337 381.335 539.003C383.335 537.67 385.335 536.67 387.335 536.003C389.335 535.003 391.335 534.337 393.335 534.003C397.668 533.003 402.335 533.003 406.335 534.003C408.668 534.337 410.668 535.003 412.668 536.003C414.668 536.67 416.668 537.67 418.668 539.003C420.335 540.337 422.001 541.67 423.668 543.003C429.668 549.337 433.335 558.003 433.335 566.67C433.335 575.337 429.668 584.003 423.668 590.337C422.001 591.67 420.335 593.003 418.668 594.337C416.668 595.67 414.668 596.67 412.668 597.337C410.668 598.337 408.668 599.003 406.335 599.337C404.335 599.67 402.001 600.003 400.001 600.003Z"
+                                    fill="#2b3139"></path>
+                            </svg>
+                        </div>
+                        <p class="text-gray-600 text-sm">
+                            We are not responsible for the suspension of your merchant account for any reason.
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- Hindi Tab -->
+                <div id="hindi_info" class="tab-pane hidden">
+                    <!-- 1 -->
+                    <div class="flex gap-4 mb-4">
+                        <div class="w-12 flex-shrink-0">
+                            <svg class="w-full h-12" viewBox="0 0 800 800" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M216.665 666.667H416.665V133.333H216.665C142.999 133.333 83.332 193 83.332 266.667V533.333C83.332 607 142.999 666.667 216.665 666.667Z"
+                                    fill="#848e9c"></path>
+                                <path
+                                    d="M600 666.667H500V133.333H600C673.667 133.333 733.333 193 733.333 266.667V533.333C733.333 607 673.667 666.667 600 666.667Z"
+                                    fill="#848e9c"></path>
+                                <path
+                                    d="M500 733.333C486.333 733.333 475 722 475 708.333V91.6665C475 77.9998 486.333 66.6665 500 66.6665C513.667 66.6665 525 77.9998 525 91.6665V708.333C525 722 513.667 733.333 500 733.333Z"
+                                    fill="#2b3139"></path>
+                                <path
+                                    d="M268.591 267H230.409C208.645 267 197 278.455 197 300.409V338.591C197 360.545 208.645 372 230.409 372H268.591C290.355 372 302 360.545 302 338.591V300.409C302 278.455 290.355 267 268.591 267Z"
+                                    fill="#2b3139"></path>
+                                <path
+                                    d="M268.591 428H230.409C208.645 428 197 439.455 197 461.409V499.591C197 521.545 208.645 533 230.409 533H268.591C290.355 533 302 521.545 302 499.591V461.409C302 439.455 290.355 428 268.591 428Z"
+                                    fill="#2b3139"></path>
+                            </svg>
+                        </div>
+                        <p class="text-gray-600 text-sm">
+                            हम आपकी ओर से QR कोड जेनरेट करते हैं ताकि आप आसानी से भुगतान स्वीकार कर सकें।
+                        </p>
+                    </div>
+                    <hr class="border-dashed mb-4">
+
+                    <!-- 2 -->
+                    <div class="flex gap-4 mb-4">
+                        <div class="w-12 flex-shrink-0">
+                            <svg class="w-full h-12" viewBox="0 0 800 800" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M733.335 258.997V299.997H66.668V251.33C66.668 174.997 128.668 113.33 205.001 113.33H533.335V198.997C533.335 241.33 558.668 266.663 601.001 266.663H699.001C712.335 266.663 723.668 264.33 733.335 258.997Z"
+                                    fill="#848e9c"></path>
+                                <path
+                                    d="M66.668 300V548.667C66.668 625 128.668 686.667 205.001 686.667H595.001C671.335 686.667 733.335 625 733.335 548.667V300H66.668ZM266.668 575H200.001C186.335 575 175.001 563.667 175.001 550C175.001 536.333 186.335 525 200.001 525H266.668C280.335 525 291.668 536.333 291.668 550C291.668 563.667 280.335 575 266.668 575ZM483.335 575H350.001C336.335 575 325.001 563.667 325.001 550C325.001 536.333 336.335 525 350.001 525H483.335C497.001 525 508.335 536.333 508.335 550C508.335 563.667 497.001 575 483.335 575Z"
+                                    fill="#2b3139"></path>
+                                <path
+                                    d="M698.999 33.3335H600.999C558.665 33.3335 533.332 58.6668 533.332 101V199C533.332 241.333 558.665 266.667 600.999 266.667H698.999C741.332 266.667 766.665 241.333 766.665 199V101C766.665 58.6668 741.332 33.3335 698.999 33.3335ZM711.332 183C714.999 187.333 716.999 192 716.999 197.667C716.999 202.333 714.999 207.667 711.332 211.333C703.665 219 690.665 219 682.999 211.333L649.999 178.333L617.332 211.667C609.665 219.333 596.665 219.333 588.665 211.333C580.999 203.667 580.999 190.667 588.665 183L621.999 150.333L588.999 117.333C581.332 109.667 580.999 96.6668 588.665 88.6668C596.332 80.6668 609.332 81.0002 617.332 89.0002L649.999 122L683.332 88.6668C690.999 81.0002 703.999 81.0002 711.665 88.6668C715.332 93.0002 716.999 98.0002 717.332 103.333C717.332 108 715.332 113.333 711.999 117.333L678.665 150.667L711.332 183Z"
+                                    fill="#2b3139"></path>
+                            </svg>
+                        </div>
+                        <p class="text-gray-600 text-sm">
+                            हम भुगतान गेटवे सेवाएं प्रदान नहीं करते, और हम भुगतान प्रक्रिया में शामिल नहीं हैं।
+                        </p>
+
+                    </div>
+
+                    <hr class="border-dashed mb-4">
+
+
+                    <!-- 3 -->
+                    <div class="flex gap-4 mb-4">
+                        <div class="w-12 flex-shrink-0">
+                            <svg class="w-full h-12" viewBox="0 0 800 800" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path opacity="0.8"
+                                    d="M712.363 379.67V579.337C712.363 671.337 637.697 746.004 545.697 746.004H254.362C162.362 746.004 87.6953 671.337 87.6953 579.337V382.004C113.029 409.337 149.029 425.004 188.029 425.004C230.029 425.004 270.362 404.004 295.695 370.337C318.362 404.004 357.03 425.004 400.03 425.004C442.697 425.004 480.697 405.004 503.697 371.67C529.363 404.67 569.03 425.004 610.363 425.004C650.697 425.004 687.363 408.67 712.363 379.67Z"
+                                    fill="#848e9c"></path>
+                                <path
+                                    d="M745.328 275.667L735.661 183.333C721.661 82.6665 675.995 41.6665 578.328 41.6665H450.328L474.995 291.666C475.328 295 475.661 298.666 475.661 305C477.661 322.333 482.995 338.333 490.995 352.666C514.995 396.666 561.661 425 610.328 425C654.661 425 694.661 405.333 719.661 370.666C739.661 344 748.661 310.333 745.328 275.667Z"
+                                    fill="#848e9c"></path>
+                                <path
+                                    d="M219.655 41.6665C121.655 41.6665 76.3217 82.6665 61.9883 184.333L52.9883 276C49.655 311.666 59.3217 346.333 80.3217 373.333C105.655 406.333 144.655 425 187.988 425C236.655 425 283.322 396.667 306.988 353.333C315.655 338.333 321.322 321 322.988 303L348.99 41.9998H219.655V41.6665Z"
+                                    fill="#848e9c"></path>
+                                <path
+                                    d="M378.305 555.333C335.971 559.667 303.973 595.667 303.973 638.333V746H495.638V650C495.971 580.333 454.971 547.333 378.305 555.333Z"
+                                    fill="#2b3139"></path>
+                                <path
+                                    d="M499.647 41.6665H299.645L274.979 287C272.979 309.666 276.312 331 284.645 350.333C303.979 395.666 349.313 425 399.98 425C451.313 425 495.647 396.333 515.647 350.667C521.647 336.333 525.313 319.666 525.647 302.666V296.333L499.647 41.6665Z"
+                                    fill="#2b3139"></path>
+                            </svg>
+                        </div>
+                        <p class="text-gray-600 text-sm">
+                            QR कोड के माध्यम से उपयोगकर्ता द्वारा किया गया भुगतान आपके मर्चेंट खाते में प्राप्त
+                            होगा।
+                        </p>
+                    </div>
+                    <hr class="border-dashed mb-4">
+
+                    <!-- 4 -->
+                    <div class="flex gap-4 mb-4">
+                        <div class="w-12 flex-shrink-0">
+                            <svg class="w-full h-12" viewBox="0 0 800 800" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M733.335 300V500C733.335 616.667 666.668 666.667 566.668 666.667H324.668C330.334 651 333.335 634.333 333.335 616.667C333.335 534 266.335 466.667 183.335 466.667C136.335 466.667 94.0013 488.667 66.668 522.667V300C66.668 183.333 133.335 133.333 233.335 133.333H566.668C666.668 133.333 733.335 183.333 733.335 300Z"
+                                    fill="#848e9c"></path>
+                                <path
+                                    d="M400.001 483.333C446.025 483.333 483.335 446.023 483.335 400C483.335 353.977 446.025 316.667 400.001 316.667C353.978 316.667 316.668 353.977 316.668 400C316.668 446.023 353.978 483.333 400.001 483.333Z"
+                                    fill="#2b3139"></path>
+                                <path
+                                    d="M616.668 491.667C603.001 491.667 591.668 480.333 591.668 466.667V333.333C591.668 319.667 603.001 308.333 616.668 308.333C630.335 308.333 641.668 319.667 641.668 333.333V466.667C641.668 480.333 630.335 491.667 616.668 491.667Z"
+                                    fill="#2b3139"></path>
+                                <path
+                                    d="M183.332 466.667C136.332 466.667 93.9987 488.667 66.6654 522.667C45.6654 548.333 33.332 581 33.332 616.667C33.332 699.666 100.665 766.667 183.332 766.667C248.665 766.667 304.332 725 324.665 666.667C330.332 651 333.332 634.333 333.332 616.667C333.332 534 266.332 466.667 183.332 466.667ZM271.998 682C270.998 684 269.665 686.333 267.998 688L240.998 714.667C237.665 718.333 232.998 720 228.331 720C223.331 720 218.666 718.333 215.333 714.667C209.333 709 208.665 700 212.332 693.333H136.998C112.998 693.333 93.3317 673.666 93.3317 649.333V645.667C93.3317 635.333 101.665 627.333 111.665 627.333C121.665 627.333 129.999 635.333 129.999 645.667V649.333C129.999 653.333 132.998 656.667 136.998 656.667H212.332C208.665 649.667 209.333 641 215.333 635C222.333 628 233.998 628 240.998 635L267.998 662C269.665 663.667 270.998 665.667 271.998 668C273.664 672.333 273.664 677.333 271.998 682ZM273.332 587.666C273.332 598 264.999 606 254.999 606C244.999 606 236.665 598 236.665 587.666V584C236.665 580 233.666 576.666 229.666 576.666H154.332C157.999 583.666 157.331 592.333 151.331 598.333C147.998 601.667 143.333 603.667 138.333 603.667C133.666 603.667 128.999 601.667 125.666 598.333L98.666 571.333C96.9994 569.666 95.6664 567.666 94.6664 565.333C92.9997 561 92.9997 556 94.6664 551.333C95.6664 549.333 96.9994 547 98.666 545.333L125.666 518.667C132.666 511.333 144.331 511.333 151.331 518.667C157.331 524.333 157.999 533.333 154.332 540H229.666C253.666 540 273.332 559.667 273.332 584V587.666Z"
+                                    fill="#2b3139"></path>
+                            </svg>
+                        </div>
+                        <p class="text-gray-600 text-sm">
+                            हम आपके मर्चेंट खाते के साथ होने वाली किसी भी धोखाधड़ी गतिविधि के लिए जिम्मेदार नहीं
+                            हैं।
+                        </p>
+                    </div>
+                    <hr class="border-dashed mb-4">
+
+                    <!-- 5 -->
+                    <div class="flex gap-4">
+                        <div class="w-12 flex-shrink-0">
+                            <svg class="w-full h-12" viewBox="0 0 800 800" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M725.351 530.667L512.018 146.667C483.351 94.9998 443.684 66.6665 400.018 66.6665C356.351 66.6665 316.683 94.9998 288.017 146.667L74.6835 530.667C47.6835 579.667 44.6835 626.667 66.3502 663.667C88.0168 700.667 130.683 721 186.683 721H613.351C669.351 721 712.018 700.667 733.685 663.667C755.351 626.667 752.351 579.333 725.351 530.667Z"
+                                    fill="#848e9c"></path>
+                                <path
+                                    d="M400 491.667C386.333 491.667 375 480.333 375 466.667V300C375 286.333 386.333 275 400 275C413.667 275 425 286.333 425 300V466.667C425 480.333 413.667 491.667 400 491.667Z"
+                                    fill="#2b3139"></path>
+                                <path
+                                    d="M400.001 600.003C398.001 600.003 395.668 599.67 393.335 599.337C391.335 599.003 389.335 598.337 387.335 597.337C385.335 596.67 383.335 595.67 381.335 594.337C379.668 593.003 378.001 591.67 376.335 590.337C370.335 584.003 366.668 575.337 366.668 566.67C366.668 558.003 370.335 549.337 376.335 543.003C378.001 541.67 379.668 540.337 381.335 539.003C383.335 537.67 385.335 536.67 387.335 536.003C389.335 535.003 391.335 534.337 393.335 534.003C397.668 533.003 402.335 533.003 406.335 534.003C408.668 534.337 410.668 535.003 412.668 536.003C414.668 536.67 416.668 537.67 418.668 539.003C420.335 540.337 422.001 541.67 423.668 543.003C429.668 549.337 433.335 558.003 433.335 566.67C433.335 575.337 429.668 584.003 423.668 590.337C422.001 591.67 420.335 593.003 418.668 594.337C416.668 595.67 414.668 596.67 412.668 597.337C410.668 598.337 408.668 599.003 406.335 599.337C404.335 599.67 402.001 600.003 400.001 600.003Z"
+                                    fill="#2b3139"></path>
+                            </svg>
+                        </div>
+                        <p class="text-gray-600 text-sm">
+                            किसी भी कारण से आपके मर्चेंट खाते के निलंबन के लिए हम जिम्मेदार नहीं हैं।
+                        </p>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="mb-3 px-4">
+                <div class="form-check">
+                    <input
+                        class="form-check-input h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-[var(--primary-dark)] checked:border-[var(--primary-dark)] focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                        id="accept_warn_tc_btn" checked type="checkbox" name="accept_warn_tc_btn" required>
+                    <label class="form-check-label inline-block text-gray-800 text-xs cursor-pointer select-none"
+                        for="accept_warn_tc_btn">
+                        I have read and accept to the terms and conditions of UPIExpress service.
+                    </label>
+                </div>
+            </div>
+            <!-- Footer -->
+            <div class="p-4 border-t flex-shrink-0">
+
+                <button
+                    class="btn btn-primary text-white bg-[var(--primary)] hover:bg-[var(--primary-dark)] px-4 py-2 rounded-xl w-full"
+                    id="confirm_warn_btn" type="button" onclick="handleAgreement()">
+                    Agree and Continue
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="loading"
+        class="fixed inset-0 flex justify-center items-center hidden bg-white bg-opacity-75 z-[10999] min-h-screen">
+        <div class="three-body">
+            <div class="three-body__dot"></div>
+            <div class="three-body__dot"></div>
+            <div class="three-body__dot"></div>
+        </div>
+    </div>
+    <!-- Error Messages Toast bottom -->
+    <div id="errorMessages" role="alert" aria-live="assertive"
+        class="fixed bottom-6 left-1/2 transform -translate-x-1/2 flex items-center hidden z-[10999]">
+        <div
+            class="bg-red-500 text-white text-sm font-semibold py-2 px-4 rounded-lg shadow-md flex items-center space-x-3 max-w-md error-animate">
+            <p id="errorMessageText">Error message goes here</p>
+            <button id="errorClose" type="button" aria-label="Close" class="text-white opacity-90 hover:opacity-100">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Success Messages Toast bottom -->
+    <div id="successMessage" role="alert" aria-live="assertive"
+        class="fixed bottom-6 left-1/2 transform -translate-x-1/2 flex items-center hidden z-[10999]">
+        <div
+            class="bg-green-500 text-white text-sm font-semibold py-2 px-4 rounded-lg shadow-md flex items-center space-x-3 max-w-md error-animate">
+            <p id="successMessageText" class="truncate">Error message goes here</p>
+            <button id="successClose" type="button" aria-label="Close" class="text-white opacity-90 hover:opacity-100">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- OTP Popup -->
+    <div id="otpPopup" class="fixed inset-0 bg-black/40 flex items-center justify-center z-[10000] hidden">
+        <div class="bg-white w-full max-w-md rounded-xl border border-gray-200 shadow-lg mx-4">
+            <!-- Header -->
+            <div class="flex items-center justify-between p-4 border-b">
+                <h2 class="text-lg font-semibold">Enter OTP</h2>
+                <button onclick="closeOtpPopup()"
+                    class="text-gray-500 hover:text-black text-2xl leading-none">&times;</button>
+            </div>
+
+            <!-- Body -->
+            <div class="p-6">
+                <p class="text-gray-600 mb-4" id="otpMessage">
+                    <!-- Message will be dynamically set based on merchant -->
+                </p>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Enter OTP</label>
+                        <input type="text" id="otpInput" placeholder="Enter OTP"
+                            class="w-full border border-gray-300 rounded-xl px-3 py-2 text-gray-800 placeholder-gray-500 focus:outline-none focus:border-[var(--primary)]">
+                        <p id="otpError" class="text-red-500 text-xs mt-1 hidden">Please enter valid OTP</p>
+                    </div>
+
+                    <div class="flex items-center justify-between text-sm">
+                        <span id="otpTimer" class="text-gray-600">Resend OTP in 30s</span>
+                        <button id="resendOtpBtn"
+                            class="text-[var(--primary)] hover:text-[var(--primary-dark)] disabled:text-gray-400"
+                            disabled>
+                            Resend OTP
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="p-4 border-t flex gap-3">
+                <button onclick="closeOtpPopup()"
+                    class="flex-1 border border-gray-300 text-gray-700 font-semibold px-4 py-2 rounded-xl hover:bg-gray-50 transition-colors">
+                    Cancel
+                </button>
+                <button onclick="verifyOtp()"
+                    class="flex-1 bg-[var(--primary)] hover:bg-[var(--primary-dark)] text-white font-semibold px-4 py-2 rounded-xl transition-colors">
+                    Verify OTP
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Select Store Popup -->
+    <div id="selectStorePopup"
+        class="fixed inset-0 bg-black/40 flex items-center justify-center z-[10000] hidden overflow-y-auto py-8">
+        <div class="bg-white w-full max-w-md rounded-xl border border-gray-200 shadow-lg mx-4">
+            <!-- Header -->
+            <div class="flex items-center justify-between p-4 border-b">
+                <h2 class="text-lg font-semibold">Select Your Store</h2>
+                <button onclick="closeSelectStorePopup()"
+                    class="text-gray-500 hover:text-black text-2xl leading-none">&times;</button>
+            </div>
+
+            <!-- Body -->
+            <div class="p-6">
+                <p class="text-gray-600 mb-4">Please select a store to continue with UPI setup</p>
+                <div id="storesList" class="space-y-3">
+                    <!-- Stores will be dynamically inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- UPI ID Input Popup -->
+    <div id="upiIdPopup" class="fixed inset-0 bg-black/40 flex items-center justify-center z-[10000] hidden">
+        <div class="bg-white w-full max-w-md rounded-xl border border-gray-200 shadow-lg mx-4">
+            <!-- Header -->
+            <div class="flex items-center justify-between p-4 border-b">
+                <h2 class="text-lg font-semibold">Enter UPI ID</h2>
+                <button onclick="closeUpiIdPopup()"
+                    class="text-gray-500 hover:text-black text-2xl leading-none">&times;</button>
+            </div>
+
+            <!-- Body -->
+            <div class="p-6">
+                <p class="text-gray-600 mb-4">Please enter your UPI ID to complete the setup</p>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">UPI ID</label>
+                        <input type="text" id="upiIdInput" placeholder="username@freecharge"
+                            class="w-full border border-gray-300 rounded-xl px-3 py-2 text-gray-800 placeholder-gray-500 focus:outline-none focus:border-[var(--primary)]">
+                        <p id="upiIdError" class="text-red-500 text-xs mt-1 hidden">Please enter a valid FreeCharge UPI
+                            ID</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="p-4 border-t flex gap-3">
+                <button onclick="closeUpiIdPopup()"
+                    class="flex-1 border border-gray-300 text-gray-700 font-semibold px-4 py-2 rounded-xl hover:bg-gray-50 transition-colors">
+                    Cancel
+                </button>
+                <button onclick="submitUpiId()"
+                    class="flex-1 bg-[var(--primary)] hover:bg-[var(--primary-dark)] text-white font-semibold px-4 py-2 rounded-xl transition-colors">
+                    Save UPI ID
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Merchant Connect Success Popup -->
+    <div id="merchantConnectPopup" class="fixed inset-0 bg-black/40 flex items-center justify-center z-[10000] hidden">
+        <div class="bg-white w-full max-w-md rounded-xl border border-gray-200 shadow-lg mx-4">
+            <!-- Header -->
+            <div class="flex items-center justify-between p-4 border-b">
+                <h2 class="text-lg font-semibold">Merchant Connected</h2>
+                <button onclick="closeMerchantConnectPopup()"
+                    class="text-gray-500 hover:text-black text-2xl leading-none">&times;</button>
+            </div>
+
+            <!-- Body -->
+            <div class="p-6 text-center">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Successfully Connected!</h3>
+                <p class="text-gray-600 mb-4" id="merchantConnectMessage">Your merchant account has been successfully
+                    connected with UPIExpress.</p>
+
+                <div class="bg-green-50 border border-green-200 rounded-lg p-3 text-left">
+                    <p class="text-sm text-green-800">
+                        <span class="font-semibold">Note:</span> You can now start accepting payments through dynamic QR
+                        codes.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="p-4 border-t">
+                <button onclick="closeMerchantConnectPopup()"
+                    class="w-full bg-[var(--primary)] hover:bg-[var(--primary-dark)] text-white font-semibold px-4 py-2 rounded-xl transition-colors">
+                    Continue to Dashboard
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+
+        const sidebar = document.getElementById('sidebar');
+        const toggleBtn = document.getElementById('toggleSidebar');
+        const profileDropdown = document.getElementById('profileDropdown');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        const mobileHamburger = document.getElementById('mobileHamburger');
+        const mobileSidebar = document.getElementById('mobileSidebar');
+        const mobileSidebarClose = document.getElementById('mobileSidebarClose');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const page1 = document.getElementById('page1');
+
+
+
+        // Global variables for timer management
+        let currentMerchant = null;
+        let otpTimerInterval = null;
+
+        // OTP Popup Functions
+        function openOtpPopup(message) {
+            const otpPopup = document.getElementById('otpPopup');
+            const otpMessage = document.getElementById('otpMessage');
+
+            // Pehle existing timer clear karein
+            clearOtpTimer();
+
+
+            otpMessage.innerHTML = message;
+
+            otpPopup.classList.remove('hidden');
+            document.body.classList.add('modal-open');
+
+            // Start OTP timer
+            startOtpTimer();
+
+        }
+
+        function closeOtpPopup() {
+            const otpPopup = document.getElementById('otpPopup');
+            otpPopup.classList.add('hidden');
+            document.body.classList.remove('modal-open');
+            resetOtpForm();
+            clearOtpTimer(); // Timer clear karein
+        }
+
+        function verifyOtp() {
+            const otpInput = document.getElementById('otpInput');
+            const otpError = document.getElementById('otpError');
+
+
+            // Call API to verify OTP
+            verifyOtpWithAPI(otpInput.value);
+        }
+
+        async function verifyOtpWithAPI(otp) {
+            try {
+                showLoading();
+
+                const csrfToken = "<%= csrfToken %>";
+                const merchantId = window.appData.selectedMerchant;
+
+                // Collect form data
+                const form = document.querySelector('form');
+                const bodyData = {
+                    merchantId: merchantId,
+                    otp: otp
+                };
+
+                // Add form fields to body
+                if (form) {
+                    const formData = new FormData(form);
+                    for (let [key, value] of formData.entries()) {
+                        bodyData[key] = value;
+                    }
+                }
+
+                const response = await fetch('/api/user/merchant/upi/verify_otp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'CSRF-Token': csrfToken
+                    },
+                    body: JSON.stringify(bodyData)
+                });
+
+                const data = await response.json();
+                hideLoading();
+
+                if (data.success) {
+                    closeOtpPopup();
+
+                    // Store merchant_txnid and phone number for later use
+                    if (data.merchant_txnid) {
+                        window.merchantTxnId = data.merchant_txnid;
+                    }
+                    // Store phone number for default UPI ID
+                    if (bodyData.phone) {
+                        window.userPhoneNumber = bodyData.phone;
+                    }
+
+                    // Check merchant type and show appropriate popup
+                    if (merchantId === 'freecharge') {
+                        // For FreeCharge, show UPI ID input popup
+                        openUpiIdPopup();
+                    } else if (data.terminalInfo && typeof data.terminalInfo === 'object') {
+                        // For merchants with terminal info (HDFC, etc), show store selection
+                        window.terminalInfoData = data.terminalInfo;
+                        openSelectStorePopup(data.terminalInfo);
+                    } else {
+                        // No terminal info, show success popup
+                        openMerchantConnectPopup(currentMerchant.name);
+                    }
+                } else {
+                    const otpError = document.getElementById('otpError');
+                    otpError.textContent = data.message || 'Invalid OTP. Please try again.';
+                    otpError.classList.remove('hidden');
+                }
+            } catch (error) {
+                hideLoading();
+                console.error('OTP verification error:', error);
+                const otpError = document.getElementById('otpError');
+                otpError.textContent = error.message || 'Error verifying OTP. Please try again.';
+                otpError.classList.remove('hidden');
+            }
+        }
+
+        // Select Store Popup Functions
+        window.openSelectStorePopup = function openSelectStorePopup(terminalInfo) {
+            const popup = document.getElementById('selectStorePopup');
+            const storesList = document.getElementById('storesList');
+
+            // Clear previous stores
+            storesList.innerHTML = '';
+
+            // Handle different terminalInfo structures
+            let storesObject = terminalInfo;
+
+            // If terminalInfo is an array with one object, extract the object
+            if (Array.isArray(terminalInfo) && terminalInfo.length > 0) {
+                storesObject = terminalInfo[0];
+            }
+
+            // Convert storesObject to array and create store items
+            if (typeof storesObject === 'object' && storesObject !== null) {
+                let storesHTML = '';
+                Object.keys(storesObject).forEach((key, index) => {
+                    const store = storesObject[key];
+                    const storeHTML = `
+                        <div class="store-item border border-gray-200 rounded-lg p-4 hover:border-[var(--primary)] hover:bg-blue-50 cursor-pointer transition-all" data-store-id="${key}" data-mid="${store.mid || ''}" data-location="${store.location || store.city || ''}">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-1">${store.companyName || store.dba || 'Store'}</h3>
+                                    <p class="text-sm text-gray-600 mb-2">Terminal ID: <span class="font-medium">${store.mid || store.cid || 'N/A'}</span></p>
+                                    <p class="text-sm text-gray-600">Location: <span class="font-medium">${store.location || store.city || 'N/A'}</span></p>
+                                    ${store.address ? `<p class="text-xs text-gray-500 mt-1">${store.address}</p>` : ''}
+                                </div>
+                                <div class="flex-shrink-0 ml-4">
+                                    <input type="radio" name="store_selection" value="${key}" class="store-radio w-5 h-5 text-[var(--primary)] cursor-pointer">
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    storesHTML += storeHTML;
+                });
+
+                // Add all stores first
+                storesList.innerHTML = storesHTML;
+
+                // Add continue button
+                storesList.innerHTML += `
+                    <div class="mt-6 border-t pt-4">
+                        <button onclick="handleStoreSelection()" class="w-full bg-[var(--primary)] hover:bg-[var(--primary-dark)] text-white font-semibold px-4 py-3 rounded-xl transition-colors">
+                            Continue with Selected Store
+                        </button>
+                    </div>
+                `;
+
+                // Now add event listeners AFTER all HTML is added
+                document.querySelectorAll('.store-item').forEach(item => {
+                    const radio = item.querySelector('.store-radio');
+
+                    // Store item click - select the radio and update styling
+                    item.addEventListener('click', function (e) {
+                        // Remove active styling from all items
+                        document.querySelectorAll('.store-item').forEach(el => {
+                            el.classList.remove('border-[var(--primary)]', 'bg-blue-50');
+                            el.classList.add('border-gray-200');
+                        });
+
+                        // Check the radio
+                        radio.checked = true;
+
+                        // Add active styling to clicked item
+                        this.classList.remove('border-gray-200');
+                        this.classList.add('border-[var(--primary)]', 'bg-blue-50');
+                    });
+                });
+            }
+
+            popup.classList.remove('hidden');
+            document.body.classList.add('modal-open');
+        }
+
+        window.closeSelectStorePopup = function closeSelectStorePopup() {
+            const popup = document.getElementById('selectStorePopup');
+            popup.classList.add('hidden');
+            document.body.classList.remove('modal-open');
+        }
+
+        // UPI ID Popup Functions
+        function openUpiIdPopup() {
+            const popup = document.getElementById('upiIdPopup');
+            const upiIdInput = document.getElementById('upiIdInput');
+            const upiIdError = document.getElementById('upiIdError');
+
+            // Set default value with phone number + @freecharge
+            const userPhoneNumber = window.userPhoneNumber || '';
+            upiIdInput.value = userPhoneNumber ? `${userPhoneNumber}@freecharge` : '';
+            upiIdError.classList.add('hidden');
+
+            popup.classList.remove('hidden');
+            document.body.classList.add('modal-open');
+
+            // Select all text so user can easily replace if needed
+            upiIdInput.focus();
+            upiIdInput.select();
+        }
+
+        function closeUpiIdPopup() {
+            const popup = document.getElementById('upiIdPopup');
+            popup.classList.add('hidden');
+            document.body.classList.remove('modal-open');
+
+            const upiIdInput = document.getElementById('upiIdInput');
+            const upiIdError = document.getElementById('upiIdError');
+            upiIdInput.value = '';
+            upiIdError.classList.add('hidden');
+        }
+
+        async function submitUpiId() {
+            const upiIdInput = document.getElementById('upiIdInput');
+            const upiIdError = document.getElementById('upiIdError');
+            const upiId = upiIdInput.value.trim();
+
+            // Validate UPI ID format (example@freecharge)
+            const upiRegex = /^[a-zA-Z0-9._-]+@freecharge$/i;
+
+            if (!upiId || !upiRegex.test(upiId)) {
+                upiIdError.textContent = 'Please enter a valid FreeCharge UPI ID (example@freecharge)';
+                upiIdError.classList.remove('hidden');
+                return;
+            }
+
+            try {
+                showLoading();
+                closeUpiIdPopup();
+
+                const csrfToken = "<%= csrfToken %>";
+                const merchantId = window.appData.selectedMerchant;
+                const merchantTxnId = window.merchantTxnId || '';
+
+                const response = await fetch('/api/user/merchant/freecharge/save_upi_id', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'CSRF-Token': csrfToken
+                    },
+                    body: JSON.stringify({
+                        merchantId: merchantId,
+                        upiId: upiId,
+                        merchant_txnid: merchantTxnId
+                    })
+                });
+
+                const data = await response.json();
+                hideLoading();
+
+                if (data.success) {
+                    // Show success popup
+                    openMerchantConnectPopup(currentMerchant.name);
+                } else {
+                    upiIdError.textContent = data.message || 'Failed to save UPI ID. Please try again.';
+                    upiIdError.classList.remove('hidden');
+                    openUpiIdPopup();
+                }
+            } catch (error) {
+                hideLoading();
+                console.error('UPI ID submission error:', error);
+                upiIdError.textContent = error.message || 'Error saving UPI ID. Please try again.';
+                upiIdError.classList.remove('hidden');
+                openUpiIdPopup();
+            }
+        }
+
+        window.handleStoreSelection = async function handleStoreSelection() {
+            const selectedStore = document.querySelector('input[name="store_selection"]:checked');
+
+            if (!selectedStore) {
+
+                const errorMessages = document.getElementById('errorMessages');
+                const errorMessageText = document.getElementById('errorMessageText');
+                errorMessageText.textContent = 'Please select a store to continue';
+                errorMessages.classList.remove('hidden');
+                const toastBox = errorMessages.querySelector('.error-animate');
+                setTimeout(() => toastBox.classList.add('show'), 100);
+
+                setTimeout(() => {
+                    toastBox.classList.remove('show');
+                    setTimeout(() => errorMessages.classList.add('hidden'), 200);
+                }, 3000);
+                return;
+            }
+
+            const storeId = selectedStore.value;
+            const storeItem = document.querySelector(`.store-item[data-store-id="${storeId}"]`);
+            const mid = storeItem.getAttribute('data-mid');
+            const phoneNumber = window.userPhoneNumber || '';
+
+            try {
+                showLoading();
+                closeSelectStorePopup();
+
+                const csrfToken = "<%= csrfToken %>";
+                const merchantId = window.appData.selectedMerchant;
+
+                // Make API call with phone number and terminal id (mid)
+                const response = await fetch('/api/user/merchant/upi/select_store', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'CSRF-Token': csrfToken
+                    },
+                    body: JSON.stringify({
+                        merchantId: merchantId,
+                        storeId: storeId,
+                        terminalId: mid,
+                        merchant_txnid: window.merchantTxnId || ''
+                    })
+                });
+
+                const data = await response.json();
+                hideLoading();
+
+                if (data.success) {
+                    // Show success popup
+                    openMerchantConnectPopup(currentMerchant.name);
+                } else {
+                    throw new Error(data.message || 'Failed to select store');
+                }
+            } catch (error) {
+                hideLoading();
+
+                const errorMessages = document.getElementById('errorMessages');
+                const errorMessageText = document.getElementById('errorMessageText');
+                errorMessageText.textContent = error.message || 'Error. Please try again.';
+                errorMessages.classList.remove('hidden');
+                const toastBox = errorMessages.querySelector('.error-animate');
+                setTimeout(() => toastBox.classList.add('show'), 100);
+
+                setTimeout(() => {
+                    toastBox.classList.remove('show');
+                    setTimeout(() => errorMessages.classList.add('hidden'), 200);
+                }, 3000);
+                openSelectStorePopup(window.terminalInfoData);
+            }
+        }
+
+        // Merchant Connect Success Popup
+        window.openMerchantConnectPopup = function openMerchantConnectPopup(merchantName) {
+            const popup = document.getElementById('merchantConnectPopup');
+            const message = document.getElementById('merchantConnectMessage');
+
+            message.textContent = `Your ${merchantName} account has been successfully connected with UPIExpress.`;
+            popup.classList.remove('hidden');
+            document.body.classList.add('modal-open');
+        }
+
+        // ...existing code...
+        function closeMerchantConnectPopup() {
+            const popup = document.getElementById('merchantConnectPopup');
+            popup.classList.add('hidden');
+            document.body.classList.remove('modal-open');
+
+            // ---- NEW CODE START ----
+            // Return to the first page (page1) after closing the success popup
+            const page1 = document.getElementById('page1');
+            const page2 = document.getElementById('page2');
+            const page3 = document.getElementById('page3');
+
+            // Hide any other pages that might be visible
+            if (page2) page2.classList.add('hidden');
+            if (page3) page3.classList.add('hidden');
+
+            // Show page1
+            if (page1) page1.classList.remove('hidden');
+            // ---- NEW CODE END ----
+        }
+        // ...existing code...
+
+        function resendOtp() {
+            if (!currentMerchant) return;
+
+            // Call API to resend OTP
+            resendOtpWithAPI();
+        }
+
+        async function resendOtpWithAPI() {
+            try {
+                showLoading();
+
+                const csrfToken = "<%= csrfToken %>";
+                const merchantId = window.appData.selectedMerchant;
+
+                // Collect form data
+                const form = document.querySelector('form');
+                const bodyData = {
+                    merchantId: merchantId,
+                    type: 'sendotp'
+                };
+
+                // Add form fields to body
+                if (form) {
+                    const formData = new FormData(form);
+                    for (let [key, value] of formData.entries()) {
+                        bodyData[key] = value;
+                    }
+                }
+
+                const response = await fetch('/api/user/merchant/upi/setup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'CSRF-Token': csrfToken
+                    },
+                    body: JSON.stringify(bodyData)
+                });
+
+                const data = await response.json();
+                hideLoading();
+
+                if (data.success) {
+                    // Successfully resent
+                    const successMessages = document.getElementById('successMessage');
+                    const successMessageText = document.getElementById('successMessageText');
+                    successMessageText.textContent = data.message || 'OTP resent successfully to your mobile number';
+                    successMessages.classList.remove('hidden');
+                    const toastBox = successMessages.querySelector('.error-animate');
+                    setTimeout(() => toastBox.classList.add('show'), 100);
+
+                    setTimeout(() => {
+                        toastBox.classList.remove('show');
+                        setTimeout(() => successMessages.classList.add('hidden'), 200);
+                    }, 3000);
+
+                    // Reset timer
+                    clearOtpTimer();
+                    startOtpTimer();
+                } else {
+                    throw new Error(data.message || 'Failed to resend OTP');
+                }
+            } catch (error) {
+                hideLoading();
+                console.error('Resend OTP error:', error);
+                const errorMessages = document.getElementById('errorMessages');
+                const errorMessageText = document.getElementById('errorMessageText');
+                errorMessageText.textContent = error.message || 'Error resending OTP. Please try again.';
+                errorMessages.classList.remove('hidden');
+                const toastBox = errorMessages.querySelector('.error-animate');
+                setTimeout(() => toastBox.classList.add('show'), 100);
+
+                setTimeout(() => {
+                    toastBox.classList.remove('show');
+                    setTimeout(() => errorMessages.classList.add('hidden'), 200);
+                }, 3000);
+            }
+        }
+
+        function startOtpTimer() {
+            let timeLeft = 30;
+            const timerElement = document.getElementById('otpTimer');
+            const resendBtn = document.getElementById('resendOtpBtn');
+
+            // Reset UI state
+            resendBtn.disabled = true;
+            resendBtn.onclick = null;
+            timerElement.textContent = `Resend OTP in ${timeLeft}s`;
+
+            // Clear any existing timer
+            if (otpTimerInterval) {
+                clearInterval(otpTimerInterval);
+            }
+
+            // New timer start karein
+            otpTimerInterval = setInterval(() => {
+                timeLeft--;
+                timerElement.textContent = `Resend OTP in ${timeLeft}s`;
+
+                if (timeLeft <= 0) {
+                    clearOtpTimer();
+                    timerElement.textContent = 'You can resend OTP now';
+                    resendBtn.disabled = false;
+                    resendBtn.onclick = resendOtp;
+                }
+            }, 1000);
+        }
+
+        function clearOtpTimer() {
+            if (otpTimerInterval) {
+                clearInterval(otpTimerInterval);
+                otpTimerInterval = null;
+            }
+        }
+
+        function resetOtpForm() {
+            document.getElementById('otpInput').value = '';
+            document.getElementById('otpError').classList.add('hidden');
+
+            const resendBtn = document.getElementById('resendOtpBtn');
+            resendBtn.disabled = true;
+            resendBtn.onclick = null;
+
+            const timerElement = document.getElementById('otpTimer');
+            timerElement.textContent = 'Resend OTP in 30s';
+        }
+
+        function retryOtp() {
+            closeOtpFailedPopup();
+
+            if (currentMerchant) {
+                // Retry with same merchant
+                setTimeout(() => {
+                    openOtpPopup(currentMerchant.name);
+                }, 500);
+            }
+        }
+
+        // Page unload ya navigate hone par timer clear karein
+        window.addEventListener('beforeunload', function () {
+            clearOtpTimer();
+        });
+        let hoverEnabled = false;
+        let isCollapsed = false;
+
+        // Desktop sidebar toggle
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', function () {
+                isCollapsed = !isCollapsed;
+
+                if (isCollapsed) {
+                    sidebar.classList.add('collapsed');
+                    sidebar.classList.remove('hover-enabled');
+
+                    setTimeout(() => {
+                        sidebar.classList.add('hover-enabled');
+                        hoverEnabled = true;
+                    }, 1000);
+
+                } else {
+                    sidebar.classList.remove('collapsed');
+                    sidebar.classList.remove('hover-enabled');
+                    hoverEnabled = false;
+                }
+            });
+        }
+
+        function toggleTab(tabId) {
+            // Hide all tab panes
+            document.querySelectorAll('.tab-pane').forEach(pane => {
+                pane.classList.add('hidden');
+            });
+
+            // Show the selected tab pane
+            document.getElementById(tabId).classList.remove('hidden');
+
+            // Update active tab styling
+            document.querySelectorAll('.tab-buttons button').forEach(button => {
+                if (button.textContent.trim() === (tabId === 'english_info' ? 'English' : 'Hindi')) {
+                    button.classList.add('border-b-2', 'border-[var(--primary)]', 'text-[var(--primary)]');
+                    button.classList.remove('text-gray-600');
+                } else {
+                    button.classList.remove('border-b-2', 'border-[var(--primary)]', 'text-[var(--primary)]');
+                    button.classList.add('text-gray-600');
+                }
+            });
+        }
+
+
+        // Loading functions
+        function showLoading() {
+            document.getElementById('loading').classList.remove('hidden');
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').classList.add('hidden');
+        }
+
+        // Close success toast
+        document.getElementById('successClose').addEventListener('click', () => {
+            const successMessage = document.getElementById('successMessage');
+            const toastBox = successMessage.querySelector('.error-animate');
+            toastBox.classList.remove('show');
+            setTimeout(() => successMessage.classList.add('hidden'), 400);
+        });
+
+
+        // Close error toast
+        document.getElementById('errorClose').addEventListener('click', () => {
+            const errorMessages = document.getElementById('errorMessages');
+            const toastBox = errorMessages.querySelector('.error-animate');
+            toastBox.classList.remove('show');
+            setTimeout(() => errorMessages.classList.add('hidden'), 400);
+        });
+
+
+        function handleAgreement() {
+            const checkbox = document.getElementById('accept_warn_tc_btn');
+            if (checkbox.checked) {
+                closeModal();
+                // Hide Page 1 with animation
+                let page2 = document.getElementById('page2');
+
+                // If page2 doesn't exist, render it first
+                if (!page2) {
+                    renderPage('page2');
+                    page2 = document.getElementById('page2');
+                }
+
+                // Double check if page2 exists after rendering
+                if (!page2) {
+                    console.error('page2 element could not be created');
+                    return;
+                }
+
+                page1.classList.add('page-fade-out');
+
+                setTimeout(() => {
+                    // Hide Page 1
+                    page1.classList.add('hidden');
+                    page1.classList.remove('page-fade-out');
+
+                    // Show Page 2
+                    page2.classList.remove('hidden');
+                }, 300);
+
+            } else {
+                // Show error toast
+                const errorMessages = document.getElementById('errorMessages');
+                const errorMessageText = document.getElementById('errorMessageText')
+                errorMessageText.textContent = 'Please accept the terms and conditions to proceed.';
+                errorMessages.classList.remove('hidden');
+                const toastBox = errorMessages.querySelector('.error-animate');
+                setTimeout(() => toastBox.classList.add('show'), 100);
+
+                setTimeout(() => {
+                    toastBox.classList.remove('show');
+                    setTimeout(() => errorMessages.classList.add('hidden'), 200);
+                }, 3000);
+            }
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('warn_modal');
+            modal.classList.add('hidden');
+
+            // Wait for animation to complete before hiding
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.classList.remove('modal-open');
+            }, 300);
+        }
+
+        function openModal() {
+            const modal = document.getElementById('warn_modal');
+            modal.classList.remove('hidden');
+            // Trigger animation by removing hidden class
+            setTimeout(() => {
+                modal.classList.remove('hidden');
+            }, 10);
+            document.body.classList.add('modal-open');
+        }
+
+        // Modal background click handler
+        const warnModal = document.getElementById('warn_modal');
+        if (warnModal) {
+            warnModal.addEventListener('click', function (e) {
+                if (e.target === this) {
+                    closeModal();
+                }
+            });
+        }
+        // Mobile sidebar toggle
+        if (mobileHamburger) {
+            mobileHamburger.addEventListener('click', function () {
+                mobileSidebar.classList.add('active');
+                sidebarOverlay.classList.add('active');
+            });
+        }
+
+        // Close mobile sidebar
+        if (mobileSidebarClose) {
+            mobileSidebarClose.addEventListener('click', function () {
+                mobileSidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            });
+        }
+
+        // Close mobile sidebar when clicking overlay
+        if (sidebarOverlay) {
+            sidebarOverlay.addEventListener('click', function () {
+                mobileSidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            });
+        }
+
+        // Profile dropdown functionality
+        if (profileDropdown && dropdownMenu) {
+            profileDropdown.addEventListener('click', function (e) {
+                e.stopPropagation();
+                dropdownMenu.classList.toggle('show');
+            });
+
+            document.addEventListener('click', function () {
+                dropdownMenu.classList.remove('show');
+            });
+
+            dropdownMenu.addEventListener('click', function (e) {
+                e.stopPropagation();
+            });
+        }
+
+        // Close mobile sidebar when clicking menu items
+        const mobileMenuItems = document.querySelectorAll('.mobile-sidebar .menu-item');
+        mobileMenuItems.forEach(item => {
+            item.addEventListener('click', function () {
+                mobileSidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            });
+        });
+
+
+    </script>
+
+    <script id="upi-setup-data" type="application/json">
+    <%- JSON.stringify(upiSetupData) %>
+    </script>
+
+    <script>
+        function getAppData() {
+            return JSON.parse(document.getElementById('upi-setup-data').textContent);
+        }
+
+        // Make appData globally accessible
+        window.appData = [];
+    </script>
+    <script type="module">
+        // JSON Data Structure
+        let appData = window.appData;
+
+        // Render Functions - Make it globally accessible
+        window.renderPage = function renderPage(pageId, merchantId = null) {
+            let pageData;
+
+            if (pageId === "page3" && merchantId) {
+                // Render merchant-specific page 3
+                const merchantData = window.appData.merchants[merchantId];
+                if (!merchantData || !merchantData.page3) return;
+
+                pageData = merchantData.page3;
+                pageData.id = "page3";
+                pageData.backButton = {
+                    text: "Back to Select Merchant",
+                    action: "backToPage2"
+                };
+                window.appData.selectedMerchant = merchantId;
+            } else {
+                // Render standard pages
+                pageData = window.appData.pages[pageId];
+                if (!pageData) return;
+            }
+
+            window.appData.currentPage = pageId;
+
+            let html = `
+                <div class="page-content hidden mx-[5px] lg:mx-[84px] min-h-[calc(100vh-180px)] lg:pt-[28px] mb-10" id="${pageData.id}">
+                    <!-- Back Button -->
+                    <a class="back-button inline-flex items-center text-gray-600 hover:text-gray-900 mb-4 transition-colors" data-action="${pageData.backButton.action}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                            <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                        ${pageData.backButton.text}
+                    </a>
+
+                    <!-- Header -->
+                    <div class="mb-6">
+                        <h1 class="text-3xl font-bold text-gray-900 mb-2">${pageData.title}</h1>
+                        <p class="text-gray-600">${pageData.description}</p>
+                    </div>
+            `;
+
+            // Render sections for page2
+            if (pageId === "page2" && pageData.sections) {
+                pageData.sections.forEach(section => {
+                    html += window.renderSection(section);
+                });
+            }
+
+            // Render form if exists
+            if (pageData.form) {
+                html += window.renderForm(pageData.form, pageData.logo);
+            }
+
+            // Render howToCreate if exists
+            if (pageData.howToCreate) {
+                html += window.renderHowToCreate(pageData.howToCreate);
+            }
+
+            // Render next button if exists (for page2)
+            if (pageData.nextButton) {
+                html += `
+                    <div class="flex justify-end mt-8">
+                        <button class="bg-[var(--primary)] hover:bg-[var(--primary-dark)] text-white font-semibold px-6 py-3 rounded-xl flex items-center gap-2 transition-colors" data-action="${pageData.nextButton.action}">
+                            ${pageData.nextButton.text}
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </button>
+                    </div>
+                `;
+            }
+
+            html += `</div>`;
+
+            // Update the content container
+            document.getElementById('dynamic-content').innerHTML = html;
+
+            // Add event listeners
+            window.addEventListeners();
+        };
+
+        window.renderSection = function renderSection(section) {
+            let html = '';
+
+            switch (section.type) {
+                case 'merchantGrid':
+                    html = window.renderMerchantGrid(section);
+                    break;
+                case 'divider':
+                    html = window.renderDivider(section);
+                    break;
+            }
+
+            return html;
+        };
+
+        window.renderMerchantGrid = function renderMerchantGrid(section) {
+            let html = `
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+    `;
+
+            section.merchants.forEach(merchant => {
+                const isSelected = window.appData.selectedMerchant === merchant.id;
+                const enabledClass = merchant.enabled
+                    ? `bg-white rounded-xl p-4 flex items-center gap-4 transition-all duration-200 text-left group ${isSelected ? 'border-[var(--primary)] border-2' : 'border border-gray-200 hover:border-[var(--primary)]'
+                    }`
+                    : "bg-gray-50 border border-gray-200 rounded-xl p-4 flex items-center gap-4 text-left cursor-not-allowed opacity-60";
+
+                html += `
+            <button ${merchant.enabled ? '' : 'disabled'} class="${enabledClass} relative overflow-hidden" data-merchant="${merchant.id}">
+                ${renderBadges(merchant.badges)}
+                <div class="w-20 h-20 flex-shrink-0 ${merchant.enabled ? 'bg-gray-100' : 'bg-gray-200'} rounded-xl border border-gray-200 flex items-center justify-center overflow-hidden">
+                    <img src="${merchant.logo}" alt="${merchant.name}" class="w-20 h-20 object-contain">
+                </div>
+                <div class="flex-1 min-w-0">
+                    <h3 class="text-lg font-semibold ${merchant.enabled ? 'text-gray-900 group-hover:text-[var(--primary-dark)]' : 'text-gray-600'} transition-colors">
+                        ${merchant.name}
+                    </h3>
+                    <p class="text-sm ${merchant.enabled ? 'text-gray-500' : 'text-gray-400'}">${merchant.type}</p>
+                </div>
+            </button>
+        `;
+            });
+
+            html += `</div>`;
+
+            return html;
+        };
+        window.renderBadges = function renderBadges(badges) {
+            if (!badges || badges.length === 0) return '';
+
+            let html = '';
+            badges.forEach(badge => {
+                const colorClass = badge.color === 'teal' ? 'bg-teal-600' :
+                    badge.color === 'green' ? 'bg-green-600' : 'bg-blue-600';
+                html += `
+                    <div class="absolute top-0 right-0 ${colorClass} text-white text-xs font-semibold px-3 py-1 rounded-bl-lg">
+                        ${badge.text}
+                    </div>
+                `;
+            });
+
+            return html;
+        };
+
+        window.renderDivider = function renderDivider(section) {
+            return `
+                <div class="flex items-center gap-4 my-8">
+                    <div class="flex-1 border-t border-gray-300"></div>
+                    <span class="text-sm text-gray-500 font-medium">${section.text}</span>
+                    <div class="flex-1 border-t border-gray-300"></div>
+                </div>
+            `;
+        }
+
+        window.renderForm = function renderForm(formData, logo) {
+            let html = `
+                <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+                    <div class="p-8">
+                        <div class="flex flex-col xl:flex-row gap-8">
+            `;
+
+            // Render logo if exists
+            if (logo) {
+                html += `
+                    <div class="xl:w-1/6 flex flex-col items-center justify-center">
+                        <div class="">
+                            <img src="${logo.src}" alt="${logo.alt}" class="h-auto w-auto" />
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Render form fields
+            html += `
+                <div class="${logo ? 'xl:w-2/5' : 'xl:w-full'} flex flex-col">
+                    <form class="space-y-4">
+            `;
+
+            formData.fields.forEach(field => {
+                html += window.renderFormField(field);
+            });
+
+            // Render form buttons
+            html += `
+                        <div class="flex flex-col sm:flex-row gap-3 pt-3">
+            `;
+
+            formData.buttons.forEach(button => {
+                const buttonClass = button.type === 'submit'
+                    ? 'bg-[var(--primary)] hover:bg-[var(--primary-dark)] text-white font-semibold px-4 py-2 rounded-xl transition-colors'
+                    : 'border border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--light-1)] font-semibold px-4 py-2 rounded-xl transition-colors';
+
+                html += `
+                    <button type="${button.type}" class="${buttonClass}" data-action="${button.action}">
+                        ${button.text}
+                    </button>
+                `;
+            });
+
+            html += `
+                        </div>
+                    </form>
+                </div>
+            `;
+
+            html += `
+                    </div>
+                </div>
+            </div>`;
+
+            return html;
+        };
+
+        window.renderFormField = function renderFormField(field) {
+            let html = `
+                <div>
+                    <label for="${field.id}" class="block text-sm font-semibold text-gray-700 ${field.type === 'select' ? 'mb-2' : 'mb-1'}">
+                        ${field.label}${field.required ? '<span class="text-red-500">*</span>' : ''}
+                    </label>
+            `;
+
+            if (field.type === 'select') {
+                html += `
+                    <select id="${field.id}" name="${field.id}" ${field.required ? 'required' : ''} ${field.disabled ? 'disabled' : ''}
+                        class="w-full px-3 py-2 border border-gray-300 rounded-xl ${field.disabled ? 'bg-gray-50' : 'bg-white'} text-gray-700 transition-all duration-200 appearance-none cursor-pointer"
+                        style="background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22rgb(55,65,81)%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3e%3cpolyline points=%226 9 12 15 18 9%22%3e%3c/polyline%3e%3c/svg%3e'); background-repeat: no-repeat; background-position: right 0.5rem center; background-size: 1em 1em; padding-right: 2.5rem;">
+                `;
+
+                field.options.forEach(option => {
+                    html += `<option value="${option.value}" ${option.selected ? 'selected' : ''}>${option.text}</option>`;
+                });
+
+                html += `</select>`;
+            } else {
+                html += `
+                    <input
+                        class="w-full border rounded-xl px-3 py-2 mb-0 text-gray-800 placeholder-gray-500 focus:outline-none bg-white transition-all duration-200"
+                        id="${field.id}" name="${field.id}" placeholder="${field.placeholder}" 
+                        type="${field.type}" ${field.required ? 'required' : ''} />
+                `;
+
+                if (field.errorMessage) {
+                    html += `<p id="error${field.id.charAt(0).toUpperCase() + field.id.slice(1)}" class="text-red-500 text-xs mt-1 error-field hidden">${field.errorMessage}</p>`;
+                }
+            }
+
+            html += `</div>`;
+
+            return html;
+        };
+
+        window.renderHowToCreate = function renderHowToCreate(howToCreateData) {
+            let html = `
+                <div class="mt-12">
+                    <div class="mb-6">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-2">${howToCreateData.title}</h2>
+                        <p class="text-gray-600">${howToCreateData.description}</p>
+                    </div>
+
+                    <div class="bg-white border border-gray-200 rounded-xl p-8">
+            `;
+
+            // Render info alert if exists
+            if (howToCreateData.infoAlert) {
+                html += `
+                    <div class="bg-white border border-gray-200 rounded-xl p-4 mb-8 flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-${howToCreateData.infoAlert.icon} text-blue-900">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                        </div>
+                        <p class="text-sm text-blue-900">${howToCreateData.infoAlert.text}</p>
+                    </div>
+                `;
+            }
+
+            // Render steps if exists
+            if (howToCreateData.steps && howToCreateData.steps.length > 0) {
+                html += `<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8">`;
+
+                howToCreateData.steps.forEach((step, index) => {
+                    html += `
+                        <div class="text-center">
+                            <div class="rounded-xl mb-4 h-180 flex items-center justify-center">
+                                <div class="">
+                                    <img src="${step.image}" alt="Step ${index + 1}" class="h-auto w-auto" />
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600">${index + 1}. ${step.text}</p>
+                        </div>
+                    `;
+                });
+
+                html += `</div>`;
+            }
+
+            // Render success alert if exists
+            if (howToCreateData.successAlert) {
+                html += `
+                    <div class="bg-green-50 border border-green-200 rounded-xl p-4 mt-8 flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-green-600 flex-shrink-0">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        <p class="text-sm text-green-900">${howToCreateData.successAlert.text}</p>
+                    </div>
+                `;
+            }
+
+            html += `
+                    </div>
+                </div>
+            `;
+
+            return html;
+        };
+
+        // Event Handlers
+        window.addEventListeners = function addEventListeners() {
+            // Back button
+            const backButton = document.querySelector('.back-button');
+            if (backButton) {
+                backButton.addEventListener('click', function () {
+                    const action = this.getAttribute('data-action');
+                    window.handleAction(action);
+                });
+            }
+
+            // Next button
+            const nextButton = document.querySelector('[data-action="goToPage3"]');
+            if (nextButton) {
+                nextButton.addEventListener('click', function () {
+                    handleAction('goToPage3');
+                });
+            }
+
+            // Merchant selection
+            const merchantButtons = document.querySelectorAll('[data-merchant]');
+            merchantButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const merchantId = this.getAttribute('data-merchant');
+
+                    // Sabhi merchants ke borders reset karein
+                    merchantButtons.forEach(btn => {
+                        if (!btn.disabled) {
+                            btn.classList.remove('border-[var(--primary)]', 'border-1');
+                            btn.classList.add('border-gray-200');
+                        }
+                    });
+
+                    // Selected merchant ka border highlight karein
+                    if (merchantId && window.appData.merchants[merchantId]) {
+                        this.classList.remove('border-gray-200');
+                        this.classList.add('border-[var(--primary)]', 'border-1');
+                        window.appData.selectedMerchant = merchantId;
+                    }
+                });
+            });
+
+            // Form buttons
+            const formButtons = document.querySelectorAll('form button[data-action]');
+            formButtons.forEach(button => {
+                button.addEventListener('click', function (e) {
+                    if (this.type === 'submit') {
+                        e.preventDefault();
+                    }
+                    const action = this.getAttribute('data-action');
+                    handleAction(action);
+                });
+            });
+        }
+
+        window.handleSendOTP = async function handleSendOTP() {
+            if (!window.appData.selectedMerchant) {
+                const errorMessages = document.getElementById('errorMessages');
+                const errorMessageText = document.getElementById('errorMessageText');
+                errorMessageText.textContent = 'Please select a merchant first.';
+                errorMessages.classList.remove('hidden');
+                const toastBox = errorMessages.querySelector('.error-animate');
+                setTimeout(() => toastBox.classList.add('show'), 100);
+                setTimeout(() => {
+                    toastBox.classList.remove('show');
+                    setTimeout(() => errorMessages.classList.add('hidden'), 200);
+                }, 3000);
+                return;
+            }
+
+            try {
+                showLoading();
+
+                const csrfToken = "<%= csrfToken %>";
+                const merchantId = window.appData.selectedMerchant;
+
+                // Collect form data
+                const form = document.querySelector('form');
+                const bodyData = {
+                    merchantId: merchantId,
+                    type: 'sendotp'
+                };
+
+                // Add form fields to body
+                if (form) {
+                    const formData = new FormData(form);
+                    for (let [key, value] of formData.entries()) {
+                        bodyData[key] = value;
+                    }
+                }
+
+                const response = await fetch('/api/user/merchant/upi/setup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'CSRF-Token': csrfToken
+                    },
+                    body: JSON.stringify(bodyData)
+                });
+
+                const data = await response.json();
+                hideLoading();
+
+                if (data.success) {
+                    currentMerchant = window.appData.merchants[merchantId];
+                    const message = data.message || 'OTP sent successfully';
+                    openOtpPopup(message);
+                } else {
+                    throw new Error(data.message || 'Failed to send OTP');
+                }
+            } catch (error) {
+                hideLoading();
+                console.error('Send OTP error:', error);
+                const errorMessages = document.getElementById('errorMessages');
+                const errorMessageText = document.getElementById('errorMessageText');
+                errorMessageText.textContent = error.message || 'Error sending OTP. Please try again.';
+                errorMessages.classList.remove('hidden');
+                const toastBox = errorMessages.querySelector('.error-animate');
+                setTimeout(() => toastBox.classList.add('show'), 100);
+                setTimeout(() => {
+                    toastBox.classList.remove('show');
+                    setTimeout(() => errorMessages.classList.add('hidden'), 200);
+                }, 3000);
+            }
+        };
+
+        window.handleConnect = async function handleConnect() {
+            if (!window.appData.selectedMerchant) {
+                const errorMessages = document.getElementById('errorMessages');
+                const errorMessageText = document.getElementById('errorMessageText');
+                errorMessageText.textContent = 'Please select a merchant first.';
+                errorMessages.classList.remove('hidden');
+                const toastBox = errorMessages.querySelector('.error-animate');
+                setTimeout(() => toastBox.classList.add('show'), 100);
+                setTimeout(() => {
+                    toastBox.classList.remove('show');
+                    setTimeout(() => errorMessages.classList.add('hidden'), 200);
+                }, 3000);
+                return;
+            }
+
+            try {
+                showLoading();
+
+                const csrfToken = "<%= csrfToken %>";
+                const merchantId = window.appData.selectedMerchant;
+
+                // Collect form data
+                const form = document.querySelector('form');
+                const bodyData = {
+                    merchantId: merchantId,
+                    type: 'connect'
+                };
+
+                // Add form fields to body
+                if (form) {
+                    const formData = new FormData(form);
+                    for (let [key, value] of formData.entries()) {
+                        bodyData[key] = value;
+                    }
+                }
+
+                const response = await fetch('/api/user/merchant/upi/setup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'CSRF-Token': csrfToken
+                    },
+                    body: JSON.stringify(bodyData)
+                });
+
+                const data = await response.json();
+                hideLoading();
+
+                if (data.success) {
+                    currentMerchant = window.appData.merchants[merchantId];
+                    // Show success message and go back to page 1
+                    const successMessages = document.getElementById('successMessage');
+                    const successMessageText = document.getElementById('successMessageText');
+                    successMessageText.textContent = data.message || 'Merchant connected successfully!';
+                    successMessages.classList.remove('hidden');
+                    const toastBox = successMessages.querySelector('.error-animate');
+                    setTimeout(() => toastBox.classList.add('show'), 100);
+                    openMerchantConnectPopup(currentMerchant.name);
+                    setTimeout(() => {
+                        successMessages.classList.add('hidden');
+
+                    }, 200);
+                    setTimeout(() => {
+                        toastBox.classList.remove('show');
+
+                    }, 3000);
+                } else {
+                    throw new Error(data.message || 'Failed to connect merchant');
+                }
+            } catch (error) {
+                hideLoading();
+                console.error('Connect error:', error);
+                const errorMessages = document.getElementById('errorMessages');
+                const errorMessageText = document.getElementById('errorMessageText');
+                errorMessageText.textContent = error.message || 'Error connecting merchant. Please try again.';
+                errorMessages.classList.remove('hidden');
+                const toastBox = errorMessages.querySelector('.error-animate');
+                setTimeout(() => toastBox.classList.add('show'), 100);
+                setTimeout(() => {
+                    toastBox.classList.remove('show');
+                    setTimeout(() => errorMessages.classList.add('hidden'), 200);
+                }, 3000);
+            }
+        };
+
+        window.handleAction = function handleAction(action) {
+            switch (action) {
+                case 'backToPage1':
+                    // Navigate to page 1 (not implemented in this example)
+                    // Hide Page 2 with animation
+                    const page2 = document.getElementById('page2');
+                    page2.classList.add('page-fade-out');
+
+                    setTimeout(() => {
+                        // Hide Page 2
+                        page2.classList.add('hidden');
+                        page2.classList.remove('page-fade-out');
+
+                        // Show Page 1
+                        page1.classList.remove('hidden');
+                    }, 300);
+                    break;
+                case 'backToPage2':
+                    const page3 = document.getElementById('page3');
+
+                    if (page3) {
+                        page3.classList.add('page-fade-out');
+
+                        setTimeout(() => {
+                            page3.classList.add('hidden');
+                            page3.classList.remove('page-fade-out');
+
+                            // Ensure page2 exists and show it
+                            let page2Back = document.getElementById('page2');
+                            if (!page2Back) {
+                                renderPage('page2');
+                                page2Back = document.getElementById('page2');
+                            }
+
+                            if (page2Back) {
+                                page2Back.classList.remove('hidden');
+                            }
+                        }, 300);
+                    } else {
+                        // If page3 doesn't exist, just ensure page2 is visible
+                        let page2Back = document.getElementById('page2');
+                        if (!page2Back) {
+                            renderPage('page2');
+                            page2Back = document.getElementById('page2');
+                        }
+
+                        if (page2Back) {
+                            page2Back.classList.remove('hidden');
+                        }
+                    }
+                    break;
+                case 'goToPage3':
+                    if (window.appData.selectedMerchant) {
+                        const page2 = document.getElementById('page2');
+
+                        // Hide page2 with animation
+                        if (page2) {
+                            page2.classList.add('page-fade-out');
+
+                            setTimeout(() => {
+                                page2.classList.add('hidden');
+                                page2.classList.remove('page-fade-out');
+
+                                // Render and show page3
+                                window.renderPage('page3', window.appData.selectedMerchant);
+                                const page3 = document.getElementById('page3');
+                                if (page3) {
+                                    page3.classList.remove('hidden');
+                                }
+                            }, 300);
+                        } else {
+                            window.renderPage('page3', window.appData.selectedMerchant);
+                            const page3 = document.getElementById('page3');
+                            if (page3) {
+                                page3.classList.remove('hidden');
+                            }
+                        }
+                    } else {
+                        // Show error toast
+                        const errorMessages = document.getElementById('errorMessages');
+                        const errorMessageText = document.getElementById('errorMessageText')
+                        errorMessageText.textContent = 'Please select a merchant first.';
+                        errorMessages.classList.remove('hidden');
+                        const toastBox = errorMessages.querySelector('.error-animate');
+                        setTimeout(() => toastBox.classList.add('show'), 100);
+
+                        setTimeout(() => {
+                            toastBox.classList.remove('show');
+                            setTimeout(() => errorMessages.classList.add('hidden'), 200);
+                        }, 3000);
+                    }
+                    break;
+                case 'sendOTP':
+                    handleSendOTP();
+                    break;
+                case 'login':
+                    handleSendOTP();
+                    break;
+                case 'connect':
+                    handleConnect();
+                    break;
+            }
+        }
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function () {
+            window.appData = getAppData();
+            window.renderPage('page2');
+        });
+    </script>
+</body>
+
+</html>

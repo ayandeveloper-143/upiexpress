@@ -1,0 +1,264 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>
+        UPIExpress
+    </title>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter&amp;display=swap" rel="stylesheet" />
+    <link rel="icon" href="/images/icon.png" type="image/png">
+    <style>
+        :root {
+            --primary: #181a20;
+            --primary-light: #1e2329;
+            --primary-dark: #2b3139;
+            --primary-transparent: rgba(0, 0, 0, 0.1);
+            --dark-1: #181a20;
+            --dark-2: #1e2329;
+            --dark-3: #2b3139;
+            --light-1: #eaecef;
+            --light-2: #b7bdc6;
+            --light-3: #848e9c;
+        }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+        }
+
+        /* Button theme overrides */
+        .btn-theme {
+            background-color: var(--primary);
+            color: var(--light-1);
+            border: 1px solid var(--primary-dark);
+        }
+
+        .btn-theme:hover {
+            background-color: var(--primary-light);
+            color: var(--light-1);
+        }
+
+        .btn-theme:active {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline-theme {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-outline-theme:hover {
+            background-color: var(--primary-transparent);
+            color: var(--primary-dark);
+        }
+
+        .link-theme {
+            color: var(--primary);
+        }
+
+        .link-theme:hover {
+            color: var(--primary-light);
+            text-decoration: underline;
+        }
+
+        /* From Uiverse.io by dovatgabriel */
+        .three-body {
+            --uib-size: 35px;
+            --uib-speed: 0.8s;
+            --uib-color: var(--dark-2);
+            position: relative;
+            display: inline-block;
+            height: var(--uib-size);
+            width: var(--uib-size);
+            animation: spin78236 calc(var(--uib-speed) * 2.5) infinite linear;
+        }
+
+        .three-body__dot {
+            position: absolute;
+            height: 100%;
+            width: 30%;
+        }
+
+        .three-body__dot:after {
+            content: '';
+            position: absolute;
+            height: 0%;
+            width: 100%;
+            padding-bottom: 100%;
+            background-color: var(--uib-color);
+            border-radius: 50%;
+        }
+
+        .three-body__dot:nth-child(1) {
+            bottom: 5%;
+            left: 0;
+            transform: rotate(60deg);
+            transform-origin: 50% 85%;
+        }
+
+        .three-body__dot:nth-child(1)::after {
+            bottom: 0;
+            left: 0;
+            animation: wobble1 var(--uib-speed) infinite ease-in-out;
+            animation-delay: calc(var(--uib-speed) * -0.3);
+        }
+
+        .three-body__dot:nth-child(2) {
+            bottom: 5%;
+            right: 0;
+            transform: rotate(-60deg);
+            transform-origin: 50% 85%;
+        }
+
+        .three-body__dot:nth-child(2)::after {
+            bottom: 0;
+            left: 0;
+            animation: wobble1 var(--uib-speed) infinite calc(var(--uib-speed) * -0.15) ease-in-out;
+        }
+
+        .three-body__dot:nth-child(3) {
+            bottom: -5%;
+            left: 0;
+            transform: translateX(116.666%);
+        }
+
+        .three-body__dot:nth-child(3)::after {
+            top: 0;
+            left: 0;
+            animation: wobble2 var(--uib-speed) infinite ease-in-out;
+        }
+
+        @keyframes spin78236 {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes wobble1 {
+
+            0%,
+            100% {
+                transform: translateY(0%) scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: translateY(-66%) scale(0.65);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes wobble2 {
+
+            0%,
+            100% {
+                transform: translateY(0%) scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: translateY(66%) scale(0.65);
+                opacity: 0.8;
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col bg-gray-50">
+    <header
+        class="flex justify-between items-center px-4 sm:px-10 lg:px-28 py-4 border-b border-gray-200 w-full bg-white">
+        <div class="flex items-center space-x-2">
+            <img src="/assets/images/logo1.svg" alt="UPIExpress" class="object-contain h-[50px] w-[120px] scale-125" />
+        </div>
+
+        <button
+            class="flex items-center space-x-1 btn-outline-theme rounded px-3 py-1 text-sm transition-colors duration-200"
+            type="button" style="border-radius: 8px;">
+            <span class="icon">
+                <span class="feather-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="feather feather-help-circle">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                </span>
+            </span>
+            <span style="font-size: 10px;">
+                Get Help
+            </span>
+        </button>
+    </header>
+    <main class="flex flex-col justify-center items-center px-2 sm:px-4 py-5 sm:py-10 flex-grow">
+        <!-- From Uiverse.io by dovatgabriel -->
+        <div class="flex items-center h-max w-max">
+            <div class="three-body">
+                <div class="three-body__dot"></div>
+                <div class="three-body__dot"></div>
+                <div class="three-body__dot"></div>
+            </div>
+        </div>
+    </main>
+    <footer class="w-full px-4 sm:px-10 lg:px-28 py-4 text-[10px] text-gray-500 border-t border-gray-200 bg-white">
+        <p class="mb-2">
+            *UPIExpress provides Dynamic QR Generating service. UPIExpress does not offer payment gateway service, nor
+            does it provide UPI ID and UPI Merchant account. Please read our policy and T&amp;C before using our
+            services
+        </p>
+        <div
+            class="flex flex-col sm:flex-row justify-between items-start sm:items-center text-[11px] space-y-2 sm:space-y-0">
+            <p>
+                © UPIExpress 2020–25, All Rights Reserved.
+            </p>
+            <div class="flex space-x-4 text-[var(--dark-3)]">
+                <a class="link-theme hover:underline" href="https://UPIExpress.com/policy">
+                    Privacy Policy
+                </a>
+                <a class="link-theme hover:underline" href="https://UPIExpress.com/terms">
+                    T&amp;C
+                </a>
+            </div>
+        </div>
+    </footer>
+</body>
+<script type="module">
+
+    try {
+        const csrfToken = "<%= csrfToken %>";
+        const response = await fetch('/api/check-session', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'CSRF-Token': csrfToken
+            },
+        });
+
+        const data = await response.json();
+
+        if (data.hasSession) {
+            window.location.href = data.redirectUrl;
+        } else {
+            window.location.href = data.redirectUrl;;
+        }
+    } catch (error) {
+        console.error("API error:", error);
+        window.location.href = data.redirectUrl;
+    }
+</script>
+
+
+</html>

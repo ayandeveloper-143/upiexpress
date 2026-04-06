@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Privacy Policy | UPIExpress - Data Protection & Security</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-777328699">
+    </script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'AW-777328699');
+    </script>
+    <meta name="description"
+        content="UPIExpress Privacy Policy - Learn how we protect your data, handle payment information, and ensure security of your personal information.">
+    <meta name="keywords" content="privacy policy, data protection, payment security, data privacy, GDPR compliance">
+    <link rel="canonical" href="https://upiexpress.com/main/privacy">
+    <meta property="og:title" content="Privacy Policy - UPIExpress">
+    <meta property="og:description" content="Learn how UPIExpress protects your data and privacy.">
+    <meta property="og:url" content="https://upiexpress.com/main/privacy">
+    <meta property="og:type" content="website">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Privacy Policy",
+  "description": "Privacy and data protection policy for UPIExpress",
+  "url": "https://upiexpress.com/main/privacy"
+}
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
+    <link rel="icon" href="/images/icon.png" type="image/png">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-777328699"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'AW-777328699');
+    </script>
+    <style>
+        :root {
+            --primary: #181a20;
+            --primary-light: #1e2329;
+            --primary-dark: #2b3139;
+            --primary-transparent: rgba(0, 0, 0, 0.1);
+            --dark-1: #181a20;
+            --dark-2: #1e2329;
+            --dark-3: #2b3139;
+            --light-1: #eaecef;
+            --light-2: #b7bdc6;
+            --light-3: #848e9c;
+        }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow-x: hidden !important;
+            width: 100vw !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            font-family: "Inter", sans-serif;
+        }
+
+        .btn-theme {
+            background-color: var(--primary);
+            color: var(--light-1);
+            border: 1px solid var(--primary-dark);
+        }
+
+        .btn-theme:hover {
+            background-color: var(--primary-light);
+            color: var(--light-1);
+        }
+
+        .btn-outline-theme {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-outline-theme:hover {
+            background-color: var(--primary-transparent);
+            color: var(--primary-dark);
+        }
+
+        .section-padding {
+            padding: 3rem 0;
+        }
+
+        /* Mobile Menu Styles with Animation */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            z-index: 1000;
+            padding: 80px 20px 20px;
+            transform: translateX(-100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .mobile-menu nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .mobile-menu a {
+            font-size: 18px;
+            padding: 16px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: block;
+            transition: all 0.3s ease;
+            transform: translateX(-20px);
+            opacity: 0;
+        }
+
+        .mobile-menu.active a {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--primary-dark);
+            z-index: 1001;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .close-menu {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--primary-dark);
+            z-index: 1002;
+            transition: transform 0.3s ease;
+        }
+
+        .close-menu:hover {
+            transform: scale(1.1);
+        }
+
+        .menu-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .menu-backdrop.active {
+            display: block;
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .desktop-nav {
+                display: none !important;
+            }
+
+            .header-buttons {
+                display: none !important;
+            }
+
+            .header-logo {
+                margin-right: auto;
+            }
+
+            .container {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+
+            .section-padding {
+                padding: 2rem 0;
+            }
+
+            h1 {
+                font-size: 2rem !important;
+                line-height: 1.2 !important;
+            }
+
+            h2 {
+                font-size: 1.75rem !important;
+            }
+
+            .btn-theme,
+            .btn-outline-theme {
+                padding: 14px 20px !important;
+                font-size: 16px !important;
+                width: 100%;
+                text-align: center;
+            }
+
+            .flex-col {
+                gap: 12px;
+            }
+
+            .section-padding {
+                padding: 1.5rem 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.75rem !important;
+            }
+
+            h2 {
+                font-size: 1.5rem !important;
+            }
+
+            .section-padding {
+                padding: 1rem 0;
+            }
+        }
+
+        /* Policy Cards */
+        .policy-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 1px solid rgb(226 232 240 / var(--tw-border-opacity, 1));
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .policy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .warning-card {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            border: 1px solid #fecaca;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 1px solid #bfdbfe;
+        }
+
+        .security-card {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border: 1px solid #bbf7d0;
+        }
+
+        /* Policy Content Styling */
+        .policy-content h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 0.5rem;
+        }
+
+        .policy-content h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--primary-dark);
+        }
+
+        .policy-content p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+            color: #4b5563;
+        }
+
+        .policy-content ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .policy-content li {
+            margin-bottom: 0.75rem;
+            line-height: 1.6;
+            color: #4b5563;
+        }
+
+        .highlight-box {
+            background: #f3f4f6;
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+
+        /* Animation Classes with Delays */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .scale-in.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .stagger-item {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .stagger-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile Menu Login Button Fix */
+        .mobile-menu .btn-outline-theme {
+            border: 1px solid var(--primary) !important;
+            background-color: transparent;
+            color: var(--primary);
+            display: block;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        footer {
+            overflow-x: hidden !important;
+            width: 100vw !important;
+        }
+
+        footer input[type="email"] {
+            min-width: 0;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col bg-gray-50">
+    <!-- Menu Backdrop -->
+    <div class="menu-backdrop"></div>
+
+    <!-- Header (Same as Refund Policy) -->
+    <header
+        class="flex justify-between items-center px-4 sm:px-6 lg:px-8 py-4 border-b border-gray-200 w-full bg-white sticky top-0 z-50 shadow-sm">
+        <div class="flex items-center">
+            <img src="/images/icon.png" alt="UPIExpress" class="w-8 h-8">
+            <span class="sidebar-text font-bold text-xl mr-[2.2px] text-gray-800">UPI</span>
+            <span class="sidebar-text font-family text-xl text-gray-700">Express</span>
+        </div>
+
+        <nav class="desktop-nav hidden md:flex space-x-6">
+            <a href="/"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Home</a>
+            <a href="/about-us"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">About
+                Us</a>
+            <a href="/faq"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">FAQ</a>
+            <a href="/contact-us"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Contact
+                Us</a>
+            <a href="/doc"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Documentation</a>
+            <a href="/usecases"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Use
+                Cases</a>
+            <a href="/features"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Features</a>
+            <a href="/pricing"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Pricing</a>
+        </nav>
+
+        <div class="header-buttons flex items-center space-x-3">
+            <a href="/auth/login/"
+                class="btn-outline-theme rounded-lg px-3 py-2 text-sm transition-colors duration-200 font-medium hidden md:block">Login</a>
+            <a href="/auth/signup/"
+                class="btn-theme rounded-lg px-3 py-2 text-sm transition-colors duration-200 font-medium hidden md:block">Create
+                Account</a>
+        </div>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="menu-toggle md:hidden">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <!-- Mobile Menu (Same as Refund Policy) -->
+    <div class="mobile-menu md:hidden">
+        <button class="close-menu">
+            <i class="fas fa-times"></i>
+        </button>
+        <nav class="flex flex-col">
+            <a href="/" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Home</a>
+            <a href="/about-us" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">About Us</a>
+            <a href="/faq" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">FAQ</a>
+            <a href="/contact-us" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Contact Us</a>
+            <a href="/pricing" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Pricing</a>
+            <a href="/doc" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Documentation</a>
+            <a href="/usecases" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Use Cases</a>
+            <a href="/features" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Features</a>
+            <div class="menu-buttons pt-6 border-t border-gray-200 space-y-3">
+                <a href="/auth/login/"
+                    class="btn-outline-theme rounded-lg px-4 py-3 text-base transition-colors duration-200 font-medium block text-center">Login</a>
+                <a href="/auth/signup/"
+                    class="btn-theme rounded-lg px-4 py-3 text-base transition-colors duration-200 font-medium block text-center">Create
+                    Account</a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Policy Hero Section -->
+    <section class="section-padding bg-white">
+        <div class="container mx-auto px-4 sm:px-6">
+            <div class="max-w-4xl mx-auto text-center fade-in">
+                <h1 class="mb-6 font-bold text-center text-3xl md:text-4xl lg:text-5xl text-gray-800 leading-tight">
+                    Privacy Policy
+                </h1>
+                <div class="text-gray-600 tracking-wide font-normal text-center text-lg md:text-xl mb-8">
+                    Last updated: November 2025
+                </div>
+
+                <!-- Important Notice -->
+                <div class="info-card rounded-xl p-6 mb-8 fade-in">
+                    <div class="flex items-start">
+                        <div class="bg-blue-100 p-3 rounded-lg mr-4">
+                            <i class="fas fa-shield-alt text-blue-600 text-2xl"></i>
+                        </div>
+                        <div class="text-left">
+                            <h3 class="text-xl font-bold text-blue-700 mb-2">Your Privacy Matters</h3>
+                            <p class="text-blue-700 font-semibold">We are committed to protecting your personal
+                                information and maintaining the highest standards of data security.</p>
+                            <p class="text-gray-600 mt-2">This policy explains how we collect, use, and safeguard your
+                                data when you use our services.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Policy Overview -->
+    <section class="section-padding bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2 text-center fade-in">Key Privacy Principles</h2>
+            <p class="text-gray-600 text-center mb-10 fade-in">Our commitment to protecting your data</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+                <div class="policy-card rounded-xl p-6 stagger-item">
+                    <div class="bg-blue-100 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-lock text-blue-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">Data Security</h3>
+                    <p class="text-gray-600 mb-4">Bank-level encryption for all sensitive information and transactions.
+                    </p>
+                </div>
+
+                <div class="policy-card rounded-xl p-6 stagger-item">
+                    <div class="bg-green-100 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-user-shield text-green-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">Your Control</h3>
+                    <p class="text-gray-600 mb-4">Full control over your personal data and privacy settings.</p>
+                </div>
+
+                <div class="policy-card rounded-xl p-6 stagger-item">
+                    <div class="bg-purple-100 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-eye-slash text-purple-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">Transparency</h3>
+                    <p class="text-gray-600 mb-4">Clear disclosure about what data we collect and why.</p>
+                </div>
+
+                <div class="policy-card rounded-xl p-6 stagger-item">
+                    <div class="bg-yellow-100 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-gavel text-yellow-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">Legal Compliance</h3>
+                    <p class="text-gray-600 mb-4">Adherence to GDPR and other data protection regulations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Policy Content -->
+    <section class="section-padding bg-white">
+        <div class="container mx-auto px-4 sm:px-6">
+            <div class="max-w-4xl mx-auto">
+                <div class="policy-content fade-in">
+                    <div class="highlight-box">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">OUR COMMITMENT TO PRIVACY</h3>
+                        <p class="text-gray-800 font-semibold">UPIExpress is committed to protecting your privacy and
+                            ensuring the security of your personal information. We handle your data with the highest
+                            standards of security and transparency.</p>
+                    </div>
+
+                    <h2>1. Information We Collect</h2>
+
+                    <h3>1.1 Personal Information</h3>
+                    <p>We collect information that you provide directly to us:</p>
+                    <ul>
+                        <li>Name, email address, and contact details</li>
+                        <li>Business information (if applicable)</li>
+                        <li>Payment and billing information</li>
+                        <li>Account credentials and preferences</li>
+                        <li>Communication records with our support team</li>
+                    </ul>
+
+                    <h3>1.2 Transaction Information</h3>
+                    <p>To provide our QR code services, we collect:</p>
+                    <ul>
+                        <li>Transaction amounts and timestamps</li>
+                        <li>Payment status and confirmation data</li>
+                        <li>QR code usage statistics</li>
+                        <li>Device and browser information</li>
+                    </ul>
+
+                    <div class="warning-card rounded-xl p-6 my-8">
+                        <div class="flex items-start">
+                            <div class="bg-red-100 p-3 rounded-lg mr-4">
+                                <i class="fas fa-exclamation-triangle text-red-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">Important Security Note</h3>
+                                <p class="text-red-700 mb-3">We never store:</p>
+                                <ul class="list-disc pl-5 text-red-700">
+                                    <li>Your UPI PIN or password</li>
+                                    <li>Full payment credentials</li>
+                                    <li>Bank account numbers (except last 4 digits for verification)</li>
+                                    <li>Sensitive authentication data</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>2. How We Use Your Information</h2>
+                    <p>We use collected information for the following purposes:</p>
+                    <ul>
+                        <li>Provide, maintain, and improve our services</li>
+                        <li>Process transactions and generate QR codes</li>
+                        <li>Send transaction notifications and updates</li>
+                        <li>Respond to your requests and support needs</li>
+                        <li>Detect, prevent, and address technical issues</li>
+                        <li>Communicate about services, offers, and updates</li>
+                        <li>Comply with legal obligations and regulations</li>
+                    </ul>
+
+                    <h2>3. Data Security & Protection</h2>
+                    <h3>3.1 Security Measures</h3>
+                    <p>We implement industry-leading security measures:</p>
+                    <ul>
+                        <li>256-bit SSL encryption for all data transmissions</li>
+                        <li>Regular security audits and penetration testing</li>
+                        <li>Multi-factor authentication for account access</li>
+                        <li>Secure data centers with physical access controls</li>
+                        <li>Regular data backups and disaster recovery plans</li>
+                    </ul>
+
+                    <h3>3.2 Data Retention</h3>
+                    <p>We retain your information only for as long as necessary:</p>
+                    <ul>
+                        <li>Account data: Until account deletion request</li>
+                        <li>Transaction records: 7 years for compliance</li>
+                        <li>Service usage data: 3 years for improvement</li>
+                        <li>Communication records: 2 years for support</li>
+                    </ul>
+
+                    <div class="security-card rounded-xl p-6 my-8">
+                        <div class="flex items-start">
+                            <div class="bg-green-100 p-3 rounded-lg mr-4">
+                                <i class="fas fa-shield-alt text-green-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">Security First Approach</h3>
+                                <p class="text-gray-700 mb-3">All payment-related data is encrypted and processed
+                                    through certified payment processors. We regularly update our security protocols to
+                                    protect against emerging threats.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>4. Your Data Rights</h2>
+                    <p>You have the right to:</p>
+                    <ul>
+                        <li>Access your personal data stored by us</li>
+                        <li>Correct inaccurate or incomplete information</li>
+                        <li>Request deletion of your personal data</li>
+                        <li>Object to processing of your data</li>
+                        <li>Request data portability</li>
+                        <li>Withdraw consent at any time</li>
+                    </ul>
+
+                    <h2>5. Data Sharing</h2>
+                    <p>We may share your information only in these circumstances:</p>
+                    <ul>
+                        <li>With trusted service providers who assist our operations</li>
+                        <li>When required by law, regulation, or legal process</li>
+                        <li>To protect rights, property, or safety</li>
+                        <li>With your explicit consent for specific purposes</li>
+                        <li>During business transfers, mergers, or acquisitions</li>
+                    </ul>
+
+                    <h2>6. Cookies & Tracking</h2>
+                    <p>We use cookies and similar technologies to:</p>
+                    <ul>
+                        <li>Enable essential website functionality</li>
+                        <li>Improve user experience and performance</li>
+                        <li>Analyze service usage patterns</li>
+                        <li>Remember your preferences and settings</li>
+                    </ul>
+                    <p class="mt-4 text-gray-600">You can manage cookie preferences through your browser settings.</p>
+
+                    <h2>7. Third-Party Services</h2>
+                    <p>We may use third-party services that have their own privacy policies:</p>
+                    <ul>
+                        <li>Payment processors for transaction handling</li>
+                        <li>Analytics services for usage insights</li>
+                        <li>Cloud hosting providers for data storage</li>
+                        <li>Communication tools for customer support</li>
+                    </ul>
+
+                    <h2>8. International Data Transfers</h2>
+                    <p>Your information may be transferred to and processed in countries other than your own. We ensure
+                        appropriate safeguards are in place for such transfers in accordance with applicable data
+                        protection laws.</p>
+
+                    <h2>9. Children's Privacy</h2>
+                    <p>Our services are not intended for children under 18 years of age. We do not knowingly collect
+                        personal information from children under 18.</p>
+
+                    <h2>10. Policy Updates</h2>
+                    <p>We may update this Privacy Policy periodically. We will notify you of significant changes through
+                        email or in-service notifications. We encourage you to review this policy regularly.</p>
+
+                    <h2>Contact Information</h2>
+                    <p>For privacy-related inquiries or to exercise your data rights:</p>
+
+                    <h2>11. Copyright Policy</h2>
+                    <p>This website and all of its content, including text, design, graphics, logos, and images, are the
+                        exclusive property of upiexpress.com unless otherwise stated. Any copying, reproduction,
+                        distribution, or reuse of our content in any form, without our prior written permission, is
+                        strictly prohibited. By using this website, you agree not to copy, modify, or publish any part
+                        of our content for personal or commercial purposes without our explicit written consent.
+                        Unauthorized use of our content may result in legal action in accordance with applicable laws.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                        <div class="policy-card rounded-xl p-6">
+                            <div class="flex items-start">
+                                <div class="bg-[var(--primary)] p-3 rounded-lg mr-4">
+                                    <i class="fas fa-envelope text-white text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold mb-2">Data Protection Officer</h3>
+                                    <p class="text-gray-600 mb-2">For privacy inquiries and data rights:</p>
+                                    <a href="mailto:dpo@upiexpress.com"
+                                        class="text-[var(--primary)] font-medium hover:underline">dpo@upiexpress.com</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="policy-card rounded-xl p-6">
+                            <div class="flex items-start">
+                                <div class="bg-[var(--primary)] p-3 rounded-lg mr-4">
+                                    <i class="fas fa-headset text-white text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold mb-2">General Support</h3>
+                                    <p class="text-gray-600 mb-2">For general questions about our privacy practices:</p>
+                                    <a href="mailto:support@upiexpress.com"
+                                        class="text-[var(--primary)] font-medium hover:underline">support@upiexpress.com</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 pt-8 border-t border-gray-200">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                            <div>
+                                <p class="text-sm font-semibold text-gray-900">Effective Date</p>
+                                <p class="text-gray-600">November 1, 2025</p>
+                            </div>
+                            <div class="mt-4 md:mt-0">
+                                <p class="text-sm font-semibold text-gray-900">Previous Version</p>
+                                <p class="text-gray-600">October 15, 2024</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- CTA Section (Same as Contact Page) -->
+    <section class="py-12 bg-[var(--primary)] border-b border-t border-gray-200">
+        <div class="container mx-auto px-4 sm:px-6 text-center">
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-4 fade-in cta-title">Ready to Transform Your Payment
+                Experience?</h2>
+            <p class="text-base md:text-lg text-gray-300 mb-8 max-w-2xl mx-auto fade-in cta-subtitle">Join thousands of
+                businesses already using UPIExpress to accept payments directly to their bank accounts with zero
+                transaction fees.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center fade-in gap-4">
+                <a href="/auth/signup/"
+                    class="bg-white text-[var(--primary)]  rounded-lg px-6 py-3 font-medium text-base md:text-lg transition-all duration-200 inline-block hover:bg-gray-100">
+                    Start Free Trial
+                </a>
+                <a href="/auth/signup"
+                    class="bg-transparent border border-white text-white rounded-lg px-6 py-3 font-medium text-base md:text-lg transition-all duration-200 inline-block hover:bg-white hover:text-[var(--primary)]">
+                    Schedule a Demo
+                </a>
+            </div>
+            <p class="text-sm text-gray-400 mt-6 fade-in">No credit card required • Setup in minutes</p>
+        </div>
+    </section>
+
+    <!-- Footer (Same as Contact Page) -->
+    <footer class="w-full px-4 sm:px-6 py-8 text-gray-600 bg-white border-t border-gray-200">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="fade-in cta-title">
+                <div class="flex items-center mb-2">
+                    <img src="/images/icon.png" alt="UPIExpress" class="w-8 h-8">
+                    <span class="sidebar-text font-bold text-xl  mr-[2.2px] text-gray-800">UPI</span>
+                    <span class="sidebar-text font-family text-xl text-gray-700">Express</span>
+                </div>
+                <p class="text-sm mb-4">Revolutionizing payments with secure, dynamic UPI QR code technology.</p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-500 hover:text-[var(--primary)] transition-colors">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-[var(--primary)] transition-colors">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-[var(--primary)] transition-colors">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="fade-in cta-subtitle">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Product</h3>
+                <ul class="space-y-2">
+                    <li><a href="/features" class="text-sm hover:text-[var(--primary)] transition-colors">Features</a>
+                    </li>
+                    <li><a href="/usecases" class="text-sm hover:text-[var(--primary)] transition-colors">Use Cases</a>
+                    </li>
+                    <li><a href="/pricing" class="text-sm hover:text-[var(--primary)] transition-colors">Pricing</a>
+                    </li>
+                    <li><a href="/doc" class="text-sm hover:text-[var(--primary)] transition-colors">Documentation</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="fade-in cta-subtitle">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Company</h3>
+                <ul class="space-y-2">
+                    <li><a href="/about-us" class="text-sm hover:text-[var(--primary)] transition-colors">About Us</a>
+                    </li>
+                    <li><a href="/faq" class="text-sm hover:text-[var(--primary)] transition-colors">FAQ</a></li>
+                    <li><a href="/blog" class="text-sm hover:text-[var(--primary)] transition-colors">Blog</a></li>
+                    <li><a href="/contact-us" class="text-sm hover:text-[var(--primary)] transition-colors">Contact
+                            Us</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="fade-in cta-subtitle">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Contact Us</h3>
+                <p class="text-sm mb-2">Feel free to get in touch with us</p>
+                <p class="text-sm mb-4 flex items-center">
+                    <i class="fas fa-envelope mr-2"></i> support@upiexpress.com
+                </p>
+                <div class="mt-4">
+                    <p class="text-sm mb-2">Subscribe to our Newsletter:</p>
+                    <div class="flex w-full max-w-full overflow-hidden">
+                        <input type="email" placeholder="Enter your email"
+                            class="flex-grow min-w-0 border rounded-l-lg px-3 py-2 text-sm focus:outline-none">
+                        <button class="btn-theme rounded-r-lg px-4 py-2 text-sm flex-shrink-0 w-auto">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pt-6 border-t border-gray-200">
+            <p class="text-xs text-gray-500 mb-4">
+                *UPIExpress provides Dynamic UPI QR Generating service. UPIExpress does not offer payment gateway
+                service, nor does it provide UPI ID and UPI Merchant account. Please read our policy and T&C before
+                using our services.
+            </p>
+
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center text-sm">
+                <p class="mb-4 sm:mb-0">
+                    © UPIExpress 2023–25, All Rights Reserved.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a class="hover:text-[var(--primary)] transition-colors" href="/help">Help</a>
+                    <a class="hover:text-[var(--primary)] transition-colors" href="/refund">Refund Policy</a>
+                    <a class="hover:text-[var(--primary)] transition-colors" href="/terms">Terms Of Service</a>
+                    <a class="hover:text-[var(--primary)] transition-colors" href="/privacy">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module">
+        // Mobile menu functionality (same as refund policy)
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const closeMenu = document.querySelector('.close-menu');
+            const menuBackdrop = document.querySelector('.menu-backdrop');
+            const mobileLinks = document.querySelectorAll('.mobile-menu a');
+
+            function openMenu() {
+                mobileMenu.classList.add('active');
+                menuBackdrop.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeMobileMenu() {
+                mobileMenu.classList.remove('active');
+                menuBackdrop.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            menuToggle.addEventListener('click', openMenu);
+            closeMenu.addEventListener('click', closeMobileMenu);
+            menuBackdrop.addEventListener('click', closeMobileMenu);
+
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', closeMobileMenu);
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    closeMobileMenu();
+                }
+            });
+        });
+
+        // Scroll animations with delays (same as refund policy)
+        document.addEventListener('DOMContentLoaded', function () {
+            function isInViewport(element) {
+                const rect = element.getBoundingClientRect();
+                return (
+                    rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.85 &&
+                    rect.bottom >= 0
+                );
+            }
+
+            function handleScrollAnimation() {
+                const elements = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-in, .stagger-item');
+
+                elements.forEach((element, index) => {
+                    if (isInViewport(element) && !element.classList.contains('visible')) {
+                        let delay = 0;
+
+                        if (element.classList.contains('stagger-item')) {
+                            const parent = element.closest('.grid');
+                            if (parent) {
+                                const siblings = Array.from(parent.querySelectorAll('.stagger-item'));
+                                const elementIndex = siblings.indexOf(element);
+                                delay = elementIndex * 70;
+                            }
+                        } else {
+                            delay = index * 20;
+                        }
+
+                        if (element.classList.contains('cta-title') ||
+                            element.classList.contains('cta-subtitle')) {
+                            delay = 0;
+                        }
+
+                        setTimeout(() => {
+                            element.classList.add('visible');
+                        }, delay);
+                    }
+                });
+            }
+
+            setTimeout(() => {
+                handleScrollAnimation();
+
+                const ctaElements = document.querySelectorAll('.cta-title, .cta-subtitle');
+                ctaElements.forEach(element => {
+                    if (isInViewport(element)) {
+                        element.classList.add('visible');
+                    }
+                });
+            }, 70);
+
+            let scrollTimeout;
+            window.addEventListener('scroll', function () {
+                if (!scrollTimeout) {
+                    scrollTimeout = setTimeout(function () {
+                        scrollTimeout = null;
+                        handleScrollAnimation();
+                    }, 20);
+                }
+            });
+        });
+
+        // Prevent zoom on double tap
+        document.addEventListener('touchstart', function (e) {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (e) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 100) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+</body>
+
+</html>

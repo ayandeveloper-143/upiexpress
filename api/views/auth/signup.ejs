@@ -1,0 +1,626 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>Sign Up | UPIExpress - Create Payment Merchant Account</title>
+    <meta name="description"
+        content="Create a free UPIExpress merchant account in minutes. Accept UPI payments instantly with dynamic QR codes. No setup fees, zero transaction charges.">
+    <meta name="keywords" content="UPIExpress signup, merchant registration, payment account creation, UPI merchant">
+    <link rel="canonical" href="https://upiexpress.com/auth/signup">
+    <meta name="robots" content="noindex, nofollow">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter&amp;display=swap" rel="stylesheet" />
+    <link rel="icon" href="/images/icon.png" type="image/png">
+    <style>
+        :root {
+            --primary: #181a20;
+            --primary-light: #1e2329;
+            --primary-dark: #2b3139;
+            --primary-transparent: rgba(0, 0, 0, 0.1);
+            --dark-1: #181a20;
+            --dark-2: #1e2329;
+            --dark-3: #2b3139;
+            --light-1: #eaecef;
+            --light-2: #b7bdc6;
+            --light-3: #848e9c;
+        }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+        }
+
+        .btn-theme {
+            background-color: var(--primary);
+            color: var(--light-1);
+            border: 1px solid var(--primary-dark);
+        }
+
+        .btn-theme:hover {
+            background-color: var(--primary-light);
+            color: var(--light-1);
+        }
+
+        .btn-theme:active {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline-theme {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-outline-theme:hover {
+            background-color: var(--primary-transparent);
+            color: var(--primary-dark);
+        }
+
+        .link-theme {
+            color: var(--primary);
+        }
+
+        .link-theme:hover {
+            color: var(--primary-light);
+            text-decoration: underline;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"] {
+            border-width: 1px;
+            border-style: solid;
+            border-color: var(--primary-transparent);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        input[type="number"]:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px var(--primary-transparent);
+        }
+
+        /* From Uiverse.io by dovatgabriel */
+        .three-body {
+            --uib-size: 35px;
+            --uib-speed: 0.8s;
+            --uib-color: var(--dark-2);
+            position: relative;
+            display: inline-block;
+            height: var(--uib-size);
+            width: var(--uib-size);
+            animation: spin78236 calc(var(--uib-speed) * 2.5) infinite linear;
+        }
+
+        .three-body__dot {
+            position: absolute;
+            height: 100%;
+            width: 30%;
+        }
+
+        .three-body__dot:after {
+            content: '';
+            position: absolute;
+            height: 0%;
+            width: 100%;
+            padding-bottom: 100%;
+            background-color: var(--uib-color);
+            border-radius: 50%;
+        }
+
+        .three-body__dot:nth-child(1) {
+            bottom: 5%;
+            left: 0;
+            transform: rotate(60deg);
+            transform-origin: 50% 85%;
+        }
+
+        .three-body__dot:nth-child(1)::after {
+            bottom: 0;
+            left: 0;
+            animation: wobble1 var(--uib-speed) infinite ease-in-out;
+            animation-delay: calc(var(--uib-speed) * -0.3);
+        }
+
+        .three-body__dot:nth-child(2) {
+            bottom: 5%;
+            right: 0;
+            transform: rotate(-60deg);
+            transform-origin: 50% 85%;
+        }
+
+        .three-body__dot:nth-child(2)::after {
+            bottom: 0;
+            left: 0;
+            animation: wobble1 var(--uib-speed) infinite calc(var(--uib-speed) * -0.15) ease-in-out;
+        }
+
+        .three-body__dot:nth-child(3) {
+            bottom: -5%;
+            left: 0;
+            transform: translateX(116.666%);
+        }
+
+        .three-body__dot:nth-child(3)::after {
+            top: 0;
+            left: 0;
+            animation: wobble2 var(--uib-speed) infinite ease-in-out;
+        }
+
+        @keyframes spin78236 {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes wobble1 {
+
+            0%,
+            100% {
+                transform: translateY(0%) scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: translateY(-66%) scale(0.65);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes wobble2 {
+
+            0%,
+            100% {
+                transform: translateY(0%) scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: translateY(66%) scale(0.65);
+                opacity: 0.8;
+            }
+        }
+
+        /* Error animation for toast and fields (bottom to up) */
+        .error-animate {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.4s cubic-bezier(.4, 0, .2, 1), transform 0.4s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .error-animate.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* For error fields */
+        .error-field {
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 100%;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .error-field.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Only for password error, move further down */
+        #errorPassword {
+            bottom: -18px;
+        }
+
+        .field-group {
+            position: relative;
+            transition: background 0.3s cubic-bezier(.4, 0, .2, 1), min-height 0.3s cubic-bezier(.4, 0, .2, 1);
+            min-height: 56px;
+            /* Reserve space for error message */
+        }
+
+
+        /* Page Animation Styles */
+        .page-content {
+            animation: feedPageFadeIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .page-content.page-fade-out {
+            animation: feedPageFadeOut 0.3s ease forwards;
+        }
+
+        @keyframes feedPageFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes feedPageFadeOut {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col bg-gray-50">
+    <header
+        class="flex justify-between items-center px-4 sm:px-10 lg:px-28 py-4 border-b border-gray-200 w-full bg-white">
+        <div class="flex items-center">
+            <img src="/images/icon.png" alt="UPIExpress" class="w-8 h-8">
+            <span class="sidebar-text font-bold text-xl  mr-[2.2px] text-gray-800">UPI</span>
+            <span class="sidebar-text font-family text-xl text-gray-700">Express</span>
+        </div>
+
+        <a class="flex items-center space-x-1 btn-outline-theme rounded px-3 py-1 text-sm transition-colors duration-200"
+            type="button" href="/help" style="border-radius: 8px;">
+            <span class="icon">
+                <span class="feather-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="feather feather-help-circle">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                </span>
+            </span>
+            <span style="font-size: 10px;">
+                Get Help
+            </span>
+        </a>
+    </header>
+    <main class="page-content flex flex-col justify-center px-2 sm:px-4 py-5 sm:py-10 flex-grow">
+        <form autocomplete="off"
+            class="w-full max-w-md bg-white rounded-lg shadow-[0_2px_8px_rgba(99,102,241,0.08)] p-6 mx-auto"
+            novalidate="">
+            <!-- Name Field -->
+            <div id="groupName" class="field-group mb-2">
+                <label class="block text-sm text-gray-600 mb-1" for="name">Name</label>
+                <input
+                    class="w-full border rounded-md px-3 py-2 mb-2 text-gray-800 placeholder-gray-500 focus:outline-none bg-white transition-all duration-200"
+                    id="name" name="name" placeholder="Enter your name" type="text" />
+                <p id="errorName" class="text-red-500 text-xs mt-1 error-field">Name is required</p>
+            </div>
+            <!-- Phone Field -->
+            <div id="groupPhone" class="field-group mb-2">
+                <label class="block text-sm text-gray-600 mb-1" for="phone">Phone</label>
+                <input
+                    class="w-full border rounded-md px-3 py-2 mb-2 text-gray-800 placeholder-gray-500 focus:outline-none bg-white transition-all duration-200"
+                    id="phone" name="phone" placeholder="Enter your phone number" type="tel" />
+                <p id="errorPhone" class="text-red-500 text-xs mt-1 error-field">Phone number is required</p>
+            </div>
+            <!-- Email Field -->
+            <div id="groupEmail" class="field-group mb-2">
+                <label class="block text-sm text-gray-600 mb-1" for="email">Email</label>
+                <input
+                    class="w-full border rounded-md px-3 py-2 mb-2 text-gray-800 placeholder-gray-500 focus:outline-none bg-white transition-all duration-200"
+                    id="email" name="email" placeholder="Enter your email" type="email" />
+                <p id="errorEmail" class="text-red-500 text-xs mt-1 error-field">Email is required</p>
+            </div>
+            <!-- Referral Field -->
+            <div id="groupRefer" class="field-group mb-2">
+                <label class="block text-sm text-gray-600 mb-1" for="refer">Referral Code (Optional)</label>
+                <input
+                    class="w-full border rounded-md px-3 py-2 mb-2 text-gray-800 placeholder-gray-500 focus:outline-none bg-white transition-all duration-200"
+                    id="refer" name="refer" placeholder="Enter referral code (if any)" type="text" />
+                <p id="errorRefer" class="text-red-500 text-xs mt-1 error-field">Referral code is invalid</p>
+            </div>
+            <!-- Password Field -->
+            <div id="groupPassword" class="field-group mb-2">
+                <div class="flex justify-between items-center mb-1">
+                    <label class="text-sm text-gray-600" for="password">Password</label>
+                </div>
+                <input class="hidden" id="type" name="type" value="signup" type="text" />
+                <div class="relative">
+                    <input
+                        class="w-full border rounded-md px-3 py-2 pr-10 text-gray-800 placeholder-gray-500 focus:outline-none bg-white transition-all duration-200"
+                        id="password" name="password" placeholder="At least 6 characters" type="password" />
+                    <button aria-label="Toggle password visibility"
+                        class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors duration-200"
+                        tabindex="-1" type="button">
+                        <i class="far fa-eye"></i>
+                    </button>
+                </div>
+                <p id="errorPassword" class="text-red-500 text-xs mt-1 error-field">Password is required</p>
+            </div>
+
+            <input class="hidden" id="type" name="type" value="signup" type="text" />
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+
+            <div class="flex items-center mt-5 mb-3 text-xs text-gray-700">
+                <input
+                    class="w-3.5 h-3.5 text-[var(--dark-3)] rounded border-indigo-200 focus:ring-[var(--dark-1)] transition-colors duration-200"
+                    id="terms" name="terms" type="checkbox" />
+                <label class="form-check-label text-muted fs-7 ml-2 select-none" for="terms" style="user-select: none;">
+                    I agree to the following:
+                    <a href="https://UPIExpress.com/terms" target="_blank"
+                        class="text-[var(--dark-3)] hover:underline">T&amp;C</a>
+                    and
+                    <a href="https://UPIExpress.com/privacy" target="_blank"
+                        class="text-[var(--dark-3)] hover:underline">Privacy
+                        Policy</a>
+                </label>
+            </div>
+            <button class="w-full btn-theme font-semibold text-sm rounded-md py-2 mb-4 transition-all duration-200"
+                id="signupBtn" type="submit">
+                Register
+            </button>
+            <div class="flex justify-center items-center space-x-2 mb-2">
+                <p class="text-xs text-gray-500">
+                    Have an account?
+                </p>
+                <a href="/auth/login" class="link-theme text-xs font-medium transition-colors duration-200">
+                    Login
+                </a>
+            </div>
+
+        </form>
+    </main>
+    <footer class="w-full px-4 sm:px-10 lg:px-28 py-4 text-[10px] text-gray-500 border-t border-gray-200 bg-white">
+        <p class="mb-2">
+            *UPIExpress provides Dynamic QR Generating service. UPIExpress does not offer payment gateway service, nor
+            does it provide UPI ID and UPI Merchant account. Please read our policy and T&amp;C before using our
+            services
+        </p>
+        <div
+            class="flex flex-col sm:flex-row justify-between items-start sm:items-center text-[11px] space-y-2 sm:space-y-0">
+            <p>
+                © UPIExpress 2020–25, All Rights Reserved.
+            </p>
+            <div class="flex space-x-4 text-[var(--dark-3)]">
+                <a class="hover:underline" href="https://UPIExpress.com/privacy">
+                    Privacy Policy
+                </a>
+                <a class="hover:underline" href="https://UPIExpress.com/terms">
+                    T&amp;C
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <div id="loading"
+        class="fixed inset-0 flex justify-center items-center hidden bg-white bg-opacity-75 z-50 min-h-screen">
+        <div class="three-body">
+            <div class="three-body__dot"></div>
+            <div class="three-body__dot"></div>
+            <div class="three-body__dot"></div>
+        </div>
+    </div>
+    <!-- Error Messages Toast bottom -->
+    <div id="errorMessages" role="alert" aria-live="assertive"
+        class="fixed bottom-6 left-1/2 transform -translate-x-1/2 flex items-center hidden z-50">
+        <div
+            class="bg-red-500 text-white text-sm font-semibold py-2 px-4 rounded-lg shadow-md flex items-center space-x-3 max-w-md error-animate">
+            <p id="errorMessageText">Error message goes here</p>
+            <button id="errorClose" type="button" aria-label="Close" class="text-white opacity-90 hover:opacity-100">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script type="module">
+        const hasSession = '<%= hasSession %>' === 'true';
+
+        if (hasSession) {
+            window.location.href = '<%= redirectUrl %>';
+        }
+
+        document.querySelectorAll('button[aria-label="Toggle password visibility"]').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var input = btn.previousElementSibling;
+                if (input && input.type === "password") {
+                    input.type = "text";
+                    btn.querySelector('i').classList.remove('fa-eye');
+                    btn.querySelector('i').classList.add('fa-eye-slash');
+                } else if (input) {
+                    input.type = "password";
+                    btn.querySelector('i').classList.remove('fa-eye-slash');
+                    btn.querySelector('i').classList.add('fa-eye');
+                }
+            });
+        });
+
+        // Helper for error field animation
+        function showErrorField(id, groupId) {
+            const el = document.getElementById(id);
+            el.classList.add('show');
+            document.getElementById(groupId).classList.add('error');
+        }
+        function hideErrorField(id, groupId) {
+            const el = document.getElementById(id);
+            el.classList.remove('show');
+            document.getElementById(groupId).classList.remove('error');
+        }
+
+        // on form submit
+        document.querySelector('form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const loading = document.getElementById('loading');
+
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const referral = document.getElementById('refer').value.trim();
+            const terms = document.getElementById('terms').checked;
+
+            // validation
+            let isValid = true;
+
+            if (name === '') {
+                showErrorField('errorName', 'groupName');
+                isValid = false;
+            } else {
+                hideErrorField('errorName', 'groupName');
+            }
+
+            if (phone === '' || !/^\d{10}$/.test(phone)) {
+                if (!/^\d{10}$/.test(phone) && phone !== '') {
+                    document.getElementById('errorPhone').textContent = 'Please enter a valid 10-digit phone number';
+                } else {
+                    document.getElementById('errorPhone').textContent = 'Phone number is required';
+                }
+                showErrorField('errorPhone', 'groupPhone');
+                isValid = false;
+            } else {
+                hideErrorField('errorPhone', 'groupPhone');
+            }
+
+            if (email === '' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email !== '') {
+                    document.getElementById('errorEmail').textContent = 'Please enter a valid email address';
+                } else {
+                    document.getElementById('errorEmail').textContent = 'Email is required';
+                }
+                showErrorField('errorEmail', 'groupEmail');
+                isValid = false;
+            } else {
+                hideErrorField('errorEmail', 'groupEmail');
+            }
+
+            if (password === '' || password.length < 6) {
+                if (password === '') {
+                    document.getElementById('errorPassword').textContent = 'Password is required';
+                } else {
+                    document.getElementById('errorPassword').textContent = 'Password must be at least 6 characters';
+                }
+                showErrorField('errorPassword', 'groupPassword');
+                isValid = false;
+            } else {
+                hideErrorField('errorPassword', 'groupPassword');
+            }
+
+            // if any field change remove error message
+            document.getElementById('name').addEventListener('input', function () {
+                hideErrorField('errorName', 'groupName');
+
+            });
+
+            document.getElementById('phone').addEventListener('input', function () {
+                hideErrorField('errorPhone', 'groupPhone');
+
+            });
+
+            document.getElementById('email').addEventListener('input', function () {
+                hideErrorField('errorEmail', 'groupEmail');
+
+            });
+
+            document.getElementById('password').addEventListener('input', function () {
+                hideErrorField('errorPassword', 'groupPassword');
+
+            });
+
+            // Toast close button
+            document.getElementById('errorClose').addEventListener('click', function () {
+                const toastBox = document.querySelector('#errorMessages .error-animate');
+                toastBox.classList.remove('show');
+                setTimeout(() => document.getElementById('errorMessages').classList.add('hidden'), 400);
+            });
+
+
+            if (!terms) {
+                // show toast error with animation
+                const errorMessages = document.getElementById('errorMessages');
+                const toastBox = errorMessages.querySelector('.error-animate');
+                const errorMessageText = document.getElementById('errorMessageText');
+                errorMessageText.textContent = 'You must agree to the Terms and Conditions and Privacy Policy.';
+                errorMessages.classList.remove('hidden');
+
+                setTimeout(() => toastBox.classList.add('show'), 10);
+                setTimeout(() => {
+                    toastBox.classList.remove('show');
+                    setTimeout(() => errorMessages.classList.add('hidden'), 400);
+                }, 4000);
+                loading.classList.add('hidden');
+                return;
+            }
+
+            // call api to signup
+            if (isValid) {
+                try {
+                    loading.classList.remove('hidden');
+                    const csrfToken = "<%= csrfToken %>";
+                    const response = await fetch('/api/signup', {  // Remove /auth
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: new URLSearchParams({
+                            name,
+                            phone,
+                            email,
+                            password,
+                            referral,
+                            _csrf: csrfToken
+                        })
+                    });
+                    const data = await response.json();
+
+                    // hide loading
+                    loading.classList.add('hidden');
+
+                    if (data.success) {
+                        // redirect to data.redirectUrl
+                        window.location.href = data.redirectUrl;
+                    } else {
+                        // show toast error with animation
+                        const errorMessages = document.getElementById('errorMessages');
+                        const toastBox = errorMessages.querySelector('.error-animate');
+                        const errorMessageText = document.getElementById('errorMessageText');
+                        errorMessageText.textContent = data.message || 'Signup failed. Please try again.';
+                        errorMessages.classList.remove('hidden');
+
+                        setTimeout(() => toastBox.classList.add('show'), 10);
+                        setTimeout(() => {
+                            toastBox.classList.remove('show');
+                            setTimeout(() => errorMessages.classList.add('hidden'), 400);
+                        }, 4000);
+
+                    }
+
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            }
+
+        });
+
+    </script>
+</body>
+
+</html>

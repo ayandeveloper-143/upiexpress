@@ -1,0 +1,2377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users - Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="/images/icon.png" type="image/png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link id="material-symbols-link" rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <style>
+        :root {
+            --primary: #ffffff;
+            --primary-light: #f3f4f6;
+            --primary-dark: #e5e7eb;
+            --primary-transparent: rgba(255, 255, 255, 0.1);
+            --dark-1: #0f1117;
+            --dark-2: #161b22;
+            --dark-3: #21262d;
+            --light-1: #8b949e;
+            --light-2: #6e7681;
+            --light-3: #484f58;
+            --background-primary: #161b22;
+            --background-secondary: #21262d;
+            --text-primary: #58a6ff;
+            --text-secondary: #8b949e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: sans-serif;
+            background-color: #0f1117;
+            color: #e6edf3;
+            overflow-x: hidden;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        body {
+            overflow: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        .page-content {
+            animation: feedPageFadeIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes feedPageFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Desktop Sidebar Styles */
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: #161b22;
+            border-right: 1px solid #21262d;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            overflow-x: hidden;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0 !important;
+                padding-bottom: 80px;
+            }
+        }
+
+        .sidebar.collapsed {
+            width: 70px;
+        }
+
+        .sidebar.collapsed .sidebar-text,
+        .sidebar.collapsed .sidebar-section,
+        .sidebar.collapsed .nav-header {
+            display: none !important;
+        }
+
+        .sidebar.collapsed .sidebar-top {
+            justify-content: center;
+            padding: 1rem 0;
+        }
+
+        .sidebar.collapsed .sidebar-toggle {
+            display: none;
+        }
+
+        .sidebar.collapsed .nav-link-text {
+            width: 0;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .sidebar.collapsed .menu-item {
+            padding: 6px 0 !important;
+            justify-content: center;
+            height: 48px;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar.collapsed .menu-gap {
+            height: 0;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover {
+            width: 280px;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover .sidebar-text,
+        .sidebar.collapsed.hover-enabled:hover .sidebar-section,
+        .sidebar.collapsed.hover-enabled:hover .nav-header {
+            display: block !important;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover .sidebar-top {
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover .menu-item {
+            justify-content: flex-start;
+            padding: 12px 24px !important;
+            height: 48px;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover .sidebar-toggle {
+            display: block;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover .nav-link-text {
+            width: auto;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover .menu-gap {
+            height: 1rem;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            transition: margin-left 0.3s ease;
+            min-height: 100vh;
+            padding: 20px;
+            padding-bottom: 0px;
+        }
+
+        .sidebar.collapsed~.main-content {
+            margin-left: 70px;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover~.main-content {
+            margin-left: 280px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 24px;
+            border-radius: 16px;
+            margin-left: 8px;
+            margin-bottom: 2px;
+            margin-right: 8px;
+            color: #8b949e;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:hover {
+            background-color: #21262d;
+            color: #e6edf3;
+        }
+
+        .menu-item.active {
+            background-color: #21262d;
+            color: #58a6ff;
+        }
+
+        .nav-icon-wrap {
+            width: 24px;
+            text-align: center;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar.collapsed .nav-icon-wrap {
+            margin-right: 0;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover .nav-icon-wrap {
+            margin-right: 12px;
+        }
+
+        .nav-link-text {
+            transition: all 0.3s ease;
+        }
+
+        .svg-icon {
+            width: 20px;
+            height: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Sidebar Top Styles */
+        .sidebar-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #21262d;
+        }
+
+        .sidebar-text {
+            transition: all 0.3s ease;
+        }
+
+        /* Menu Content Wrapper */
+        .menu-content-wrap {
+            padding: 0.5rem 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            max-height: calc(100vh - 100px);
+        }
+
+        /* Menu Group Styles */
+        .menu-group {
+            margin: 0.5rem 0;
+        }
+
+        .menu-gap {
+            height: 1rem;
+            transition: height 0.2s ease;
+        }
+
+        /* Navigation Header */
+        .nav-header {
+            padding: 0.5rem 1.5rem;
+            font-size: 0.75rem;
+            color: #484f58;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Navigation List */
+        .navbar-nav {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav-item {
+            list-style: none;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Flex Column Utility */
+        .flex-column {
+            flex-direction: column;
+        }
+
+        .sidebar-toggle {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .brand-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: #58a6ff;
+        }
+
+        .brand-subtext {
+            font-size: 14px;
+            color: #8b949e;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .header-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .header-text {
+            font-size: 14px;
+            font-weight: 500;
+            color: #e6edf3;
+        }
+
+        .profile-dropdown {
+            position: relative;
+        }
+
+        .profile-btn {
+            background: none;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            background: #21262d;
+            color: #58a6ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+            border: 1px solid #30363d;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: auto;
+            background: #21262d;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            padding: 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.3s ease;
+            z-index: 101;
+        }
+
+        .dropdown-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-header {
+            padding: 16px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .user-details {
+            flex: 1;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #e6edf3;
+            margin-bottom: 1px;
+        }
+
+        .user-email {
+            font-size: 14px;
+            color: #8b949e;
+            margin-bottom: 2px;
+        }
+
+        .logout-link {
+            font-size: 14px;
+            color: #f85149;
+            text-decoration: underline;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: #30363d;
+            margin: 0;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 8px 16px;
+            color: #8b949e;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .dropdown-item:hover {
+            background-color: #30363d;
+            color: #e6edf3;
+        }
+
+        .mobile-hamburger {
+            display: none;
+            background: none;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+            color: #8b949e;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+
+        .mobile-hamburger:hover {
+            background-color: #21262d;
+            color: #e6edf3;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-hamburger {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .header-item {
+                display: flex;
+                padding: 6px;
+            }
+
+            .header-item .header-text {
+                display: none;
+            }
+
+            .header-brand {
+                display: none;
+            }
+
+            .brand-subtext {
+                display: none;
+            }
+
+            .dropdown-menu {
+                width: auto;
+                right: -10px;
+            }
+
+            .header-left {
+                gap: 0;
+            }
+        }
+
+        @media (min-width: 769px) {
+
+            .mobile-sidebar,
+            .sidebar-overlay {
+                display: none !important;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .header-item .header-text {
+                display: none;
+            }
+
+            .header-item {
+                padding: 8px;
+            }
+        }
+
+        .card {
+            border-color: #30363d;
+            border-radius: .5rem;
+            box-shadow: 0 2px 2px rgba(0, 0, 0, .3);
+            margin-bottom: .875rem;
+        }
+
+        .card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #161b22;
+            background-clip: border-box;
+            border: 1px solid #30363d;
+            border-radius: .25rem;
+        }
+
+        .footer {
+            border-top: 1px solid #21262d;
+            padding: 16px 20px;
+            background-color: #161b22;
+            margin-top: 20px;
+        }
+
+        .footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .footer-left,
+        .footer-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .footer-link {
+            text-decoration: none;
+            margin: 0 15px;
+            color: #58a6ff;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: #79c0ff;
+        }
+
+        .footer-content p {
+            color: #8b949e;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+            }
+
+            .footer-left,
+            .footer-right {
+                justify-content: center;
+            }
+        }
+
+        /* Mobile Bottom Navigation Styles */
+        .mobile-bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 64px;
+            background-color: var(--background-primary);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 6px 0;
+            z-index: 999;
+            border-top: 1px solid #30363d;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-bottom-nav {
+                display: flex;
+            }
+        }
+
+        .nav-badge-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 7px;
+            flex: 1;
+        }
+
+        .nav-badge {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 60px;
+            height: 32px;
+            border-radius: 16px;
+            background-color: var(--background-primary);
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+            z-index: 2;
+        }
+
+        .material-symbols-rounded {
+            position: relative;
+            z-index: 3;
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24;
+        }
+
+        .nav-badge.active .material-symbols-rounded {
+            font-variation-settings:
+                'FILL' 1,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24;
+        }
+
+        .nav-badge::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: var(--background-secondary);
+            border-radius: 16px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+            left: 0;
+            top: 0;
+        }
+
+        .nav-badge.touched::after {
+            opacity: 0.2;
+        }
+
+        .nav-badge.active::after {
+            opacity: 0.3;
+        }
+
+        .nav-badge::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 100%;
+            background-color: var(--background-secondary);
+            border-radius: 16px;
+            opacity: 0;
+            transition: width 0.5s ease, opacity 0.3s ease;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .nav-badge.active::before {
+            width: 100%;
+            opacity: 1;
+        }
+
+        .nav-badge.active {
+            color: var(--text-primary);
+        }
+
+        .nav-text {
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1;
+            transition: color 0.2s ease;
+        }
+
+        .nav-badge-wrapper.active .nav-text {
+            color: var(--text-primary);
+        }
+
+        /* Users Page Specific Styles */
+        .search-container {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .stats-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .stats-card:hover {
+            border-color: #58a6ff;
+            transform: translateY(-2px);
+        }
+
+        .user-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .user-table th {
+            background: #21262d;
+            padding: 20px;
+            text-align: left;
+            font-weight: 600;
+            color: #8b949e;
+            border-bottom: 1px solid #30363d;
+        }
+
+        .user-table td {
+            padding: 20px;
+            border-bottom: 1px solid #30363d;
+        }
+
+        .user-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .user-table tr:hover {
+            background: #21262d;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-active {
+            background: #0d3922;
+            color: #3fb950;
+        }
+
+        .status-inactive {
+            background: #3d2817;
+            color: #d29922;
+        }
+
+        .status-suspended {
+            background: #3d1f1f;
+            color: #f85149;
+        }
+
+        .type-badge {
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .type-user {
+            background: #1d2d3a;
+            color: #58a6ff;
+        }
+
+        .type-admin {
+            background: #2a1a4a;
+            color: #a371f7;
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            margin-right: 8px;
+        }
+
+        .action-btn-view {
+            background: #21262d;
+            color: #58a6ff;
+            border: 1px solid #30363d;
+        }
+
+        .action-btn-edit {
+            background: #2a1a4a;
+            color: #a371f7;
+            border: 1px solid #3a2860;
+        }
+
+        .action-btn-delete {
+            background: #3d1f1f;
+            color: #f85149;
+            border: 1px solid #5a2a2a;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: #8b949e;
+            cursor: pointer;
+            font-size: 24px;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            background: #21262d;
+            color: #e6edf3;
+        }
+
+        .detail-row {
+            display: flex;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #21262d;
+        }
+
+        .detail-label {
+            width: 200px;
+            color: #8b949e;
+            font-weight: 500;
+        }
+
+        .detail-value {
+            flex: 1;
+            color: #e6edf3;
+        }
+
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 24px;
+        }
+
+        .page-btn {
+            padding: 8px 16px;
+            background: #21262d;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            color: #e6edf3;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .page-btn:hover:not(.disabled) {
+            background: #30363d;
+            border-color: #58a6ff;
+        }
+
+        .page-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .page-btn.active {
+            background: #58a6ff;
+            border-color: #58a6ff;
+            color: #0f1117;
+        }
+
+        @media (max-width: 768px) {
+            .user-table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .detail-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .detail-label {
+                width: 100%;
+            }
+
+            .action-btn {
+                padding: 6px 12px;
+                font-size: 12px;
+                margin-bottom: 4px;
+            }
+        }
+
+        /* Mobile Sidebar Styles */
+        .mobile-sidebar {
+            position: fixed;
+            top: 0;
+            left: -280px;
+            width: 280px;
+            height: 100vh;
+            background: #161b22;
+            border-right: 1px solid #21262d;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .mobile-sidebar.active {
+            left: 0;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Mobile Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Mobile Sidebar -->
+    <div class="mobile-sidebar" id="mobileSidebar">
+        <div class="sidebar-top flex items-center justify-between px-6 py-4">
+            <div class="flex items-center">
+                <img src="/images/icon.png" alt="UPIExpress" class="w-8 h-8">
+                <span class="sidebar-text font-bold text-xl mr-[2.2px] text-gray-200">UPI</span>
+                <span class="sidebar-text font-family text-xl text-gray-400">Express</span>
+            </div>
+            <button class="flex items-center justify-center text-gray-400 hover:text-gray-300" id="mobileSidebarClose">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Menu Content -->
+        <div class="menu-content-wrap mt-3">
+            <div class="menu-group">
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/admin/dashboard">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-layout-2"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <rect x="4" y="4" width="6" height="5" rx="2"></rect>
+                                        <rect x="4" y="13" width="6" height="7" rx="2"></rect>
+                                        <rect x="14" y="4" width="6" height="7" rx="2"></rect>
+                                        <rect x="14" y="15" width="6" height="5" rx="2"></rect>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item active" href="/admin/users">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-users" xmlns="http://www.w3.org/2000/svg"
+                                        width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+                                        stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <circle cx="9" cy="7" r="4"></circle>
+                                        <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
+                                        <circle cx="15" cy="11" r="2"></circle>
+                                        <path d="M12 17h6"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Users</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/admin/transactions">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-arrow-autofit-height"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M12 20h-6a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h6"></path>
+                                        <path d="M18 14v7"></path>
+                                        <path d="M18 3v7"></path>
+                                        <path d="M15 18l3 3l3 -3"></path>
+                                        <path d="M15 6l3 -3l3 3"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Transactions</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-gap"></div>
+
+            <div class="menu-group">
+                <div class="nav-header"><span>Plans</span></div>
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/admin/plans">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-shopping-cart"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <circle cx="6" cy="19" r="2"></circle>
+                                        <circle cx="17" cy="19" r="2"></circle>
+                                        <path d="M17 17h-11v-14h-2"></path>
+                                        <path d="M6 5l14 1l-1 7h-13"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">All Plans</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/admin/subscriptions">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-toggle-right"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <circle cx="16" cy="12" r="2"></circle>
+                                        <rect x="2" y="6" width="20" height="12" rx="6"></rect>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Subscriptions</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-gap"></div>
+
+            <div class="menu-group">
+                <div class="nav-header"><span>Settings</span></div>
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/admin/settings">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-settings"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path
+                                            d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z">
+                                        </path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Settings</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/admin/reports">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-file-invoice"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                                        <path
+                                            d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z">
+                                        </path>
+                                        <line x1="9" y1="7" x2="10" y2="7"></line>
+                                        <line x1="9" y1="13" x2="15" y2="13"></line>
+                                        <line x1="13" y1="17" x2="15" y2="17"></line>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Reports</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Desktop Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-top flex items-center justify-between px-6 py-4">
+            <div class="flex items-center">
+                <img src="/images/icon.png" alt="UPIExpress" class="w-8 h-8">
+                <span class="sidebar-text font-bold text-xl mr-[2.2px] text-gray-200">UPI</span>
+                <span class="sidebar-text font-family text-xl text-gray-400">Express</span>
+            </div>
+            <button class="sidebar-toggle flex items-center justify-center text-gray-400 hover:text-gray-700"
+                id="toggleSidebar">
+                <span class="svg-icon">
+                    <svg class="icon icon-tabler icon-tabler-arrow-bar-to-left" xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <line x1="10" y1="12" x2="20" y2="12"></line>
+                        <line x1="10" y1="12" x2="14" y2="16"></line>
+                        <line x1="10" y1="12" x2="14" y2="8"></line>
+                        <line x1="4" y1="4" x2="4" y2="20"></line>
+                    </svg>
+                </span>
+            </button>
+        </div>
+
+        <!-- Menu Content -->
+        <div class="menu-content-wrap mt-3">
+            <div class="menu-group">
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/admin/dashboard">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-layout-2"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <rect x="4" y="4" width="6" height="5" rx="2"></rect>
+                                        <rect x="4" y="13" width="6" height="7" rx="2"></rect>
+                                        <rect x="14" y="4" width="6" height="7" rx="2"></rect>
+                                        <rect x="14" y="15" width="6" height="5" rx="2"></rect>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item active" href="/admin/users">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-users" xmlns="http://www.w3.org/2000/svg"
+                                        width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+                                        stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <circle cx="9" cy="7" r="4"></circle>
+                                        <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
+                                        <circle cx="15" cy="11" r="2"></circle>
+                                        <path d="M12 17h6"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Users</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/admin/transactions">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-arrow-autofit-height"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M12 20h-6a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h6"></path>
+                                        <path d="M18 14v7"></path>
+                                        <path d="M18 3v7"></path>
+                                        <path d="M15 18l3 3l3 -3"></path>
+                                        <path d="M15 6l3 -3l3 3"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Transactions</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-gap"></div>
+
+            <div class="menu-group">
+                <div class="nav-header"><span>Plans</span></div>
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/admin/plans">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-shopping-cart"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <circle cx="6" cy="19" r="2"></circle>
+                                        <circle cx="17" cy="19" r="2"></circle>
+                                        <path d="M17 17h-11v-14h-2"></path>
+                                        <path d="M6 5l14 1l-1 7h-13"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">All Plans</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/admin/subscriptions">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-toggle-right"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <circle cx="16" cy="12" r="2"></circle>
+                                        <rect x="2" y="6" width="20" height="12" rx="6"></rect>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Subscriptions</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-gap"></div>
+
+            <div class="menu-group">
+                <div class="nav-header"><span>Settings</span></div>
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/admin/settings">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-settings"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path
+                                            d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z">
+                                        </path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Settings</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/admin/reports">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-file-invoice"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                                        <path
+                                            d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z">
+                                        </path>
+                                        <line x1="9" y1="7" x2="10" y2="7"></line>
+                                        <line x1="9" y1="13" x2="15" y2="13"></line>
+                                        <line x1="13" y1="17" x2="15" y2="17"></line>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Reports</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <!-- HEADER -->
+        <div class="content-header">
+            <div class="header-container">
+                <!-- Left Section -->
+                <div class="header-left">
+                    <button class="mobile-hamburger" id="mobileHamburger">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
+
+                </div>
+
+                <!-- Right Section -->
+                <div class="header-right">
+                    <div class="profile-dropdown">
+                        <button class="profile-btn" id="profileDropdown">
+                            <div class="avatar">
+                                <span class="avatar-text">A</span>
+                            </div>
+                        </button>
+
+                        <div class="dropdown-menu" id="dropdownMenu">
+                            <div class="dropdown-header">
+                                <div class="user-info">
+                                    <div class="avatar">
+                                        <span class="avatar-text">A</span>
+                                    </div>
+                                    <div class="user-details">
+                                        <div class="user-name">Administrator</div>
+                                        <div class="user-email">admin@upiexpress.com</div>
+                                        <a href="/auth/logout" class="logout-link">Sign Out</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <a href="/admin/profile" class="dropdown-item">Profile</a>
+                            <a href="/admin/settings" class="dropdown-item">Settings</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page Content -->
+        <div class="page-content mx-[2px] md:mx-[20px] lg:mx-[60px] min-h-[calc(100vh-180px)] pb-[100px] md:pb-[40px]">
+            <!-- Welcome Section -->
+            <h1 class="text-2xl font-bold mb-1 lg:pt-[28px] text-white">Users Management</h1>
+            <p class="text-gray-400">Manage and monitor all user accounts in the system</p>
+
+            <!-- Search and Filter Section -->
+            <div class="search-container mt-6">
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="flex-1">
+                        <input type="text" id="searchInput" placeholder="Search by name, email, phone, or user ID..."
+                            class="w-full px-4 py-3 bg-[#0f1117] border border-[#30363d] rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#58a6ff] transition-colors">
+                    </div>
+                    <div class="flex gap-2">
+                        <select id="statusFilter"
+                            class="px-4 py-3 bg-[#0f1117] border border-[#30363d] rounded-lg text-white focus:outline-none focus:border-[#58a6ff] transition-colors">
+                            <option value="">All Status</option>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                            <option value="suspended">Suspended</option>
+                        </select>
+                        <select id="typeFilter"
+                            class="px-4 py-3 bg-[#0f1117] border border-[#30363d] rounded-lg text-white focus:outline-none focus:border-[#58a6ff] transition-colors">
+                            <option value="">All Types</option>
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                        <button id="exportBtn"
+                            class="px-6 py-3 bg-[#21262d] border border-[#30363d] rounded-lg text-white hover:bg-[#30363d] transition-colors">
+                            Export CSV
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+                <!-- Total Users -->
+                <div class="stats-card">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-400">Total Users</p>
+                            <h3 class="text-2xl font-bold text-white mt-1">1,245</h3>
+                        </div>
+                        <div class="w-12 h-12 bg-[#21262d] rounded-full flex items-center justify-center">
+                            <span class="material-symbols-rounded text-[#58a6ff]">group</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm text-green-500">↑ 12.5%</span>
+                            <span class="text-sm text-gray-400">from last month</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Users -->
+                <div class="stats-card">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-400">Active Users</p>
+                            <h3 class="text-2xl font-bold text-white mt-1">856</h3>
+                        </div>
+                        <div class="w-12 h-12 bg-[#0d3922] rounded-full flex items-center justify-center">
+                            <span class="material-symbols-rounded text-[#3fb950]">check_circle</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm text-green-500">↑ 8.2%</span>
+                            <span class="text-sm text-gray-400">from last month</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admin Users -->
+                <div class="stats-card">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-400">Admin Users</p>
+                            <h3 class="text-2xl font-bold text-white mt-1">15</h3>
+                        </div>
+                        <div class="w-12 h-12 bg-[#2a1a4a] rounded-full flex items-center justify-center">
+                            <span class="material-symbols-rounded text-[#a371f7]">admin_panel_settings</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm text-green-500">↑ 2.3%</span>
+                            <span class="text-sm text-gray-400">from last month</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Total Balance -->
+                <div class="stats-card">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-400">Total Balance</p>
+                            <h3 class="text-2xl font-bold text-white mt-1">₹124,567</h3>
+                        </div>
+                        <div class="w-12 h-12 bg-[#21262d] rounded-full flex items-center justify-center">
+                            <span class="material-symbols-rounded text-[#58a6ff]">account_balance_wallet</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm text-green-500">↑ 15.3%</span>
+                            <span class="text-sm text-gray-400">from last month</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users Table -->
+            <div class="mt-6 overflow-hidden rounded-xl mb-6">
+                <table class="user-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>User Info</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Balance</th>
+                            <th>Joined</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody">
+                        <!-- Users will be populated here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination mb-6" id="pagination">
+                <!-- Pagination buttons will be populated here by JavaScript -->
+            </div>
+        </div>
+
+        <!-- User Details Modal -->
+        <div class="modal" id="userModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="text-xl font-bold text-white">User Details</h2>
+                    <button class="close-modal" id="closeModal">&times;</button>
+                </div>
+                <div class="modal-body" id="userDetails">
+                    <!-- User details will be populated here by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Bottom Navigation -->
+        <div class="mobile-bottom-nav">
+            <div class="nav-badge-wrapper">
+                <div class="nav-badge" id="navDashboard">
+                    <span class="material-symbols-rounded">dashboard</span>
+                </div>
+                <div class="nav-text">Dashboard</div>
+            </div>
+
+            <div class="nav-badge-wrapper active">
+                <div class="nav-badge active" id="navUsers">
+                    <span class="material-symbols-rounded">people</span>
+                </div>
+                <div class="nav-text">Users</div>
+            </div>
+
+            <div class="nav-badge-wrapper">
+                <div class="nav-badge" id="navTransactions">
+                    <span class="material-symbols-rounded">sync_alt</span>
+                </div>
+                <div class="nav-text">Transactions</div>
+            </div>
+
+            <div class="nav-badge-wrapper">
+                <div class="nav-badge" id="navSettings">
+                    <span class="material-symbols-rounded">settings</span>
+                </div>
+                <div class="nav-text">Settings</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get DOM elements
+        const profileDropdown = document.getElementById('profileDropdown');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        const sidebar = document.getElementById('sidebar');
+        const toggleSidebar = document.getElementById('toggleSidebar');
+        const mobileSidebar = document.getElementById('mobileSidebar');
+        const mobileHamburger = document.getElementById('mobileHamburger');
+        const mobileSidebarClose = document.getElementById('mobileSidebarClose');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        // Profile Dropdown Toggle
+        if (profileDropdown && dropdownMenu) {
+            profileDropdown.addEventListener('click', () => {
+                dropdownMenu.classList.toggle('show');
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!profileDropdown.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                    dropdownMenu.classList.remove('show');
+                }
+            });
+        }
+
+        let hoverEnabled = false;
+        let isCollapsed = false;
+
+        // Desktop sidebar toggle
+        if (toggleSidebar && sidebar) {
+            toggleSidebar.addEventListener('click', function () {
+                isCollapsed = !isCollapsed;
+
+                if (isCollapsed) {
+                    sidebar.classList.add('collapsed');
+                    sidebar.classList.remove('hover-enabled');
+
+                    setTimeout(() => {
+                        sidebar.classList.add('hover-enabled');
+                        hoverEnabled = true;
+                    }, 1000);
+
+                } else {
+                    sidebar.classList.remove('collapsed');
+                    sidebar.classList.remove('hover-enabled');
+                    hoverEnabled = false;
+                }
+            });
+        }
+
+        // Mobile sidebar toggle
+        if (mobileHamburger && mobileSidebar) {
+            mobileHamburger.addEventListener('click', () => {
+                mobileSidebar.classList.add('active');
+                sidebarOverlay.classList.add('active');
+            });
+        }
+
+        // Close mobile sidebar
+        if (mobileSidebarClose && mobileSidebar) {
+            mobileSidebarClose.addEventListener('click', () => {
+                mobileSidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            });
+        }
+
+        // Close mobile sidebar when clicking overlay
+        if (sidebarOverlay) {
+            sidebarOverlay.addEventListener('click', () => {
+                mobileSidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            });
+        }
+
+        // Close mobile sidebar when clicking menu items
+        const mobileMenuItems = document.querySelectorAll('.mobile-sidebar .menu-item');
+        mobileMenuItems.forEach(item => {
+            item.addEventListener('click', () => {
+                mobileSidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            });
+        });
+
+        // Modal functionality
+        const userModal = document.getElementById('userModal');
+        const closeModal = document.getElementById('closeModal');
+        const userDetails = document.getElementById('userDetails');
+
+        closeModal.addEventListener('click', () => {
+            userModal.classList.remove('active');
+        });
+
+        userModal.addEventListener('click', (e) => {
+            if (e.target === userModal) {
+                userModal.classList.remove('active');
+            }
+        });
+
+        // Sample user data based on your database schema
+        const sampleUsers = [
+            {
+                id: 1,
+                type: 'admin',
+                userid: 'ADMIN001',
+                name: 'Administrator',
+                email: 'admin@upiexpress.com',
+                phone: '+919876543210',
+                register_date: '2024-01-01 10:00:00',
+                account_status: 'active',
+                upline: null,
+                referid: null,
+                usertoken: 'admin_token_001',
+                apikey: 'api_key_admin_001',
+                webhook: 'https://webhook.admin.com',
+                last_login: '2025-12-09 14:30:00',
+                twofa: true,
+                created_at: '2024-01-01 10:00:00',
+                updated_at: '2025-12-09 14:30:00',
+                business_logo: '/images/business/logo1.png',
+                business_name: 'UPIExpress',
+                state: 'Delhi',
+                website_url: 'https://upiexpress.com',
+                app_url: 'https://app.upiexpress.com',
+                whatsapp_no: '+919876543210',
+                theme_color: '7B2CF6',
+                business_icon: '/images/setup_upi/payments/icon1.png',
+                isIntent: true,
+                wallet_balance: 100000.00,
+                total_spent: 50000.00,
+                total_deposit: 150000.00
+            },
+            {
+                id: 2,
+                type: 'user',
+                userid: 'USER001',
+                name: 'John Doe',
+                email: 'john@example.com',
+                phone: '+919876543211',
+                register_date: '2024-02-15 14:30:00',
+                account_status: 'active',
+                upline: 'ADMIN001',
+                referid: 'REF001',
+                usertoken: 'user_token_001',
+                apikey: 'api_key_user_001',
+                webhook: 'https://webhook.user1.com',
+                last_login: '2025-12-08 11:20:00',
+                twofa: false,
+                created_at: '2024-02-15 14:30:00',
+                updated_at: '2025-12-08 11:20:00',
+                business_logo: '/images/business/logo2.png',
+                business_name: 'John Enterprises',
+                state: 'Maharashtra',
+                website_url: 'https://johnenterprises.com',
+                app_url: 'https://app.johnenterprises.com',
+                whatsapp_no: '+919876543211',
+                theme_color: '4A90E2',
+                business_icon: '/images/setup_upi/payments/icon2.png',
+                isIntent: true,
+                wallet_balance: 5000.00,
+                total_spent: 15000.00,
+                total_deposit: 20000.00
+            },
+            {
+                id: 3,
+                type: 'user',
+                userid: 'USER002',
+                name: 'Jane Smith',
+                email: 'jane@example.com',
+                phone: '+919876543212',
+                register_date: '2024-03-10 09:15:00',
+                account_status: 'inactive',
+                upline: 'ADMIN001',
+                referid: 'REF002',
+                usertoken: 'user_token_002',
+                apikey: 'api_key_user_002',
+                webhook: 'https://webhook.user2.com',
+                last_login: '2025-11-30 16:45:00',
+                twofa: true,
+                created_at: '2024-03-10 09:15:00',
+                updated_at: '2025-11-30 16:45:00',
+                business_logo: null,
+                business_name: null,
+                state: 'Karnataka',
+                website_url: null,
+                app_url: null,
+                whatsapp_no: '+919876543212',
+                theme_color: '7B2CF6',
+                business_icon: '/images/setup_upi/payments/default.png',
+                isIntent: false,
+                wallet_balance: 0.00,
+                total_spent: 0.00,
+                total_deposit: 0.00
+            },
+            {
+                id: 4,
+                type: 'user',
+                userid: 'USER003',
+                name: 'Mike Johnson',
+                email: 'mike@example.com',
+                phone: '+919876543213',
+                register_date: '2024-04-22 11:45:00',
+                account_status: 'suspended',
+                upline: 'USER001',
+                referid: 'REF003',
+                usertoken: 'user_token_003',
+                apikey: 'api_key_user_003',
+                webhook: 'https://webhook.user3.com',
+                last_login: '2025-10-15 12:30:00',
+                twofa: false,
+                created_at: '2024-04-22 11:45:00',
+                updated_at: '2025-10-15 12:30:00',
+                business_logo: '/images/business/logo3.png',
+                business_name: 'Mike Solutions',
+                state: 'Tamil Nadu',
+                website_url: 'https://mikesolutions.com',
+                app_url: 'https://app.mikesolutions.com',
+                whatsapp_no: '+919876543213',
+                theme_color: 'FF6B6B',
+                business_icon: '/images/setup_upi/payments/icon3.png',
+                isIntent: true,
+                wallet_balance: 2500.00,
+                total_spent: 7500.00,
+                total_deposit: 10000.00
+            },
+            {
+                id: 5,
+                type: 'user',
+                userid: 'USER004',
+                name: 'Sarah Williams',
+                email: 'sarah@example.com',
+                phone: '+919876543214',
+                register_date: '2024-05-05 13:20:00',
+                account_status: 'active',
+                upline: 'USER001',
+                referid: 'REF004',
+                usertoken: 'user_token_004',
+                apikey: 'api_key_user_004',
+                webhook: 'https://webhook.user4.com',
+                last_login: '2025-12-08 09:15:00',
+                twofa: true,
+                created_at: '2024-05-05 13:20:00',
+                updated_at: '2025-12-08 09:15:00',
+                business_logo: '/images/business/logo4.png',
+                business_name: 'Sarah Tech',
+                state: 'Gujarat',
+                website_url: 'https://sarahtech.com',
+                app_url: 'https://app.sarahtech.com',
+                whatsapp_no: '+919876543214',
+                theme_color: '4ECDC4',
+                business_icon: '/images/setup_upi/payments/icon4.png',
+                isIntent: false,
+                wallet_balance: 15000.00,
+                total_spent: 35000.00,
+                total_deposit: 50000.00
+            }
+        ];
+
+        // Add more sample users
+        for (let i = 6; i <= 20; i++) {
+            sampleUsers.push({
+                id: i,
+                type: Math.random() > 0.8 ? 'admin' : 'user',
+                userid: `USER${String(i).padStart(3, '0')}`,
+                name: `User ${i}`,
+                email: `user${i}@example.com`,
+                phone: `+9198765432${String(i).padStart(2, '0')}`,
+                register_date: `2024-${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')} ${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}:${String(Math.floor(Math.random() * 60)).padStart(2, '0')}:${String(Math.floor(Math.random() * 60)).padStart(2, '0')}`,
+                account_status: ['active', 'inactive', 'suspended'][Math.floor(Math.random() * 3)],
+                upline: Math.random() > 0.5 ? 'USER001' : null,
+                referid: Math.random() > 0.3 ? `REF${String(i).padStart(3, '0')}` : null,
+                usertoken: `user_token_${String(i).padStart(3, '0')}`,
+                apikey: `api_key_user_${String(i).padStart(3, '0')}`,
+                webhook: Math.random() > 0.5 ? `https://webhook.user${i}.com` : null,
+                last_login: Math.random() > 0.2 ? `2025-12-${String(Math.floor(Math.random() * 9) + 1).padStart(2, '0')} ${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}:${String(Math.floor(Math.random() * 60)).padStart(2, '0')}:${String(Math.floor(Math.random() * 60)).padStart(2, '0')}` : null,
+                twofa: Math.random() > 0.5,
+                created_at: `2024-${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')} ${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}:${String(Math.floor(Math.random() * 60)).padStart(2, '0')}:${String(Math.floor(Math.random() * 60)).padStart(2, '0')}`,
+                updated_at: `2025-12-${String(Math.floor(Math.random() * 9) + 1).padStart(2, '0')} ${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}:${String(Math.floor(Math.random() * 60)).padStart(2, '0')}:${String(Math.floor(Math.random() * 60)).padStart(2, '0')}`,
+                business_logo: Math.random() > 0.7 ? `/images/business/logo${i}.png` : null,
+                business_name: Math.random() > 0.7 ? `Business ${i}` : null,
+                state: ['Delhi', 'Maharashtra', 'Karnataka', 'Tamil Nadu', 'Gujarat', 'Rajasthan', 'Uttar Pradesh'][Math.floor(Math.random() * 7)],
+                website_url: Math.random() > 0.6 ? `https://business${i}.com` : null,
+                app_url: Math.random() > 0.6 ? `https://app.business${i}.com` : null,
+                whatsapp_no: Math.random() > 0.3 ? `+9198765432${String(i).padStart(2, '0')}` : null,
+                theme_color: ['7B2CF6', '4A90E2', 'FF6B6B', '4ECDC4', 'FFD166'][Math.floor(Math.random() * 5)],
+                business_icon: Math.random() > 0.5 ? `/images/setup_upi/payments/icon${Math.floor(Math.random() * 10) + 1}.png` : '/images/setup_upi/payments/default.png',
+                isIntent: Math.random() > 0.5,
+                wallet_balance: Math.floor(Math.random() * 50000),
+                total_spent: Math.floor(Math.random() * 100000),
+                total_deposit: Math.floor(Math.random() * 150000)
+            });
+        }
+
+        // Pagination variables
+        let currentPage = 1;
+        const itemsPerPage = 10;
+        let filteredUsers = [...sampleUsers];
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function () {
+            renderTable();
+            setupEventListeners();
+            setupMobileNavigation();
+        });
+
+        function renderTable() {
+            const tableBody = document.getElementById('usersTableBody');
+            const pagination = document.getElementById('pagination');
+
+            // Calculate pagination
+            const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const pageUsers = filteredUsers.slice(startIndex, endIndex);
+
+            // Clear table
+            tableBody.innerHTML = '';
+
+            // Populate table
+            pageUsers.forEach(user => {
+                const row = document.createElement('tr');
+
+                // Format date
+                const registerDate = new Date(user.register_date);
+                const formattedDate = registerDate.toLocaleDateString('en-IN', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric'
+                });
+
+                // Status badge
+                const statusClass = user.account_status === 'active' ? 'status-active' :
+                    user.account_status === 'inactive' ? 'status-inactive' : 'status-suspended';
+                const statusText = user.account_status.charAt(0).toUpperCase() + user.account_status.slice(1);
+
+                // Type badge
+                const typeClass = user.type === 'admin' ? 'type-admin' : 'type-user';
+                const typeText = user.type.charAt(0).toUpperCase() + user.type.slice(1);
+
+                row.innerHTML = `
+                    <td class="font-mono text-sm">${user.id}</td>
+                    <td>
+                        <div class="flex flex-col">
+                            <span class="font-medium text-white">${user.name}</span>
+                            <span class="text-sm text-gray-400">${user.userid}</span>
+                            <span class="text-sm text-gray-400">${user.email || 'No email'}</span>
+                            <span class="text-sm text-gray-400">${user.phone || 'No phone'}</span>
+                        </div>
+                    </td>
+                    <td><span class="${typeClass} type-badge">${typeText}</span></td>
+                    <td><span class="${statusClass} status-badge">${statusText}</span></td>
+                    <td class="font-medium">₹${user.wallet_balance.toFixed(2)}</td>
+                    <td>
+                        <span class="text-gray-300">${formattedDate}</span>
+                    </td>
+                    <td>
+                        <button class="action-btn action-btn-view" onclick="viewUser(${user.id})">
+                            View
+                        </button>
+                        <button class="action-btn action-btn-edit" onclick="editUser(${user.id})">
+                            Edit
+                        </button>
+                        <button class="action-btn action-btn-delete" onclick="deleteUser(${user.id})">
+                            Delete
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+
+            // Render pagination
+            renderPagination(totalPages);
+        }
+
+        function renderPagination(totalPages) {
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+
+            // Previous button
+            const prevButton = document.createElement('button');
+            prevButton.textContent = 'Previous';
+            prevButton.className = 'page-btn';
+            prevButton.disabled = currentPage === 1;
+            if (currentPage === 1) {
+                prevButton.classList.add('disabled');
+            }
+            prevButton.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderTable();
+                }
+            });
+            pagination.appendChild(prevButton);
+
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
+                    const pageButton = document.createElement('button');
+                    pageButton.textContent = i;
+                    pageButton.className = 'page-btn';
+                    if (i === currentPage) {
+                        pageButton.classList.add('active');
+                    }
+                    pageButton.addEventListener('click', () => {
+                        currentPage = i;
+                        renderTable();
+                    });
+                    pagination.appendChild(pageButton);
+                } else if (i === currentPage - 3 || i === currentPage + 3) {
+                    const ellipsis = document.createElement('span');
+                    ellipsis.textContent = '...';
+                    ellipsis.className = 'text-gray-400 px-2';
+                    pagination.appendChild(ellipsis);
+                }
+            }
+
+            // Next button
+            const nextButton = document.createElement('button');
+            nextButton.textContent = 'Next';
+            nextButton.className = 'page-btn';
+            nextButton.disabled = currentPage === totalPages;
+            if (currentPage === totalPages) {
+                nextButton.classList.add('disabled');
+            }
+            nextButton.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderTable();
+                }
+            });
+            pagination.appendChild(nextButton);
+        }
+
+        function setupEventListeners() {
+            // Search input
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', debounce(filterUsers, 300));
+
+            // Status filter
+            const statusFilter = document.getElementById('statusFilter');
+            statusFilter.addEventListener('change', filterUsers);
+
+            // Type filter
+            const typeFilter = document.getElementById('typeFilter');
+            typeFilter.addEventListener('change', filterUsers);
+
+            // Export button
+            const exportBtn = document.getElementById('exportBtn');
+            exportBtn.addEventListener('click', exportToCSV);
+        }
+
+        function filterUsers() {
+            const searchInput = document.getElementById('searchInput');
+            const statusFilter = document.getElementById('statusFilter');
+            const typeFilter = document.getElementById('typeFilter');
+
+            const searchTerm = searchInput.value.toLowerCase();
+            const status = statusFilter.value;
+            const type = typeFilter.value;
+
+            filteredUsers = sampleUsers.filter(user => {
+                const matchesSearch = !searchTerm ||
+                    user.name.toLowerCase().includes(searchTerm) ||
+                    user.email?.toLowerCase().includes(searchTerm) ||
+                    user.phone?.toLowerCase().includes(searchTerm) ||
+                    user.userid.toLowerCase().includes(searchTerm);
+
+                const matchesStatus = !status || user.account_status === status;
+                const matchesType = !type || user.type === type;
+
+                return matchesSearch && matchesStatus && matchesType;
+            });
+
+            currentPage = 1;
+            renderTable();
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        function viewUser(userId) {
+            const user = sampleUsers.find(u => u.id === userId);
+            if (!user) return;
+
+            // Format dates
+            const formatDate = (dateString) => {
+                if (!dateString) return 'Never';
+                const date = new Date(dateString);
+                return date.toLocaleString('en-IN', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            };
+
+            userDetails.innerHTML = `
+                <div class="detail-row">
+                    <div class="detail-label">ID</div>
+                    <div class="detail-value">${user.id}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">User ID</div>
+                    <div class="detail-value font-mono">${user.userid}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Name</div>
+                    <div class="detail-value">${user.name}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Email</div>
+                    <div class="detail-value">${user.email || 'Not provided'}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Phone</div>
+                    <div class="detail-value">${user.phone || 'Not provided'}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Account Type</div>
+                    <div class="detail-value">
+                        <span class="${user.type === 'admin' ? 'type-admin' : 'type-user'} type-badge">
+                            ${user.type.charAt(0).toUpperCase() + user.type.slice(1)}
+                        </span>
+                    </div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Account Status</div>
+                    <div class="detail-value">
+                        <span class="${user.account_status === 'active' ? 'status-active' : user.account_status === 'inactive' ? 'status-inactive' : 'status-suspended'} status-badge">
+                            ${user.account_status.charAt(0).toUpperCase() + user.account_status.slice(1)}
+                        </span>
+                    </div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Registration Date</div>
+                    <div class="detail-value">${formatDate(user.register_date)}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Last Login</div>
+                    <div class="detail-value">${formatDate(user.last_login)}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">2FA Enabled</div>
+                    <div class="detail-value">${user.twofa ? 'Yes' : 'No'}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Upline</div>
+                    <div class="detail-value">${user.upline || 'None'}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Referral ID</div>
+                    <div class="detail-value">${user.referid || 'None'}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Business Info</div>
+                    <div class="detail-value">
+                        ${user.business_name ? `
+                            <div class="mb-2">
+                                <strong>Name:</strong> ${user.business_name}<br>
+                                <strong>State:</strong> ${user.state || 'Not specified'}<br>
+                                <strong>Website:</strong> ${user.website_url ? `<a href="${user.website_url}" target="_blank" class="text-[#58a6ff]">${user.website_url}</a>` : 'Not provided'}<br>
+                                <strong>App URL:</strong> ${user.app_url ? `<a href="${user.app_url}" target="_blank" class="text-[#58a6ff]">${user.app_url}</a>` : 'Not provided'}<br>
+                                <strong>WhatsApp:</strong> ${user.whatsapp_no || 'Not provided'}<br>
+                                <strong>Theme Color:</strong> <span style="color:#${user.theme_color}">#${user.theme_color}</span>
+                            </div>
+                        ` : 'No business info'}
+                    </div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Financial Info</div>
+                    <div class="detail-value">
+                        <div class="grid grid-cols-3 gap-4">
+                            <div>
+                                <div class="text-sm text-gray-400">Wallet Balance</div>
+                                <div class="text-lg font-bold text-white">₹${user.wallet_balance.toFixed(2)}</div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-400">Total Spent</div>
+                                <div class="text-lg font-bold text-white">₹${user.total_spent.toFixed(2)}</div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-400">Total Deposit</div>
+                                <div class="text-lg font-bold text-white">₹${user.total_deposit.toFixed(2)}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">API/Technical Info</div>
+                    <div class="detail-value">
+                        <div class="font-mono text-sm">
+                            <div class="mb-2">
+                                <strong>User Token:</strong> ${user.usertoken || 'Not generated'}<br>
+                                <strong>API Key:</strong> ${user.apikey ? '••••••••' + user.apikey.slice(-8) : 'Not generated'}<br>
+                                <strong>Webhook:</strong> ${user.webhook || 'Not set'}<br>
+                                <strong>Intent Enabled:</strong> ${user.isIntent ? 'Yes' : 'No'}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Timestamps</div>
+                    <div class="detail-value">
+                        <div class="text-sm">
+                            <div class="mb-1"><strong>Created:</strong> ${formatDate(user.created_at)}</div>
+                            <div><strong>Updated:</strong> ${formatDate(user.updated_at)}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            userModal.classList.add('active');
+        }
+
+        function editUser(userId) {
+            alert(`Edit user with ID: ${userId}\nThis would open an edit form in a real application.`);
+        }
+
+        function deleteUser(userId) {
+            if (confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
+                const index = sampleUsers.findIndex(u => u.id === userId);
+                if (index !== -1) {
+                    sampleUsers.splice(index, 1);
+                    filterUsers();
+                    alert('User deleted successfully!');
+                }
+            }
+        }
+
+        function exportToCSV() {
+            // Create CSV content
+            const headers = [
+                'ID', 'Type', 'User ID', 'Name', 'Email', 'Phone', 'Status',
+                'Register Date', 'Wallet Balance', 'Total Spent', 'Total Deposit',
+                'Business Name', 'State', 'Last Login'
+            ];
+
+            const csvContent = [
+                headers.join(','),
+                ...filteredUsers.map(user => [
+                    user.id,
+                    user.type,
+                    `"${user.userid}"`,
+                    `"${user.name}"`,
+                    `"${user.email || ''}"`,
+                    `"${user.phone || ''}"`,
+                    user.account_status,
+                    `"${user.register_date}"`,
+                    user.wallet_balance,
+                    user.total_spent,
+                    user.total_deposit,
+                    `"${user.business_name || ''}"`,
+                    `"${user.state || ''}"`,
+                    `"${user.last_login || ''}"`
+                ].join(','))
+            ].join('\n');
+
+            // Create and trigger download
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `users_export_${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function setupMobileNavigation() {
+            const navWrappers = document.querySelectorAll('.nav-badge-wrapper');
+            const materialSymbolsLink = document.getElementById('material-symbols-link');
+
+            // Set initial active state for Users
+            navWrappers[1].classList.add('active');
+            navWrappers[1].querySelector('.nav-badge').classList.add('active');
+
+            navWrappers.forEach((wrapper, index) => {
+                wrapper.addEventListener('touchstart', function (e) {
+                    const badge = this.querySelector('.nav-badge');
+                    badge.classList.add('touched');
+                });
+
+                wrapper.addEventListener('touchend', function (e) {
+                    const badge = this.querySelector('.nav-badge');
+                    badge.classList.remove('touched');
+                });
+
+                wrapper.addEventListener('touchcancel', function (e) {
+                    const badge = this.querySelector('.nav-badge');
+                    badge.classList.remove('touched');
+                });
+
+                wrapper.addEventListener('click', function () {
+                    navWrappers.forEach((b, i) => {
+                        b.classList.remove('active');
+                        b.querySelector('.nav-badge').classList.remove('active', 'touched');
+                    });
+
+                    this.classList.add('active');
+                    const currentBadge = this.querySelector('.nav-badge');
+                    currentBadge.classList.add('active');
+
+                    // Navigation logic
+                    switch (index) {
+                        case 0: // Dashboard
+                            window.location.href = '/admin/dashboard';
+                            break;
+                        case 1: // Users
+                            // Already on users page
+                            break;
+                        case 2: // Transactions
+                            window.location.href = '/admin/transactions';
+                            break;
+                        case 3: // Settings
+                            window.location.href = '/admin/settings';
+                            break;
+                    }
+                });
+            });
+        }
+    </script>
+
+</body>
+
+</html>

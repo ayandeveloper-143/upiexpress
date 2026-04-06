@@ -1,0 +1,29 @@
+User-agent: *
+Allow: /
+Allow: /main/
+Allow: /auth/login
+Allow: /auth/signup
+Allow: /api/create_order
+Allow: /api/check_order_status
+Allow: /sitemap.xml
+Allow: /robots.txt
+
+Disallow: /admin/
+Disallow: /server/
+Disallow: /api/webhook
+Disallow: */admin
+Disallow: */dashboard
+
+# Google Bot specific
+User-agent: Googlebot
+Allow: /
+
+# Bing Bot specific
+User-agent: Bingbot
+Allow: /
+
+Crawl-delay: 1
+Request-rate: 1/1s
+
+Sitemap: https://upiexpress.com/sitemap.xml
+Sitemap: https://upiexpress.com/sitemap-index.xml

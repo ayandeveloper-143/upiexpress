@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Payment Page</title>
+    <link rel="icon" href="/images/icon.png" type="image/png">
+    <style>
+        :root {
+            --theme-color: #<%=user.theme_color %>;
+        }
+
+        /* Loading animations */
+        .three-body {
+            --uib-size: 35px;
+            --uib-speed: 0.8s;
+            --uib-color: var(--theme-color);
+            position: relative;
+            display: inline-block;
+            height: var(--uib-size);
+            width: var(--uib-size);
+            animation: spin78236 calc(var(--uib-speed) * 2.5) infinite linear;
+        }
+
+        .three-body__dot {
+            position: absolute;
+            height: 100%;
+            width: 30%;
+        }
+
+        .three-body__dot:after {
+            content: '';
+            position: absolute;
+            height: 0%;
+            width: 100%;
+            padding-bottom: 100%;
+            background-color: var(--uib-color);
+            border-radius: 50%;
+        }
+
+        .three-body__dot:nth-child(1) {
+            bottom: 5%;
+            left: 0;
+            transform: rotate(60deg);
+            transform-origin: 50% 85%;
+        }
+
+        .three-body__dot:nth-child(1)::after {
+            bottom: 0;
+            left: 0;
+            animation: wobble1 var(--uib-speed) infinite ease-in-out;
+            animation-delay: calc(var(--uib-speed) * -0.3);
+        }
+
+        .three-body__dot:nth-child(2) {
+            bottom: 5%;
+            right: 0;
+            transform: rotate(-60deg);
+            transform-origin: 50% 85%;
+        }
+
+        .three-body__dot:nth-child(2)::after {
+            bottom: 0;
+            left: 0;
+            animation: wobble1 var(--uib-speed) infinite calc(var(--uib-speed) * -0.15) ease-in-out;
+        }
+
+        .three-body__dot:nth-child(3) {
+            bottom: -5%;
+            left: 0;
+            transform: translateX(116.666%);
+        }
+
+        .three-body__dot:nth-child(3)::after {
+            top: 0;
+            left: 0;
+            animation: wobble2 var(--uib-speed) infinite ease-in-out;
+        }
+
+        @keyframes spin78236 {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes wobble1 {
+
+            0%,
+            100% {
+                transform: translateY(0%) scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: translateY(-66%) scale(0.65);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes wobble2 {
+
+            0%,
+            100% {
+                transform: translateY(0%) scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: translateY(66%) scale(0.65);
+                opacity: 0.8;
+            }
+        }
+
+        /* UPI Verification animations */
+        .verify-btn-shake {
+            animation: shake 0.4s ease-in-out;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            10%,
+            30%,
+            50%,
+            70%,
+            90% {
+                transform: translateX(-2px);
+            }
+
+            20%,
+            40%,
+            60%,
+            80% {
+                transform: translateX(2px);
+            }
+        }
+
+        .verify-btn-loading {
+            animation: btnPulse 0.8s ease-in-out infinite;
+        }
+
+        @keyframes btnPulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .checkmark-pop {
+            animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0) rotate(-45deg);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        .close-icon-spin {
+            animation: closeSpin 0.4s ease-in-out;
+        }
+
+        @keyframes closeSpin {
+            0% {
+                transform: rotate(0deg) scale(1);
+                opacity: 0;
+            }
+
+            50% {
+                transform: rotate(180deg) scale(1.1);
+            }
+
+            100% {
+                transform: rotate(360deg) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .timer-pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        /* Popup animations */
+        .popup-fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        .popup-scale-in {
+            animation: scaleIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .popup-scale-out {
+            animation: scaleOut 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.9) translateY(-20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes scaleOut {
+            from {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: scale(0.9) translateY(-20px);
+                opacity: 0;
+            }
+        }
+
+        .coin-animate {
+            animation: coinBounce 1.5s ease-in-out infinite;
+        }
+
+        @keyframes coinBounce {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(-10px) scale(1.05);
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Overlay styles */
+        .overlay-fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        .overlay-fade-out {
+            animation: fadeOut 0.3s ease-out forwards;
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+    </style>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+</head>
+
+<body class="min-h-screen bg-[#f3f4f6] flex items-center justify-center">
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="fixed inset-0 bg-white bg-opacity-90 flex items-center justify-center z-50">
+        <div class="text-center">
+            <div class="three-body">
+                <div class="three-body__dot"></div>
+                <div class="three-body__dot"></div>
+                <div class="three-body__dot"></div>
+            </div>
+            <p class="mt-4 text-gray-600">Processing your request...</p>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden overlay-fade-in"></div>
+
+    <!-- UPI Request Popup (Center Popup) -->
+    <div id="upiRequestPopup" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-2xl mx-4 w-full max-w-sm popup-scale-in">
+            <div class="p-6">
+                <!-- Coin Animation -->
+                <div class="flex justify-center mb-6 py-8">
+                    <div class="relative">
+                        <img src="/images/setup_upi/payments/rupee.png" class="w-20 h-20 coin-animate">
+                        <div class="absolute inset-0 w-20 h-20 bg-yellow-300 rounded-full blur-md opacity-50"></div>
+                    </div>
+                </div>
+
+                <!-- Title -->
+                <h2 class="text-[17px] font-semibold text-gray-900 text-center mb-2">
+                    Complete your payment on your UPI app
+                </h2>
+
+                <!-- Description -->
+                <p class="text-[13px] text-gray-500 text-center mb-6">
+                    Please accept the payment request from <span class="font-medium text-gray-700">
+                        <%= user.name %>
+                    </span> in your UPI app
+                </p>
+
+                <!-- Cancel Button -->
+                <button onclick="closeUPIRequestPopup()"
+                    class="w-full border border-gray-300 text-gray-700 py-3 rounded-lg text-[15px] font-medium mb-4 hover:bg-gray-50 active:bg-gray-100 transition-colors">
+                    Cancel Payment
+                </button>
+
+                <!-- Footer Note -->
+                <div class="px-8 py-4 text-[11px] text-gray-400 flex items-center justify-center gap-2">
+                    <span>Powered by</span>
+                    <div class="flex items-center">
+                        <img src="/images/icon.png" alt="UPIExpress" class="w-5 h-5">
+                        <span class="font-bold text-sm mr-[2.2px] text-gray-800">UPI</span>
+                        <span class="text-sm text-gray-700">Express</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Cancel Confirmation Popup -->
+    <div id="cancelPopup" class="fixed inset-0 flex items-center justify-center z-[60] hidden">
+        <div class="bg-white rounded-2xl mx-4 w-full max-w-sm popup-scale-in">
+            <div class="p-6">
+                <!-- Icon -->
+                <div class="flex justify-center mb-4">
+                    <div class="relative">
+                        <div class="w-16 h-16 rounded-full flex items-center justify-center"
+                            style="background: color-mix(in srgb, var(--theme-color) 20%, transparent);">
+                            <svg class="w-8 h-8 text-[var(--theme-color)]" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Title -->
+                <h2 class="text-[16px] font-semibold text-gray-900 text-center mb-2">
+                    Cancel Payment?
+                </h2>
+
+                <!-- Description -->
+                <p class="text-[13px] text-gray-500 text-center mb-6">
+                    Your payment may be ongoing. Are you sure you want to cancel the payment?
+                </p>
+
+                <!-- Action Buttons -->
+                <div class="space-y-3">
+                    <button onclick="hideCancelPopup()" style="background-color: var(--theme-color);"
+                        class="w-full text-white py-3 rounded-lg text-[14px] font-medium active:brightness-90 transition-colors">
+                        No, wait
+                    </button>
+                    <button onclick="confirmCancel()"
+                        class="w-full border border-gray-300 text-gray-700 py-3 rounded-lg text-[14px] font-medium hover:bg-gray-50 transition-colors">
+                        Yes, cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full max-w-6xl bg-white rounded-3xl border border-gray-200 px-10 py-8 h-full">
+        <div class="flex justify-between items-stretch gap-8">
+
+            <!-- LEFT: Order Summary -->
+            <div class="w-1/3 border border-gray-200 rounded-2xl flex flex-col">
+                <div class="px-8 pt-8 pb-6 space-y-6 ">
+                    <!-- Brand -->
+                    <div class="flex items-center gap-3">
+                        <img src="<%= user.business_icon %>" alt="UPIExpress" class="w-8 h-8">
+                        <div class="text-sm font-medium text-gray-800">
+                            <%= user.name %>
+                        </div>
+                    </div>
+
+                    <!-- Total -->
+                    <div class="border border-gray-200 rounded-xl">
+                        <div class="flex items-center justify-between px-4 py-4 border-b border-gray-200">
+                            <div class="flex items-center gap-2 text-sm font-semibold text-gray-800">
+                                <span>Total</span>
+                                <span class="text-gray-400">:</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm font-semibold text-gray-800">
+                                <span>₹<%= data.total %></span>
+                            </div>
+                        </div>
+
+                        <div class="px-4 py-3 text-xs text-gray-600 flex justify-between">
+                            <span>Subtotal</span>
+                            <span>₹<%= data.subtotal %></span>
+                        </div>
+                        <div class="px-4 pb-3 text-xs text-gray-600 flex justify-between">
+                            <span>Convenience Fee</span>
+                            <span>₹<%= data.convenience_fee %></span>
+                        </div>
+
+                        <div class="border-t border-gray-200 mt-1 px-4 py-3 text-xs font-semibold flex justify-between">
+                            <span>Grand Total</span>
+                            <span>₹<%= data.total %></span>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <!-- Footer -->
+                <div
+                    class="mt-auto border-t border-gray-200 px-8 py-4 text-[11px] text-gray-400 flex items-center justify-center gap-2">
+                    <span>Powered by</span>
+                    <div class="flex items-center">
+                        <img src="/images/icon.png" alt="UPIExpress" class="w-5 h-5">
+                        <span class="font-bold text-sm mr-[2.2px] text-gray-800">UPI</span>
+                        <span class="text-sm text-gray-700">Express</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: Payment Area -->
+            <div class="flex-1 flex flex-col gap-4">
+                <!-- Header -->
+                <div class="flex items-center justify-between text-sm pb-2">
+                    <div class="font-medium text-gray-700">Payment Options</div>
+                    <button onclick="showCancelPopup()"
+                        class="h-8 w-8 rounded-full border border-gray-300 flex items-center justify-center text-gray-400 text-xs hover:bg-gray-50 transition-colors">
+                        ✕
+                    </button>
+                </div>
+
+                <div class="flex gap-6">
+                    <!-- Center: UPI Payment Menu -->
+                    <div class="w-1/3 border border-gray-200 rounded-2xl">
+                        <div class="px-6 py-4 border-b border-gray-200 text-xs font-semibold text-gray-500">
+                            UPI Payment
+                        </div>
+
+                        <!-- Only UPI option -->
+                        <div class="px-4 py-3">
+                            <div
+                                class="rounded-xl border border-gray-200 bg-[#f4f0ff] px-2 py-2 flex items-center gap-2">
+                                <img src="/images/setup_upi/payments/upi.svg" alt="UPIExpress"
+                                    class="w-5 h-5 ml-1 mr-1">
+                                <div class="flex flex-col">
+                                    <span class="text-xs font-semibold text-gray-800">UPI</span>
+                                    <span class="text-[11px] text-gray-500">Pay via UPI QR <%=data.isUPIRequest
+                                            ? ', or UPI ID' : '' %></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: QR + UPI ID -->
+                    <div class="flex-1 border border-gray-200 rounded-2xl">
+                        <!-- QR Section -->
+                        <div class="px-8 pt-6 pb-4 mb-2">
+                            <div class="text-sm font-semibold text-gray-800 text-center mb-2">
+                                Scan via any UPI app
+                            </div>
+
+                            <!-- App icons row -->
+                            <div class="flex items-center justify-center gap-2 text-[10px] text-gray-400 mb-4">
+                                <img src="/images/setup_upi/payments/phonpe.svg" class="w-5 h-5">
+                                <img src="/images/setup_upi/payments/gpay.svg" class="w-5 h-5">
+                                <img src="/images/setup_upi/payments/cred.svg" class="w-5 h-5">
+                                <img src="/images/setup_upi/payments/paytm.svg" class="w-5 h-5">
+                                <img src="/images/setup_upi/payments/upi.svg" class="w-5 h-5">
+                            </div>
+
+                            <!-- QR Code -->
+                            <div class="flex flex-col items-center">
+                                <div class="p-2 bg-white border-2 border-gray-200 rounded-2xl shadow-sm">
+                                    <img src="https://upiexpress.com/assets/qr/?text=<%= encodeURIComponent(data.upiIntent) %>"
+                                        alt="UPI QR Code" class="w-44 h-44 rounded-lg">
+                                </div>
+                                <div id="timerQR"
+                                    class="mt-4 px-4 py-2 rounded-full bg-gray-100 text-[11px] text-gray-600 border border-gray-200 timer-pulse">
+                                    This QR will expire in <%= data.expiresIn %>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- OR Divider -->
+                        <div
+                            class="flex items-center justify-center py-2 text-[11px] text-gray-400  <%=data.isUPIRequest ? '' : 'hidden' %>">
+                            <span class="border-t border-gray-200 flex-1 mx-8"></span>
+                            <span>OR</span>
+                            <span class="border-t border-gray-200 flex-1 mx-8"></span>
+                        </div>
+
+                        <!-- Pay with UPI ID -->
+                        <div class="px-8 pb-6 space-y-2 <%=data.isUPIRequest ? '' : 'hidden' %>">
+                            <div class="text-xs font-semibold text-gray-700">Pay with UPI ID</div>
+
+                            <!-- UPI input -->
+                            <div class="flex gap-2 items-center">
+                                <input type="text" id="upiInputDesktop" placeholder="example@ybl"
+                                    class="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-xs outline-none"
+                                    oninput="onUPIInputChange()" />
+                                <button id="verifyBtnDesktop" onclick="verifyUPIDesktop()"
+                                    class="px-4 py-2 text-xs border border-gray-300 rounded-lg text-gray-600 bg-gray-50 hover:bg-gray-100 transition-colors">
+                                    Verify
+                                </button>
+                            </div>
+
+                            <!-- UPI Status -->
+                            <div id="upiStatusDesktop" class="text-[11px] text-gray-500 h-4 transition-opacity mb-3">
+                            </div>
+
+                            <!-- Proceed button - Initially disabled -->
+                            <button id="proceedBtnDesktop" onclick="handlePayDesktop()" disabled
+                                class="w-full mt-2 rounded-lg text-xs font-semibold py-3 bg-gray-100 border border-gray-200 text-gray-400 cursor-not-allowed">
+                                Pay ₹<%= data.total %>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let lastVerifiedVPADesktop = '';
+        const orderid = '<%= data.orderid %>';
+        const csrfToken = "<%= csrfToken %>";
+
+        function showLoadingScreen() {
+            document.getElementById('loadingOverlay').classList.remove('hidden');
+        }
+
+        function hideLoadingScreen() {
+            document.getElementById('loadingOverlay').classList.add('hidden');
+        }
+
+        function onUPIInputChange() {
+            const upiInput = document.getElementById('upiInputDesktop');
+            const proceedBtn = document.getElementById('proceedBtnDesktop');
+            const verifyBtn = document.getElementById('verifyBtnDesktop');
+            const upiStatus = document.getElementById('upiStatusDesktop');
+
+            // If input changed, disable proceed button and reset verification
+            if (upiInput.value.trim() !== lastVerifiedVPADesktop) {
+                proceedBtn.disabled = true;
+                proceedBtn.style.backgroundColor = '';
+                proceedBtn.classList.remove('text-white', 'cursor-pointer', 'active:brightness-90');
+                proceedBtn.classList.add('bg-gray-100', 'border-gray-200', 'text-gray-400', 'cursor-not-allowed');
+                proceedBtn.innerHTML = `Pay ₹<%= data.total %>`;
+
+                // Reset verify button
+                verifyBtn.innerHTML = 'Verify';
+                verifyBtn.style.backgroundColor = '';
+                verifyBtn.style.borderColor = '';
+                verifyBtn.style.color = '';
+                verifyBtn.disabled = false;
+                verifyBtn.classList.remove('verify-btn-loading');
+
+                // Clear status message
+                upiStatus.innerHTML = '';
+            }
+        }
+
+        function showLoading() {
+            document.getElementById('loadingOverlay').classList.remove('hidden');
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingOverlay').classList.add('hidden');
+        }
+
+        function showOverlay() {
+            const overlay = document.getElementById('overlay');
+            overlay.classList.remove('hidden');
+            overlay.classList.remove('overlay-fade-out');
+            overlay.classList.add('overlay-fade-in');
+        }
+
+        function hideOverlay() {
+            const overlay = document.getElementById('overlay');
+            overlay.classList.remove('overlay-fade-in');
+            overlay.classList.add('overlay-fade-out');
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 300);
+        }
+
+        function showUPIRequestPopup(vpa) {
+            const popup = document.getElementById('upiRequestPopup');
+
+
+            showOverlay();
+
+            popup.classList.remove('hidden');
+            popup.classList.remove('popup-scale-out');
+            popup.classList.add('popup-scale-in');
+        }
+
+        function closeUPIRequestPopup() {
+            const popup = document.getElementById('upiRequestPopup');
+            popup.classList.remove('popup-scale-in');
+            popup.classList.add('popup-scale-out');
+
+            hideOverlay();
+
+            setTimeout(() => {
+                popup.classList.add('hidden');
+            }, 300);
+        }
+
+        function showCancelPopup() {
+            const popup = document.getElementById('cancelPopup');
+            showOverlay();
+            popup.classList.remove('hidden');
+            popup.classList.remove('popup-scale-out');
+            popup.classList.add('popup-scale-in');
+        }
+
+        function hideCancelPopup() {
+            const popup = document.getElementById('cancelPopup');
+            popup.classList.remove('popup-scale-in');
+            popup.classList.add('popup-scale-out');
+
+            hideOverlay();
+
+            setTimeout(() => {
+                popup.classList.add('hidden');
+            }, 300);
+        }
+
+        async function verifyUPIDesktop() {
+            const upiInput = document.getElementById('upiInputDesktop');
+            const verifyBtn = document.getElementById('verifyBtnDesktop');
+            const upiStatus = document.getElementById('upiStatusDesktop');
+            const proceedBtn = document.getElementById('proceedBtnDesktop');
+            const value = upiInput.value.trim();
+
+            if (!value) {
+                verifyBtn.classList.add('verify-btn-shake');
+                verifyBtn.style.backgroundColor = '#fee2e2';
+                verifyBtn.style.borderColor = '#fecaca';
+                verifyBtn.style.color = '#dc2626';
+                upiStatus.innerHTML = '<span style="color: #dc2626;">Please enter UPI ID</span>';
+
+                setTimeout(() => {
+                    verifyBtn.classList.remove('verify-btn-shake');
+                }, 400);
+                return;
+            }
+
+            // Add loading animation
+            verifyBtn.classList.add('verify-btn-loading');
+            verifyBtn.disabled = true;
+            upiStatus.innerHTML = '<span style="color: #9ca3af;">Verifying...</span>';
+
+            try {
+                showLoading();
+                const response = await fetch('/api/payment/check_vpa', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'CSRF-Token': csrfToken
+                    },
+                    body: JSON.stringify({
+                        "vpa": value,
+                        "orderid": orderid
+                    })
+                });
+                hideLoading();
+
+                const result = await response.json();
+
+                if (result.status && result.valid) {
+                    // Valid UPI
+                    verifyBtn.classList.remove('verify-btn-loading');
+                    verifyBtn.style.backgroundColor = '#dcfce7';
+                    verifyBtn.style.borderColor = '#86efac';
+                    verifyBtn.style.color = '#16a34a';
+
+                    const checkmarkSvg = `<svg class="checkmark-pop" style="display: inline-block; margin-right: 6px; width: 12px; height: 12px; vertical-align: text-bottom;" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+                    verifyBtn.innerHTML = checkmarkSvg + 'Verified';
+                    upiStatus.innerHTML = `<span style="color: #16a34a;">${result.name || 'Valid UPI ID'}</span>`;
+                    verifyBtn.disabled = true;
+
+                    lastVerifiedVPADesktop = value;
+
+                    // Enable proceed button
+                    proceedBtn.disabled = false;
+                    proceedBtn.style.backgroundColor = 'var(--theme-color)';
+                    proceedBtn.classList.remove('bg-gray-100', 'border-gray-200', 'text-gray-400', 'cursor-not-allowed');
+                    proceedBtn.classList.add('text-white', 'cursor-pointer', 'active:brightness-90');
+                    proceedBtn.innerHTML = `Pay ₹<%= data.total %>`;
+
+                } else {
+                    // Invalid UPI
+                    verifyBtn.classList.remove('verify-btn-loading');
+                    verifyBtn.classList.add('verify-btn-shake');
+                    verifyBtn.style.backgroundColor = '#fee2e2';
+                    verifyBtn.style.borderColor = '#fecaca';
+                    verifyBtn.style.color = '#dc2626';
+
+                    const closeSvg = `<svg class="close-icon-spin" style="display: inline-block; margin-right: 6px; width: 12px; height: 12px; vertical-align: text-bottom;" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
+                    verifyBtn.innerHTML = closeSvg + 'Invalid';
+                    upiStatus.innerHTML = '<span style="color: #dc2626;">Invalid UPI ID</span>';
+                    verifyBtn.disabled = false;
+
+                    setTimeout(() => {
+                        verifyBtn.classList.remove('verify-btn-shake');
+                    }, 400);
+
+                    // Reset after 2 seconds
+                    setTimeout(() => {
+                        verifyBtn.innerHTML = 'Verify';
+                        verifyBtn.style.backgroundColor = '';
+                        verifyBtn.style.borderColor = '';
+                        verifyBtn.style.color = '';
+                        upiStatus.innerHTML = '';
+                    }, 2000);
+                }
+            } catch (error) {
+                console.error('VPA verification error:', error);
+                hideLoading();
+                verifyBtn.classList.remove('verify-btn-loading');
+                verifyBtn.classList.add('verify-btn-shake');
+                verifyBtn.style.backgroundColor = '#fee2e2';
+                verifyBtn.style.borderColor = '#fecaca';
+                verifyBtn.style.color = '#dc2626';
+                upiStatus.innerHTML = '<span style="color: #dc2626;">Verification failed</span>';
+                verifyBtn.disabled = false;
+
+                setTimeout(() => {
+                    verifyBtn.classList.remove('verify-btn-shake');
+                }, 400);
+
+                setTimeout(() => {
+                    verifyBtn.innerHTML = 'Verify';
+                    verifyBtn.style.backgroundColor = '';
+                    verifyBtn.style.borderColor = '';
+                    verifyBtn.style.color = '';
+                    upiStatus.innerHTML = '';
+                }, 2000);
+            }
+        }
+
+        async function handlePayDesktop() {
+            const upiInput = document.getElementById('upiInputDesktop');
+            const vpa = upiInput.value.trim();
+
+            if (!vpa) {
+                return;
+            }
+
+            showLoading();
+            try {
+                const response = await fetch('/api/payment/upi_request', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'CSRF-Token': csrfToken
+                    },
+                    body: JSON.stringify({
+                        orderid: orderid,
+                        upi_vpa: vpa
+                    })
+                });
+                hideLoading();
+
+                const data = await response.json();
+                if (data.status) {
+                    // Show success popup
+                    showUPIRequestPopup(vpa);
+                } else {
+                    console.error('Error sending UPI request:', data.message);
+                }
+            } catch (error) {
+                console.error('Network error sending UPI request:', error);
+                hideLoading();
+            }
+        }
+
+        async function confirmCancel() {
+            hideCancelPopup();
+            showLoading();
+            try {
+                const response = await fetch('/api/payment/cancel_payment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'CSRF-Token': csrfToken
+                    },
+                    body: JSON.stringify({
+                        "orderid": orderid
+                    })
+                });
+                hideLoading();
+
+                const result = await response.json();
+                if (result.success) {
+                    window.location.reload();
+                } else {
+                    console.error('Error cancelling payment:', result.message);
+                }
+            } catch (error) {
+                console.error('Cancel payment error:', error);
+                hideLoading();
+            }
+        }
+
+        // Socket.io initialization for real-time updates
+        window.addEventListener('load', () => {
+            showLoadingScreen();
+            const socket = io({
+                reconnection: true,
+                reconnectionDelay: 1000,
+                reconnectionDelayMax: 5000,
+                reconnectionAttempts: Infinity,
+                transports: ['websocket', 'polling']
+            });
+
+            socket.emit('init-payment', { orderid: orderid }, (response) => {
+                console.log('Payment initialized:', response);
+                if (response.status === false) {
+                    console.log('Payment session expired, reloading page.');
+                    window.location.reload();
+                    return;
+                }
+                hideLoadingScreen();
+                const timerEl = document.getElementById('timerQR');
+                let timeRemaining = response.data.remaining_time;
+                timerEl.textContent = `This QR will expire in ${timeRemaining}`;
+                const expir = document.getElementById('expir');
+                if (expir) expir.textContent = `Expire in ${timeRemaining}`;
+            });
+
+            socket.on('payment-update', (data) => {
+                console.log('Payment update received:', data);
+                if (data.status === false) {
+                    console.log('Payment session expired, reloading page.');
+                    window.location.reload();
+                    return;
+                }
+                const timerEl = document.getElementById('timerQR');
+                let timeRemaining = data.data.remaining_time;
+                timerEl.textContent = `This QR will expire in ${timeRemaining}`;
+                const expir = document.getElementById('expir');
+                if (expir) expir.textContent = `Expire in ${timeRemaining}`;
+
+                if (data.data.status !== 'Pending') {
+                    // reload page 
+                    window.location.reload();
+                }
+            });
+
+            // Add input listener for VPA verification
+            const upiInput = document.getElementById('upiInputDesktop');
+            if (upiInput) {
+                upiInput.addEventListener('input', onUPIInputChange);
+            }
+
+            // Handle visibility changes - reconnect on page focus
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'visible') {
+                    console.log('Page is visible again, reconnecting socket...');
+                    if (!socket.connected) {
+                        socket.connect();
+                    }
+                    // Reinitialize payment when page becomes visible
+                    socket.emit('init-payment', { orderid: orderid }, (response) => {
+                        console.log('Payment re-initialized:', response);
+                        if (response.status === false) {
+                            console.log('Payment session expired, reloading page.');
+                            window.location.reload();
+                            return;
+                        }
+                        const timerEl = document.getElementById('timerQR');
+                        let timeRemaining = response.data.remaining_time;
+                        timerEl.textContent = `This QR will expire in ${timeRemaining}`;
+                        const expir = document.getElementById('expir');
+                        if (expir) expir.textContent = `Expire in ${timeRemaining}`;
+                        if (response.data.status !== 'Pending') {
+                            // Payment status changed - reload page
+                            console.log('Payment status changed to:', response.data.status);
+                            window.location.reload();
+                        }
+                    });
+                }
+            });
+
+            // Handle page blur/focus
+            window.addEventListener('focus', () => {
+                if (!socket.connected) {
+                    socket.connect();
+                }
+            });
+
+            // Socket error handling
+            socket.on('connect_error', (error) => {
+                console.log('Socket connection error:', error);
+            });
+
+            socket.on('disconnect', (reason) => {
+                console.log('Socket disconnected:', reason);
+                // Try to reconnect immediately on any disconnect
+                setTimeout(() => {
+                    if (!socket.connected) {
+                        console.log('Attempting to reconnect...');
+                        socket.connect();
+                    }
+                }, 1000);
+            });
+
+            // On successful reconnection, reinitialize payment
+            socket.on('connect', () => {
+                console.log('Socket reconnected');
+                socket.emit('init-payment', { orderid: orderid }, (response) => {
+                    console.log('Payment re-initialized after reconnect:', response);
+                    const timerEl = document.getElementById('timerQR');
+                    let timeRemaining = response.data.remaining_time;
+                    timerEl.textContent = `This QR will expire in ${timeRemaining}`;
+                    const expir = document.getElementById('expir');
+                    if (expir) expir.textContent = `Expire in ${timeRemaining}`;
+                    if (response.data.status !== 'Pending') {
+                        // Payment status changed - reload page
+                        console.log('Payment status changed to:', response.data.status);
+                        window.location.reload();
+                    }
+                });
+            });
+
+            // Reconnect on network changes
+            window.addEventListener('online', () => {
+                console.log('Network is back online, reconnecting socket...');
+                if (!socket.connected) {
+                    socket.connect();
+                }
+            });
+
+            window.addEventListener('offline', () => {
+                console.log('Network is offline');
+            });
+        });
+
+        // Handle ESC key
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                const upiPopup = document.getElementById('upiRequestPopup');
+                const cancelPopup = document.getElementById('cancelPopup');
+
+                if (!upiPopup.classList.contains('hidden')) {
+                    closeUPIRequestPopup();
+                } else if (!cancelPopup.classList.contains('hidden')) {
+                    hideCancelPopup();
+                } else {
+                    showCancelPopup();
+                }
+            }
+        });
+
+        // Close popup when clicking on overlay
+        document.getElementById('overlay').addEventListener('click', function () {
+            const upiPopup = document.getElementById('upiRequestPopup');
+            const cancelPopup = document.getElementById('cancelPopup');
+
+            if (!upiPopup.classList.contains('hidden')) {
+                closeUPIRequestPopup();
+            } else if (!cancelPopup.classList.contains('hidden')) {
+                hideCancelPopup();
+            }
+        });
+    </script>
+</body>
+
+</html>

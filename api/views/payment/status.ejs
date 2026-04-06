@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Payment Status</title>
+    <link rel="icon" href="/images/icon.png" type="image/png">
+
+    <script>
+        setTimeout(() => {
+            window.location.href = "<%= redirect_url %>";
+        }, 3000);
+    </script>
+</head>
+
+<body class="bg-white h-[93vh]  w-full flex flex-col justify-between items-center">
+
+    <div class="flex flex-col items-center justify-center h-full">
+
+        <% if(status==="success" ) { %>
+            <!-- SUCCESS UI -->
+            <img src="/images/success.gif" alt="UPIExpress" class="w-20 h-20 mb-6">
+
+            <p class="text-xl font-semibold text-black">Payment Successful</p>
+            <p class="text-gray-600 text-sm mt-2">Redirecting back to merchant...</p>
+
+            <% } else if(status==="failed" ) { %>
+                <!-- FAILED UI -->
+                <img src="/images/failed.gif" alt="UPIExpress" class="w-20 h-20 mb-6">
+
+                <p class="text-xl font-semibold text-black">Something went wrong</p>
+                <p class="text-gray-600 text-sm mt-2">Sorry, we couldn't process your request.</p>
+                <p class="text-red-500 text-sm mt-3">Redirecting back to merchant checkout page...</p>
+
+                <% } else if(status==="cancel" ) { %>
+                    <!-- CANCEL UI -->
+                    <img src="/images/failed.gif" alt="UPIExpress" class="w-20 h-20 mb-6">
+                    <p class="text-xl font-semibold text-black">Payment Cancelled</p>
+                    <p class="text-gray-600 text-sm mt-2">You canceled the transaction.</p>
+                    <p class="text-yellow-600 text-sm mt-3">Redirecting back...</p>
+
+                    <% } else if(status==="expired" ) { %>
+                        <!-- EXPIRED UI -->
+                        <img src="/images/failed.gif" alt="UPIExpress" class="w-20 h-20 mb-6">
+                        <p class="text-xl font-semibold text-black">Payment Expired</p>
+                        <p class="text-gray-600 text-sm mt-2">The payment link has expired.</p>
+                        <p class="text-gray-500 text-sm mt-3">Redirecting back...</p>
+                        <% } else { %>
+
+                            <!-- DEFAULT UI -->
+                            <p class="text-gray-500 text-center">Invalid status</p>
+
+                            <% } %>
+
+    </div>
+
+    <p class="text-[12px] text-gray-500 mb-6 text-center">
+        Please don't hit the back button until the action is complete.
+    </p>
+
+</body>
+
+</html>

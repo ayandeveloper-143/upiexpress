@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Bot Chat App</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Telegram Bot API -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        /* Custom styles for scrollbar and animations */
+        .scrollbar-thin::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .message-transition {
+            transition: all 0.3s ease;
+        }
+
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+    <div class="container mx-auto max-w-6xl p-4">
+        <!-- Header -->
+        <header class="bg-white rounded-lg shadow-md p-4 mb-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-white text-xl">
+                        <i class="fab fa-telegram"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h1 class="text-2xl font-bold text-gray-800">Telegram Bot Chat</h1>
+                        <p class="text-gray-600">Communicate with your Telegram bot</p>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <div class="mr-4 text-right">
+                        <p class="font-semibold text-gray-800">Bot Status: <span id="botStatus"
+                                class="text-green-600">Connected</span></p>
+                        <p class="text-sm text-gray-600" id="lastUpdate">Last update: Just now</p>
+                    </div>
+                    <button id="refreshBtn" class="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="flex flex-col lg:flex-row gap-6">
+            <!-- Left Sidebar - Chat List -->
+            <div class="lg:w-1/3">
+                <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-comments mr-2"></i> Chat Sessions
+                    </h2>
+
+                    <!-- Search Input -->
+                    <div class="relative mb-4">
+                        <input type="text" id="searchChats" placeholder="Search chats..."
+                            class="w-full p-3 pl-10 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <i class="fas fa-search absolute left-3 top-3.5 text-gray-400"></i>
+                    </div>
+
+                    <!-- Chat List -->
+                    <div class="overflow-y-auto max-h-96 scrollbar-thin" id="chatList">
+                        <!-- Chat items will be dynamically added here -->
+                        <div class="p-3 border-b border-gray-200 hover:bg-gray-50 cursor-pointer chat-item">
+                            <div class="flex items-center">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="ml-3 flex-1">
+                                    <div class="flex justify-between items-center">
+                                        <p class="font-semibold text-gray-800">John Doe</p>
+                                        <span class="text-xs text-gray-500">12:30 PM</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 truncate">Hello! How can I help you today?</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bot Controls -->
+                    <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                        <h3 class="font-bold text-gray-800 mb-3">Bot Controls</h3>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button id="getUpdatesBtn"
+                                class="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-download mr-2"></i> Get Updates
+                            </button>
+                            <button id="getMeBtn"
+                                class="bg-green-500 hover:bg-green-600 text-white p-2 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-robot mr-2"></i> Bot Info
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bot Information Panel -->
+                <div class="bg-white rounded-lg shadow-md p-4">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-info-circle mr-2"></i> Bot Information
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center">
+                            <div
+                                class="w-16 h-16 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center text-white text-2xl">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="font-bold text-gray-800" id="botName">TelegramBot</p>
+                                <p class="text-gray-600" id="botUsername">@my_telegram_bot</p>
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-gray-200">
+                            <p class="text-gray-700 mb-1"><strong>Bot Token:</strong> <span id="botTokenDisplay"
+                                    class="font-mono text-sm">************************</span></p>
+                            <p class="text-gray-700 mb-1"><strong>Total Chats:</strong> <span id="totalChats"
+                                    class="font-semibold">12</span></p>
+                            <p class="text-gray-700"><strong>Messages Today:</strong> <span id="messagesToday"
+                                    class="font-semibold">47</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel - Chat Interface -->
+            <div class="lg:w-2/3">
+                <div class="bg-white rounded-lg shadow-md h-full flex flex-col">
+                    <!-- Chat Header -->
+                    <div class="p-4 border-b border-gray-200">
+                        <div class="flex items-center">
+                            <div
+                                class="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-white text-xl">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h2 class="text-xl font-bold text-gray-800" id="currentChatName">Select a chat</h2>
+                                <p class="text-gray-600" id="currentChatStatus">Click on a chat to start messaging</p>
+                            </div>
+                            <div class="ml-auto flex items-center space-x-2">
+                                <button id="clearChatBtn" class="p-2 text-gray-600 hover:text-red-600">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Messages Container -->
+                    <div class="flex-1 p-4 overflow-y-auto max-h-96 scrollbar-thin" id="messagesContainer">
+                        <!-- Messages will be dynamically added here -->
+                        <div class="text-center text-gray-500 py-8">
+                            <i class="fas fa-comments text-4xl mb-3"></i>
+                            <p>Select a chat to view messages</p>
+                        </div>
+                    </div>
+
+                    <!-- Message Input Area -->
+                    <div class="p-4 border-t border-gray-200">
+                        <div class="flex items-center">
+                            <input type="text" id="messageInput" placeholder="Type your message here..."
+                                class="flex-1 p-3 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                disabled>
+                            <button id="sendMessageBtn"
+                                class="bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-r-lg flex items-center justify-center"
+                                disabled>
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        <div class="mt-3 flex justify-between">
+                            <div class="flex space-x-2">
+                                <button class="p-2 text-gray-600 hover:text-blue-600">
+                                    <i class="fas fa-paperclip"></i>
+                                </button>
+                                <button class="p-2 text-gray-600 hover:text-blue-600">
+                                    <i class="fas fa-smile"></i>
+                                </button>
+                            </div>
+                            <div>
+                                <button id="sendToAllBtn"
+                                    class="bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded-lg flex items-center">
+                                    <i class="fas fa-broadcast-tower mr-2"></i> Send to All
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- API Response Panel -->
+        <div class="mt-6 bg-white rounded-lg shadow-md p-4">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="text-xl font-bold text-gray-800 flex items-center">
+                    <i class="fas fa-code mr-2"></i> API Responses
+                </h3>
+                <button id="clearLogsBtn" class="text-sm text-gray-600 hover:text-red-600 flex items-center">
+                    <i class="fas fa-trash mr-1"></i> Clear Logs
+                </button>
+            </div>
+            <div class="bg-gray-900 text-gray-100 p-4 rounded-lg font-mono text-sm overflow-y-auto max-h-40 scrollbar-thin"
+                id="apiLogs">
+                <div class="text-green-400">[<span id="currentTime">12:34:56</span>] System: Chat interface initialized.
+                </div>
+                <div class="text-blue-400">[<span>12:35:01</span>] Info: Ready to connect to Telegram Bot API.</div>
+                <div class="text-yellow-400">[<span>12:35:10</span>] Warning: Enter your bot token to start.</div>
+            </div>
+
+            <!-- Bot Token Input -->
+            <div class="mt-4 p-4 bg-blue-50 rounded-lg">
+                <div class="flex items-center mb-2">
+                    <i class="fas fa-key text-blue-500 mr-2"></i>
+                    <h4 class="font-bold text-gray-800">Telegram Bot Token</h4>
+                </div>
+                <div class="flex items-center">
+                    <input type="password" id="botTokenInput"
+                        placeholder="Enter your bot token (e.g., 1234567890:ABCdefGhIJKlmNoPQRsTUVwxyZ)"
+                        class="flex-1 p-3 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button id="saveTokenBtn" class="bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-r-lg">
+                        Save Token
+                    </button>
+                </div>
+                <p class="text-sm text-gray-600 mt-2">Get your bot token from <a href="https://t.me/BotFather"
+                        target="_blank" class="text-blue-500 hover:underline">@BotFather</a> on Telegram.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white p-6 rounded-lg shadow-xl flex flex-col items-center">
+            <div class="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+            <p class="text-gray-800 font-semibold">Loading messages...</p>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const chatList = document.getElementById('chatList');
+        const messagesContainer = document.getElementById('messagesContainer');
+        const messageInput = document.getElementById('messageInput');
+        const sendMessageBtn = document.getElementById('sendMessageBtn');
+        const sendToAllBtn = document.getElementById('sendToAllBtn');
+        const getUpdatesBtn = document.getElementById('getUpdatesBtn');
+        const getMeBtn = document.getElementById('getMeBtn');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const clearChatBtn = document.getElementById('clearChatBtn');
+        const clearLogsBtn = document.getElementById('clearLogsBtn');
+        const searchChats = document.getElementById('searchChats');
+        const botTokenInput = document.getElementById('botTokenInput');
+        const saveTokenBtn = document.getElementById('saveTokenBtn');
+        const apiLogs = document.getElementById('apiLogs');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const currentChatName = document.getElementById('currentChatName');
+        const currentChatStatus = document.getElementById('currentChatStatus');
+        const botStatus = document.getElementById('botStatus');
+        const lastUpdate = document.getElementById('lastUpdate');
+
+        // State variables
+        let currentChatId = null;
+        let botToken = localStorage.getItem('telegramBotToken') || '';
+        let chats = [];
+        let messages = {};
+
+        // Initialize the app
+        function initApp() {
+            updateTime();
+            setInterval(updateTime, 1000);
+
+            if (botToken) {
+                botTokenInput.value = "•".repeat(botToken.length);
+                logToConsole("Found saved bot token", "info");
+                botStatus.textContent = "Token Saved";
+                botStatus.className = "text-yellow-600";
+            } else {
+                logToConsole("No bot token found. Please enter your Telegram Bot token.", "warning");
+            }
+
+            // Load sample data
+            loadSampleChats();
+
+            // Set up event listeners
+            setupEventListeners();
+        }
+
+        // Update current time
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            document.querySelectorAll('#currentTime').forEach(el => el.textContent = timeString);
+
+            // Update last update time
+            const lastUpdateTime = new Date(now - Math.floor(Math.random() * 60000));
+            lastUpdate.textContent = `Last update: ${lastUpdateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Send message
+            sendMessageBtn.addEventListener('click', sendMessage);
+            messageInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+
+            // Send to all button
+            sendToAllBtn.addEventListener('click', () => {
+                if (!botToken) {
+                    logToConsole("Please enter your bot token first", "warning");
+                    return;
+                }
+
+                const message = prompt("Enter message to send to all chats:");
+                if (message) {
+                    logToConsole(`Preparing to send message to all ${chats.length} chats: "${message}"`, "info");
+                    // In a real implementation, this would loop through all chats and send the message
+                }
+            });
+
+            // Get updates button
+            getUpdatesBtn.addEventListener('click', getUpdates);
+
+            // Get bot info button
+            getMeBtn.addEventListener('click', getBotInfo);
+
+            // Refresh button
+            refreshBtn.addEventListener('click', () => {
+                if (!botToken) {
+                    logToConsole("Please enter your bot token first", "warning");
+                    return;
+                }
+                logToConsole("Refreshing chats and messages...", "info");
+                getUpdates();
+            });
+
+            // Clear chat button
+            clearChatBtn.addEventListener('click', () => {
+                if (currentChatId) {
+                    if (confirm("Clear all messages in this chat?")) {
+                        messages[currentChatId] = [];
+                        renderMessages();
+                        logToConsole(`Cleared messages for chat ${currentChatId}`, "info");
+                    }
+                }
+            });
+
+            // Clear logs button
+            clearLogsBtn.addEventListener('click', () => {
+                apiLogs.innerHTML = '';
+                logToConsole("Logs cleared", "info");
+            });
+
+            // Search chats
+            searchChats.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                const chatItems = document.querySelectorAll('.chat-item');
+
+                chatItems.forEach(item => {
+                    const chatName = item.querySelector('.font-semibold').textContent.toLowerCase();
+                    const chatPreview = item.querySelector('.text-sm').textContent.toLowerCase();
+
+                    if (chatName.includes(searchTerm) || chatPreview.includes(searchTerm)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+
+            // Save bot token
+            saveTokenBtn.addEventListener('click', () => {
+                const token = botTokenInput.value.trim();
+
+                if (token && !token.startsWith("•")) {
+                    botToken = token;
+                    localStorage.setItem('telegramBotToken', token);
+                    botTokenInput.value = "•".repeat(token.length);
+                    logToConsole("Bot token saved successfully", "success");
+                    botStatus.textContent = "Token Saved";
+                    botStatus.className = "text-yellow-600";
+
+                    // Enable buttons that require token
+                    getUpdatesBtn.disabled = false;
+                    getMeBtn.disabled = false;
+                    refreshBtn.disabled = false;
+                } else if (token.startsWith("•")) {
+                    // If showing dots, clear the token
+                    if (confirm("Clear saved bot token?")) {
+                        botToken = "";
+                        localStorage.removeItem('telegramBotToken');
+                        botTokenInput.value = "";
+                        botTokenInput.placeholder = "Enter your bot token";
+                        logToConsole("Bot token cleared", "info");
+                        botStatus.textContent = "Not Connected";
+                        botStatus.className = "text-red-600";
+
+                        // Disable buttons that require token
+                        getUpdatesBtn.disabled = true;
+                        getMeBtn.disabled = true;
+                        refreshBtn.disabled = true;
+                    }
+                } else {
+                    logToConsole("Please enter a valid bot token", "warning");
+                }
+            });
+
+            // Toggle token visibility on double click
+            botTokenInput.addEventListener('dblclick', () => {
+                if (botToken && botTokenInput.value.startsWith("•")) {
+                    botTokenInput.type = "text";
+                    botTokenInput.value = botToken;
+                    setTimeout(() => {
+                        botTokenInput.type = "password";
+                        botTokenInput.value = "•".repeat(botToken.length);
+                    }, 3000);
+                }
+            });
+        }
+
+        // Load sample chats (for demo purposes)
+        function loadSampleChats() {
+            chats = [
+                { id: 1, name: "John Doe", lastMessage: "Hello! How can I help you today?", time: "12:30 PM", unread: 3 },
+                { id: 2, name: "Alice Smith", lastMessage: "Thanks for your assistance!", time: "11:45 AM", unread: 0 },
+                { id: 3, name: "Bob Johnson", lastMessage: "When will the update be released?", time: "10:15 AM", unread: 1 },
+                { id: 4, name: "Carol Williams", lastMessage: "I have a question about the API", time: "Yesterday", unread: 0 },
+                { id: 5, name: "David Brown", lastMessage: "The bot is working great!", time: "Yesterday", unread: 0 },
+                { id: 6, name: "Emma Wilson", lastMessage: "Can you add more features?", time: "2 days ago", unread: 0 }
+            ];
+
+            // Create sample messages for each chat
+            chats.forEach(chat => {
+                messages[chat.id] = [
+                    { id: 1, text: `Hello! This is a sample message from ${chat.name}.`, sender: 'user', time: '10:00 AM' },
+                    { id: 2, text: "Hi! This is your Telegram bot. How can I assist you today?", sender: 'bot', time: '10:01 AM' },
+                    { id: 3, text: "I'm having trouble setting up the webhook.", sender: 'user', time: '10:02 AM' },
+                    { id: 4, text: "I can help with that. First, make sure you have a valid SSL certificate for your domain.", sender: 'bot', time: '10:03 AM' },
+                    { id: 5, text: "Thanks, I'll check that!", sender: 'user', time: '10:04 AM' }
+                ];
+
+                if (chat.unread > 0) {
+                    for (let i = 0; i < chat.unread; i++) {
+                        messages[chat.id].push({
+                            id: messages[chat.id].length + 1,
+                            text: `New message #${i + 1} from ${chat.name}`,
+                            sender: 'user',
+                            time: 'Just now'
+                        });
+                    }
+                }
+            });
+
+            renderChatList();
+        }
+
+        // Render chat list
+        function renderChatList() {
+            chatList.innerHTML = '';
+
+            chats.forEach(chat => {
+                const chatElement = document.createElement('div');
+                chatElement.className = 'p-3 border-b border-gray-200 hover:bg-gray-50 cursor-pointer chat-item';
+                chatElement.dataset.chatId = chat.id;
+
+                chatElement.innerHTML = `
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full ${getRandomColor()} flex items-center justify-center text-white">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="ml-3 flex-1">
+                            <div class="flex justify-between items-center">
+                                <p class="font-semibold text-gray-800">${chat.name}</p>
+                                <span class="text-xs text-gray-500">${chat.time}</span>
+                            </div>
+                            <p class="text-sm text-gray-600 truncate">${chat.lastMessage}</p>
+                        </div>
+                        ${chat.unread > 0 ? `<div class="ml-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-xs">${chat.unread}</div>` : ''}
+                    </div>
+                `;
+
+                chatElement.addEventListener('click', () => {
+                    selectChat(chat.id);
+                });
+
+                chatList.appendChild(chatElement);
+            });
+
+            // Select first chat by default
+            if (chats.length > 0) {
+                selectChat(chats[0].id);
+            }
+        }
+
+        // Select a chat
+        function selectChat(chatId) {
+            currentChatId = chatId;
+            const chat = chats.find(c => c.id === chatId);
+
+            if (chat) {
+                currentChatName.textContent = chat.name;
+                currentChatStatus.textContent = "Online • Last seen recently";
+
+                // Enable message input
+                messageInput.disabled = false;
+                sendMessageBtn.disabled = false;
+
+                // Mark chat as read
+                chat.unread = 0;
+                renderChatList();
+
+                // Render messages for this chat
+                renderMessages();
+
+                logToConsole(`Selected chat with ${chat.name} (ID: ${chatId})`, "info");
+            }
+        }
+
+        // Render messages for current chat
+        function renderMessages() {
+            messagesContainer.innerHTML = '';
+
+            if (!currentChatId || !messages[currentChatId]) {
+                messagesContainer.innerHTML = `
+                    <div class="text-center text-gray-500 py-8">
+                        <i class="fas fa-comments text-4xl mb-3"></i>
+                        <p>No messages in this chat</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const chatMessages = messages[currentChatId];
+
+            chatMessages.forEach(message => {
+                const messageElement = document.createElement('div');
+                messageElement.className = `mb-4 flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'} message-transition`;
+
+                messageElement.innerHTML = `
+                    <div class="max-w-xs lg:max-w-md ${message.sender === 'user' ? 'bg-blue-500 text-white rounded-l-lg rounded-br-lg' : 'bg-gray-200 text-gray-800 rounded-r-lg rounded-bl-lg'} p-3">
+                        <p>${message.text}</p>
+                        <div class="text-xs mt-1 ${message.sender === 'user' ? 'text-blue-200' : 'text-gray-500'} text-right">${message.time}</div>
+                    </div>
+                `;
+
+                messagesContainer.appendChild(messageElement);
+            });
+
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // Send a message
+        function sendMessage() {
+            const messageText = messageInput.value.trim();
+
+            if (!messageText || !currentChatId) return;
+
+            // Add message to UI
+            const newMessage = {
+                id: messages[currentChatId].length + 1,
+                text: messageText,
+                sender: 'user',
+                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            };
+
+            messages[currentChatId].push(newMessage);
+            renderMessages();
+
+            // Clear input
+            messageInput.value = '';
+
+            // Log the message
+            logToConsole(`Sent to chat ${currentChatId}: "${messageText}"`, "sent");
+
+            // Simulate bot response after delay
+            if (botToken) {
+                setTimeout(() => {
+                    const botResponses = [
+                        "Thanks for your message! How can I help you further?",
+                        "I've received your message. Is there anything else you'd like to know?",
+                        "Got it! Let me know if you have any questions.",
+                        "Message received. I'm processing your request.",
+                        "Thanks for reaching out! I'll get back to you shortly."
+                    ];
+
+                    const randomResponse = botResponses[Math.floor(Math.random() * botResponses.length)];
+
+                    const botMessage = {
+                        id: messages[currentChatId].length + 1,
+                        text: randomResponse,
+                        sender: 'bot',
+                        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                    };
+
+                    messages[currentChatId].push(botMessage);
+                    renderMessages();
+
+                    logToConsole(`Bot replied to chat ${currentChatId}: "${randomResponse}"`, "received");
+                }, 1000 + Math.random() * 2000);
+            }
+        }
+
+        // Get updates from Telegram Bot API (simulated)
+        function getUpdates() {
+            if (!botToken) {
+                logToConsole("Please enter your bot token first", "warning");
+                return;
+            }
+
+            showLoading();
+
+            // Simulate API call
+            setTimeout(() => {
+                hideLoading();
+
+                // Simulate new updates
+                const newUpdatesCount = Math.floor(Math.random() * 3) + 1;
+
+                if (newUpdatesCount > 0) {
+                    // Add new messages to random chats
+                    for (let i = 0; i < newUpdatesCount; i++) {
+                        const randomChatIndex = Math.floor(Math.random() * chats.length);
+                        const chat = chats[randomChatIndex];
+
+                        const newMessage = {
+                            id: messages[chat.id].length + 1,
+                            text: `New update from ${chat.name}: This is a simulated new message ${i + 1}`,
+                            sender: 'user',
+                            time: 'Just now'
+                        };
+
+                        messages[chat.id].push(newMessage);
+                        chat.lastMessage = newMessage.text;
+                        chat.time = 'Just now';
+
+                        // If not the current chat, mark as unread
+                        if (chat.id !== currentChatId) {
+                            chat.unread = (chat.unread || 0) + 1;
+                        }
+                    }
+
+                    renderChatList();
+
+                    // If current chat has new messages, update display
+                    if (currentChatId) {
+                        const currentChat = chats.find(c => c.id === currentChatId);
+                        if (currentChat && messages[currentChatId].some(m => m.time === 'Just now')) {
+                            renderMessages();
+                        }
+                    }
+
+                    logToConsole(`Received ${newUpdatesCount} new update(s) from Telegram API`, "success");
+                } else {
+                    logToConsole("No new updates from Telegram API", "info");
+                }
+            }, 1500);
+        }
+
+        // Get bot info from Telegram API (simulated)
+        function getBotInfo() {
+            if (!botToken) {
+                logToConsole("Please enter your bot token first", "warning");
+                return;
+            }
+
+            showLoading();
+
+            // Simulate API call
+            setTimeout(() => {
+                hideLoading();
+
+                // Simulate bot info response
+                const botInfo = {
+                    name: "My Telegram Bot",
+                    username: "my_telegram_bot",
+                    id: 1234567890,
+                    can_join_groups: true,
+                    can_read_all_group_messages: false,
+                    supports_inline_queries: true
+                };
+
+                // Update bot info display
+                document.getElementById('botName').textContent = botInfo.name;
+                document.getElementById('botUsername').textContent = `@${botInfo.username}`;
+
+                logToConsole(`Bot Info: ${botInfo.name} (@${botInfo.username}, ID: ${botInfo.id})`, "success");
+                logToConsole(`Bot capabilities: Can join groups: ${botInfo.can_join_groups}, Can read all group messages: ${botInfo.can_read_all_group_messages}, Supports inline queries: ${botInfo.supports_inline_queries}`, "info");
+            }, 1000);
+        }
+
+        // Log message to API console
+        function logToConsole(message, type = "info") {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+            const logEntry = document.createElement('div');
+
+            let className = "text-blue-400";
+            if (type === "success") className = "text-green-400";
+            if (type === "warning") className = "text-yellow-400";
+            if (type === "error") className = "text-red-400";
+            if (type === "sent") className = "text-purple-400";
+            if (type === "received") className = "text-cyan-400";
+
+            logEntry.className = className;
+            logEntry.innerHTML = `[${timeString}] ${type.charAt(0).toUpperCase() + type.slice(1)}: ${message}`;
+
+            apiLogs.appendChild(logEntry);
+            apiLogs.scrollTop = apiLogs.scrollHeight;
+        }
+
+        // Show loading spinner
+        function showLoading() {
+            loadingSpinner.classList.remove('hidden');
+        }
+
+        // Hide loading spinner
+        function hideLoading() {
+            loadingSpinner.classList.add('hidden');
+        }
+
+        // Get random color for avatar
+        function getRandomColor() {
+            const colors = [
+                'bg-blue-500', 'bg-green-500', 'bg-purple-500',
+                'bg-pink-500', 'bg-indigo-500', 'bg-teal-500',
+                'bg-yellow-500', 'bg-red-500'
+            ];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+
+</html>

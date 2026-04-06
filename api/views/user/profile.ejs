@@ -1,0 +1,2301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="/images/icon.png" type="image/png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <style>
+        :root {
+            --primary: #181a20;
+            --primary-light: #1e2329;
+            --primary-dark: #2b3139;
+            --primary-transparent: rgba(0, 0, 0, 0.1);
+            --dark-1: #181a20;
+            --dark-2: #1e2329;
+            --dark-3: #2b3139;
+            --light-1: #eaecef;
+            --light-2: #b7bdc6;
+            --light-3: #848e9c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: sans-serif;
+            background-color: white;
+            overflow-x: hidden;
+            user-select: auto;
+
+        }
+
+
+        /* Hide scrollbar while keeping scroll functionality */
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            /* temporarily hides scroll */
+        }
+
+        body {
+            overflow: auto;
+            /* allow scroll inside body */
+
+            /* Firefox */
+            scrollbar-width: none;
+            /* IE, Edge */
+            -ms-overflow-style: none;
+        }
+
+        /* Page Animation Styles */
+        .page-content {
+            animation: feedPageFadeIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .page-content.page-fade-out {
+            animation: feedPageFadeOut 0.3s ease forwards;
+        }
+
+
+        @keyframes feedPageFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes feedPageFadeOut {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Desktop Sidebar Styles */
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: white;
+            border-right: 1px solid rgb(234 236 239 / var(--tw-border-opacity, 1));
+            transition: all 0.3s ease;
+            z-index: 1000;
+            overflow-x: hidden;
+        }
+
+        /* Hide desktop sidebar on mobile */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0 !important;
+            }
+        }
+
+        .sidebar.collapsed {
+            width: 70px;
+        }
+
+        /* Hide text when collapsed */
+        .sidebar.collapsed .sidebar-text,
+        .sidebar.collapsed .sidebar-section,
+        .sidebar.collapsed .nav-header {
+            display: none !important;
+        }
+
+        /* Center logo when collapsed */
+        .sidebar.collapsed .sidebar-top {
+            justify-content: center;
+            padding: 1rem 0;
+        }
+
+        /* Hide toggle button when collapsed */
+        .sidebar.collapsed .sidebar-toggle {
+            display: none;
+        }
+
+        /* Remove extra space for labels when collapsed */
+        .sidebar.collapsed .nav-link-text {
+            width: 0;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* Remove top/bottom padding from menu items when collapsed */
+        .sidebar.collapsed .menu-item {
+            padding: 6px 0 !important;
+            justify-content: center;
+            height: 48px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Remove menu gaps when collapsed */
+        .sidebar.collapsed .menu-gap {
+            height: 0;
+        }
+
+        /* Hover effects when collapsed AND hover-enabled */
+        .sidebar.collapsed.hover-enabled:hover {
+            width: 280px;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover .sidebar-text,
+        .sidebar.collapsed.hover-enabled:hover .sidebar-section,
+        .sidebar.collapsed.hover-enabled:hover .nav-header {
+            display: block !important;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover .sidebar-top {
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover .menu-item {
+            justify-content: flex-start;
+            padding: 12px 24px !important;
+            height: 48px;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover .sidebar-toggle {
+            display: block;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover .nav-link-text {
+            width: auto;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover .menu-gap {
+            height: 1rem;
+        }
+
+        /* Main content adjustment */
+        .main-content {
+            margin-left: 280px;
+            transition: margin-left 0.3s ease;
+            min-height: 100vh;
+            padding: 20px;
+            padding-bottom: 0px;
+        }
+
+        .sidebar.collapsed~.main-content {
+            margin-left: 70px;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover~.main-content {
+            margin-left: 280px;
+        }
+
+        /* Menu item styles */
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 24px;
+            border-radius: 16px;
+            margin-left: 8px;
+            margin-bottom: 2px;
+            margin-right: 8px;
+            color: var(--primary-dark);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:hover {
+            background-color: #f3f4f6;
+        }
+
+        .menu-item.active {
+            background-color: var(--primary-transparent);
+            color: var(--primary);
+        }
+
+        .nav-icon-wrap {
+            width: 24px;
+            text-align: center;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar.collapsed .nav-icon-wrap {
+            margin-right: 0;
+        }
+
+        .sidebar.collapsed.hover-enabled:hover .nav-icon-wrap {
+            margin-right: 12px;
+        }
+
+        .nav-link-text {
+            transition: all 0.3s ease;
+        }
+
+        /* SVG icon styles */
+        .svg-icon {
+            width: 20px;
+            height: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Toggle icon rotation */
+        .sidebar-toggle .toggle-icon {
+            transition: transform 0.2s ease;
+        }
+
+        .sidebar.collapsed .sidebar-toggle .toggle-icon {
+            transform: scaleX(-1);
+        }
+
+        /* Menu groups */
+        .menu-gap {
+            height: 1rem;
+            transition: height 0.2s ease;
+        }
+
+        .sidebar.collapsed .menu-gap {
+            height: 0;
+        }
+
+        .nav-header {
+            padding: 0.5rem 1.5rem;
+            font-size: 0.75rem;
+            color: #6b7280;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* Mobile Sidebar Styles */
+        .mobile-sidebar {
+            position: fixed;
+            top: 0;
+            left: -280px;
+            width: 280px;
+            height: 100vh;
+            background: white;
+            border-right: 1px solid #eaecef;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-sidebar.active {
+            left: 0;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Header Styles */
+        .content-header {
+            background: white;
+            border-bottom: 1px solid #eaecef;
+            margin: -20px -20px 20px -20px;
+            padding: 0 20px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .footer {
+            background: white;
+            border-top: 1px solid #eaecef;
+            margin: 20px -20px 0px -20px;
+            /* keep for border cropping */
+            padding: 20px;
+            /* enough height to center content visually */
+            font-size: 14px;
+            display: flex;
+            justify-content: center;
+            /* centers footer-content horizontally */
+
+        }
+
+        .footer-content {
+            display: flex;
+            align-items: center;
+            /* vertical center content */
+            justify-content: space-between;
+            width: 100%;
+
+            /* optional, keeps content aligned on large screens */
+        }
+
+        .footer-left,
+        .footer-right {
+            display: flex;
+            align-items: center;
+            /* vertical center children */
+            gap: 15px;
+        }
+
+        .footer p,
+        .footer a {
+            margin: 0;
+            /* remove default margins that break centering */
+        }
+
+        /* Responsive tweaks */
+        @media (max-width: 768px) {
+            .footer-content {
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+                /* centers content on mobile */
+            }
+
+            .footer-left,
+            .footer-right {
+                justify-content: center;
+            }
+        }
+
+
+
+
+
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .brand-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: #181a20;
+        }
+
+        .brand-subtext {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .brand-logo {
+            height: 20px;
+            margin-left: 5px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: rgba(24, 26, 32, 0.05);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .header-item:hover {
+            background: rgba(24, 26, 32, 0.1);
+        }
+
+        .header-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-text {
+            font-size: 14px;
+            font-weight: 500;
+            color: #181a20;
+        }
+
+        .profile-dropdown {
+            position: relative;
+        }
+
+        .profile-btn {
+            background: none;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            background: #181a20;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: auto;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            padding: 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.3s ease;
+            z-index: 101;
+        }
+
+        .dropdown-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-header {
+            padding: 16px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .user-details {
+            flex: 1;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #181a20;
+            margin-bottom: 1px;
+        }
+
+        .user-email {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 2px;
+        }
+
+        .logout-link {
+            font-size: 14px;
+            color: #ef4444;
+            text-decoration: underline;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: #e5e7eb;
+            margin: 0;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 8px 16px;
+            color: #374151;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .animate-spin {
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Disable autofill styling */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 30px white inset !important;
+            box-shadow: 0 0 0 30px white inset !important;
+        }
+
+        input:-webkit-autofill {
+            -webkit-text-fill-color: #1f2937 !important;
+        }
+
+        /* Mobile Hamburger */
+        .mobile-hamburger {
+            display: none;
+            background: none;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+            color: #374151;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+
+        .mobile-hamburger:hover {
+            background-color: #f3f4f6;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .mobile-hamburger {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .header-item {
+                display: flex;
+                /* ✅ Yeh line change karein */
+                padding: 6px;
+                /* ✅ Mobile ke liye padding adjust karein */
+            }
+
+            .header-item .header-text {
+                display: none;
+                /* ✅ Text hide karein, sirf icon dikhe */
+            }
+
+            .header-brand {
+                display: none;
+            }
+
+            .brand-subtext {
+                display: none;
+            }
+
+            .dropdown-menu {
+                width: auto;
+                right: -10px;
+            }
+
+            .header-left {
+                gap: 0;
+            }
+        }
+
+        @media (min-width: 769px) {
+
+            .mobile-sidebar,
+            .sidebar-overlay {
+                display: none !important;
+            }
+        }
+
+        /* Header Right Section - Responsive Behavior */
+        @media (max-width: 1024px) {
+            .header-item .header-text {
+                display: none;
+            }
+
+            .header-item {
+                padding: 8px;
+            }
+        }
+
+
+        @media (max-width: 480px) {
+            .header-right {
+                gap: 8px;
+            }
+        }
+
+
+        .card.card-border {
+            border: 1px solid #eaeaea;
+            box-shadow: none;
+        }
+
+        .card {
+            border-color: #eaeaea;
+            border-radius: .5rem;
+            box-shadow: 0 2px 2px rgba(0, 0, 0, .1);
+            margin-bottom: .875rem;
+        }
+
+        .card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #fff;
+            background-clip: border-box;
+            border: 1px solid rgba(0, 0, 0, .125);
+            border-radius: .25rem;
+        }
+
+        /* Dropdown/Select styling */
+        .profile-form select {
+            width: 100%;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.75rem;
+            background-color: white;
+            padding: 0.5rem 0.75rem;
+            padding-right: 2.5rem;
+            font-size: 1rem;
+            color: #1f2937;
+            transition: all 0.2s;
+            background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22rgb(55,65,81)%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3e%3cpolyline points=%226 9 12 15 18 9%22%3e%3c/polyline%3e%3c/svg%3e');
+            background-repeat: no-repeat;
+            background-position: right 0.5rem center;
+            background-size: 1em 1em;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+
+        .profile-form select:focus {
+            outline: none;
+            border-color: #181a20;
+            box-shadow: 0 0 0 3px rgba(24, 26, 32, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-card {
+                border: 1px solid #e5e7eb;
+                border-radius: 0.5rem;
+                margin-bottom: 0.75rem;
+                padding: 1rem;
+                background: white;
+            }
+
+            .mobile-row {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 0.5rem;
+                padding-bottom: 0.5rem;
+                border-bottom: 1px solid #f3f4f6;
+            }
+
+            .mobile-row:last-child {
+                border-bottom: none;
+                margin-bottom: 0;
+            }
+
+            .mobile-label {
+                font-weight: 600;
+                color: #4b5563;
+                min-width: 100px;
+            }
+
+            .mobile-value {
+                text-align: right;
+                flex: 1;
+            }
+
+            /* Mobile profile sidebar - remove border bottom */
+            .w-full.md\\:w-48 {
+                border-bottom: none !important;
+                padding-bottom: 0 !important;
+            }
+
+            /* Mobile buttons - sidebar-btn styling */
+            .sidebar-btn {
+                background-color: white !important;
+                border: 1px solid white !important;
+                border-radius: 0.5rem !important;
+                padding: 0.5rem 1rem !important;
+                text-align: center !important;
+                font-size: 0.875rem !important;
+                color: #374151 !important;
+                font-weight: 500 !important;
+                transition: all 0.3s ease !important;
+                cursor: pointer !important;
+            }
+
+            /* Mobile buttons container gap */
+            .w-full.md\\:w-48 ul.flex {
+                gap: 0.5rem !important;
+            }
+
+            /* Active button - black background and white text */
+            .sidebar-btn.active {
+                background-color: #181a20 !important;
+                color: white !important;
+                border-color: #181a20 !important;
+                font-weight: 600 !important;
+            }
+
+            /* Inactive button hover effect */
+            .sidebar-btn:not(.active):hover {
+                background-color: #f9fafb !important;
+            }
+        }
+
+        .search-filter input[type="text"],
+        .search-filter input[type="password"],
+        .search-filter input[type="email"],
+        .search-filter input[type="date"],
+        .search-filter input[type="tel"],
+        .search-filter input[type="number"],
+        .search-filter select,
+        .search-filter textarea {
+            width: 100%;
+            border-width: 1px;
+            border-style: solid;
+            border-color: var(--primary-transparent);
+            border-radius: 12px;
+            padding: .5rem .75rem;
+            transition: border-color 0.2s, box-shadow 0.2s, all 0.2s;
+        }
+
+        .search-filter input:focus,
+        .search-filter select:focus,
+        .search-filter textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 6px rgba(24, 26, 32, 0.06);
+        }
+
+        /* Profile sidebar buttons styling */
+        #profileSection~* button,
+        .page-content button {
+            transition: all 0.3s ease;
+        }
+
+
+        .section-fade {
+            animation: simpleFade 0.3s ease forwards;
+        }
+
+        @keyframes simpleFade {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .three-body {
+            --uib-size: 35px;
+            --uib-speed: 0.8s;
+            --uib-color: var(--dark-2);
+            position: relative;
+            display: inline-block;
+            height: var(--uib-size);
+            width: var(--uib-size);
+            animation: spin78236 calc(var(--uib-speed) * 2.5) infinite linear;
+        }
+
+        .three-body__dot {
+            position: absolute;
+            height: 100%;
+            width: 30%;
+        }
+
+        .three-body__dot:after {
+            content: '';
+            position: absolute;
+            height: 0%;
+            width: 100%;
+            padding-bottom: 100%;
+            background-color: var(--uib-color);
+            border-radius: 50%;
+        }
+
+        .three-body__dot:nth-child(1) {
+            bottom: 5%;
+            left: 0;
+            transform: rotate(60deg);
+            transform-origin: 50% 85%;
+        }
+
+        .three-body__dot:nth-child(1)::after {
+            bottom: 0;
+            left: 0;
+            animation: wobble1 var(--uib-speed) infinite ease-in-out;
+            animation-delay: calc(var(--uib-speed) * -0.3);
+        }
+
+        .three-body__dot:nth-child(2) {
+            bottom: 5%;
+            right: 0;
+            transform: rotate(-60deg);
+            transform-origin: 50% 85%;
+        }
+
+        .three-body__dot:nth-child(2)::after {
+            bottom: 0;
+            left: 0;
+            animation: wobble1 var(--uib-speed) infinite calc(var(--uib-speed) * -0.15) ease-in-out;
+        }
+
+        .three-body__dot:nth-child(3) {
+            bottom: -5%;
+            left: 0;
+            transform: translateX(116.666%);
+        }
+
+        .three-body__dot:nth-child(3)::after {
+            top: 0;
+            left: 0;
+            animation: wobble2 var(--uib-speed) infinite ease-in-out;
+        }
+
+        @keyframes spin78236 {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes wobble1 {
+
+            0%,
+            100% {
+                transform: translateY(0%) scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: translateY(-66%) scale(0.65);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes wobble2 {
+
+            0%,
+            100% {
+                transform: translateY(0%) scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: translateY(66%) scale(0.65);
+                opacity: 0.8;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- Mobile Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Mobile Sidebar -->
+    <div class="mobile-sidebar" id="mobileSidebar">
+        <div class="sidebar-top flex items-center justify-between px-6 py-4">
+            <div class="flex items-center">
+                <img src="/images/icon.png" alt="UPIExpress" class="w-8 h-8">
+                <span class="sidebar-text font-bold text-xl  mr-[2.2px] text-gray-800">UPI</span>
+                <span class="sidebar-text font-family text-xl text-gray-700">Express</span>
+            </div>
+
+            <button class="mobile-sidebar-close text-gray-400 hover:text-gray-700" id="mobileSidebarClose">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Menu Content -->
+        <div class="menu-content-wrap mt-3">
+            <div class="menu-group">
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item " href="/user/dashboard">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-layout-2"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <rect x="4" y="4" width="6" height="5" rx="2"></rect>
+                                        <rect x="4" y="13" width="6" height="7" rx="2"></rect>
+                                        <rect x="14" y="4" width="6" height="7" rx="2"></rect>
+                                        <rect x="14" y="15" width="6" height="5" rx="2"></rect>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/merchant/setup_upi">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-building-store"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <line x1="3" y1="21" x2="21" y2="21"></line>
+                                        <path
+                                            d="M3 7v1a3 3 0 0 0 6 0v-1m0 1a3 3 0 0 0 6 0v-1m0 1a3 3 0 0 0 6 0v-1h-18l2 -4h14l2 4">
+                                        </path>
+                                        <line x1="5" y1="21" x2="5" y2="10.85"></line>
+                                        <line x1="19" y1="21" x2="19" y2="10.85"></line>
+                                        <path d="M9 21v-4a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v4"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Connect Merchant</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item " href="/user/merchant/multi_merchant">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icons-tabler-outline icon-tabler-buildings"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M4 21v-15c0 -1 1 -2 2 -2h5c1 0 2 1 2 2v15"></path>
+                                        <path d="M16 8h2c1 0 2 1 2 2v11"></path>
+                                        <path d="M3 21h18"></path>
+                                        <path d="M10 12v0"></path>
+                                        <path d="M10 16v0"></path>
+                                        <path d="M10 8v0"></path>
+                                        <path d="M7 12v0"></path>
+                                        <path d="M7 16v0"></path>
+                                        <path d="M7 8v0"></path>
+                                        <path d="M17 12v0"></path>
+                                        <path d="M17 16v0"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Multi Merchant</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-gap"></div>
+
+            <div class="menu-group">
+                <div class="nav-header"><span>Reports</span></div>
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/txn_report">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-arrow-autofit-height"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M12 20h-6a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h6"></path>
+                                        <path d="M18 14v7"></path>
+                                        <path d="M18 3v7"></path>
+                                        <path d="M15 18l3 3l3 -3"></path>
+                                        <path d="M15 6l3 -3l3 3"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Transaction</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-gap"></div>
+
+            <div class="menu-group">
+                <div class="nav-header"><span>Plans</span></div>
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/payment/plan_list">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-shopping-cart"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <circle cx="6" cy="19" r="2"></circle>
+                                        <circle cx="17" cy="19" r="2"></circle>
+                                        <path d="M17 17h-11v-14h-2"></path>
+                                        <path d="M6 5l14 1l-1 7h-13"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Buy Plan</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item " href="/user/active_subs">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-toggle-right"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <circle cx="16" cy="12" r="2"></circle>
+                                        <rect x="2" y="6" width="20" height="12" rx="6"></rect>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Active Subscription</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/payment_report">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-file-invoice"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                                        <path
+                                            d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z">
+                                        </path>
+                                        <line x1="9" y1="7" x2="10" y2="7"></line>
+                                        <line x1="9" y1="13" x2="15" y2="13"></line>
+                                        <line x1="13" y1="17" x2="15" y2="17"></line>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Payment Report</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-gap"></div>
+
+            <div class="menu-group">
+                <div class="nav-header"><span>Settings</span></div>
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item " href="/user/settings/payment_settings">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-settings"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path
+                                            d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z">
+                                        </path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Payment Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-gap"></div>
+
+            <div class="menu-group">
+                <div class="nav-header"><span>API & Docs</span></div>
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/api_credentials">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-terminal-2"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M8 9l3 3l-3 3"></path>
+                                        <line x1="13" y1="15" x2="16" y2="15"></line>
+                                        <rect x="3" y="4" width="18" height="16" rx="2"></rect>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">API Keys & Webhooks</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/doc">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-file-code-2"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M10 12h-1v5h1"></path>
+                                        <path d="M14 12h1v5h-1"></path>
+                                        <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                                        <path
+                                            d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z">
+                                        </path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">API Documentation</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/plugins">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-plug" xmlns="http://www.w3.org/2000/svg"
+                                        width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+                                        stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M7 7h10v6a3 3 0 0 1 -3 3h-4a3 3 0 0 1 -3 -3v-6"></path>
+                                        <line x1="9" y1="3" x2="9" y2="7"></line>
+                                        <line x1="15" y1="3" x2="15" y2="7"></line>
+                                        <path d="M12 16v2a2 2 0 0 0 2 2h3"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Plugins</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Desktop Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-top flex items-center justify-between px-6 py-4">
+            <div class="flex items-center">
+                <img src="/images/icon.png" alt="UPIExpress" class="w-8 h-8">
+                <span class="sidebar-text font-bold text-xl  mr-[2.2px] text-gray-800">UPI</span>
+                <span class="sidebar-text font-family text-xl text-gray-700">Express</span>
+            </div>
+            <button class="sidebar-toggle flex items-center justify-center text-gray-400 hover:text-gray-700"
+                id="toggleSidebar">
+                <span class="icon flex items-center justify-center">
+                    <span class="svg-icon fs-5 toggle-icon flex items-center justify-center">
+                        <svg class="icon icon-tabler icon-tabler-arrow-bar-to-left" xmlns="http://www.w3.org/2000/svg"
+                            width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <line x1="10" y1="12" x2="20" y2="12"></line>
+                            <line x1="10" y1="12" x2="14" y2="16"></line>
+                            <line x1="10" y1="12" x2="14" y2="8"></line>
+                            <line x1="4" y1="4" x2="4" y2="20"></line>
+                        </svg>
+                    </span>
+                </span>
+            </button>
+        </div>
+
+
+        <!-- Menu Content -->
+        <div class="menu-content-wrap mt-3">
+            <div class="menu-group">
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item " href="/user/dashboard">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-layout-2"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <rect x="4" y="4" width="6" height="5" rx="2"></rect>
+                                        <rect x="4" y="13" width="6" height="7" rx="2"></rect>
+                                        <rect x="14" y="4" width="6" height="7" rx="2"></rect>
+                                        <rect x="14" y="15" width="6" height="5" rx="2"></rect>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/merchant/setup_upi">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-building-store"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <line x1="3" y1="21" x2="21" y2="21"></line>
+                                        <path
+                                            d="M3 7v1a3 3 0 0 0 6 0v-1m0 1a3 3 0 0 0 6 0v-1m0 1a3 3 0 0 0 6 0v-1h-18l2 -4h14l2 4">
+                                        </path>
+                                        <line x1="5" y1="21" x2="5" y2="10.85"></line>
+                                        <line x1="19" y1="21" x2="19" y2="10.85"></line>
+                                        <path d="M9 21v-4a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v4"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Connect Merchant</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item " href="/user/merchant/multi_merchant">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icons-tabler-outline icon-tabler-buildings"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M4 21v-15c0 -1 1 -2 2 -2h5c1 0 2 1 2 2v15"></path>
+                                        <path d="M16 8h2c1 0 2 1 2 2v11"></path>
+                                        <path d="M3 21h18"></path>
+                                        <path d="M10 12v0"></path>
+                                        <path d="M10 16v0"></path>
+                                        <path d="M10 8v0"></path>
+                                        <path d="M7 12v0"></path>
+                                        <path d="M7 16v0"></path>
+                                        <path d="M7 8v0"></path>
+                                        <path d="M17 12v0"></path>
+                                        <path d="M17 16v0"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Multi Merchant</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-gap"></div>
+
+            <div class="menu-group">
+                <div class="nav-header"><span>Reports</span></div>
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/txn_report">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-arrow-autofit-height"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M12 20h-6a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h6"></path>
+                                        <path d="M18 14v7"></path>
+                                        <path d="M18 3v7"></path>
+                                        <path d="M15 18l3 3l3 -3"></path>
+                                        <path d="M15 6l3 -3l3 3"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Transaction</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-gap"></div>
+
+            <div class="menu-group">
+                <div class="nav-header"><span>Plans</span></div>
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/payment/plan_list">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-shopping-cart"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <circle cx="6" cy="19" r="2"></circle>
+                                        <circle cx="17" cy="19" r="2"></circle>
+                                        <path d="M17 17h-11v-14h-2"></path>
+                                        <path d="M6 5l14 1l-1 7h-13"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Buy Plan</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item " href="/user/active_subs">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-toggle-right"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <circle cx="16" cy="12" r="2"></circle>
+                                        <rect x="2" y="6" width="20" height="12" rx="6"></rect>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Active Subscription</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/payment_report">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-file-invoice"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                                        <path
+                                            d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z">
+                                        </path>
+                                        <line x1="9" y1="7" x2="10" y2="7"></line>
+                                        <line x1="9" y1="13" x2="15" y2="13"></line>
+                                        <line x1="13" y1="17" x2="15" y2="17"></line>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Payment Report</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-gap"></div>
+
+            <div class="menu-group">
+                <div class="nav-header"><span>Settings</span></div>
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item " href="/user/settings/payment_settings">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-settings"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path
+                                            d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z">
+                                        </path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Payment Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-gap"></div>
+
+            <div class="menu-group">
+                <div class="nav-header"><span>API & Docs</span></div>
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/api_credentials">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-terminal-2"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M8 9l3 3l-3 3"></path>
+                                        <line x1="13" y1="15" x2="16" y2="15"></line>
+                                        <rect x="3" y="4" width="18" height="16" rx="2"></rect>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">API Keys & Webhooks</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/doc">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-file-code-2"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M10 12h-1v5h1"></path>
+                                        <path d="M14 12h1v5h-1"></path>
+                                        <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                                        <path
+                                            d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z">
+                                        </path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">API Documentation</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-item" href="/user/plugins">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg class="icon icon-tabler icon-tabler-plug" xmlns="http://www.w3.org/2000/svg"
+                                        width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+                                        stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M7 7h10v6a3 3 0 0 1 -3 3h-4a3 3 0 0 1 -3 -3v-6"></path>
+                                        <line x1="9" y1="3" x2="9" y2="7"></line>
+                                        <line x1="15" y1="3" x2="15" y2="7"></line>
+                                        <path d="M12 16v2a2 2 0 0 0 2 2h3"></path>
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Plugins</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- HEADER -->
+        <div class="content-header">
+            <div class="header-container">
+                <!-- Left Section -->
+                <div class="header-left">
+                    <!-- Mobile Hamburger -->
+                    <button class="mobile-hamburger" id="mobileHamburger">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
+
+                    <!-- Desktop Brand -->
+                    <div class="header-brand">
+                        <span class="brand-text">Dynamic QR</span>
+                        <span class="brand-subtext">Solutions</span>
+                    </div>
+                </div>
+
+                <!-- Right Section -->
+                <div class="header-right">
+                    <!-- Desktop Menu Items -->
+                    <div class="header-item" onclick="window.location.href='/user/how_its_works'">
+                        <div class="header-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="feather-settings animate-spin">
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path
+                                    d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l-.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                                </path>
+                            </svg>
+                        </div>
+                        <span class="header-text">How Its Work</span>
+                    </div>
+
+                    <div class="header-item"
+                        onclick="window.location.href='https://api.whatsapp.com/send/?phone=918509517215'">
+                        <div class="header-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path
+                                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                                </path>
+                            </svg>
+                        </div>
+                        <span class="header-text">Customer Care</span>
+                    </div>
+
+                    <div class="header-item" onclick="window.location.href='/user/wallet'">
+                        <div class="header-icon">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                <path
+                                    d="M21,6H5c-.859,0-1.672-.372-2.235-.999,.55-.614,1.349-1.001,2.235-1.001H23c.553,0,1-.448,1-1s-.447-1-1-1H5C2.239,2,0,4.239,0,7v10c0,2.761,2.239,5,5,5H21c1.657,0,3-1.343,3-3V9c0-1.657-1.343-3-3-3Zm1,13c0,.551-.448,1-1,1H5c-1.654,0-3-1.346-3-3V6.998c.854,.639,1.904,1.002,3,1.002H21c.552,0,1,.449,1,1v10Zm-2-5c0,.552-.448,1-1,1s-1-.448-1-1,.448-1,1-1,1,.448,1,1Z" />
+                            </svg>
+                        </div>
+                        <span class="header-text">My Wallet</span>
+                    </div>
+
+                    <!-- Profile Dropdown - Always visible -->
+                    <div class="profile-dropdown">
+                        <button class="profile-btn" id="profileDropdown">
+                            <div class="avatar">
+                                <span class="avatar-text">
+                                    <%= user.user_iconLetter %>
+                                </span>
+                            </div>
+                        </button>
+
+                        <div class="dropdown-menu" id="dropdownMenu">
+                            <div class="dropdown-header">
+                                <div class="user-info">
+                                    <div class="avatar">
+                                        <span class="avatar-text">
+                                            <%= user.user_iconLetter %>
+                                        </span>
+                                    </div>
+                                    <div class="user-details">
+                                        <div class="user-name">
+                                            <%= user.name %>
+                                        </div>
+                                        <div class="user-email">
+                                            <%= user.email %>
+                                        </div>
+                                        <a href="/auth/logout" class="logout-link">Sign Out</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <a href="/user/profile" class="dropdown-item">Profile</a>
+                            <a href="https://api.whatsapp.com/send/?phone=918509517215" class="dropdown-item">Help &
+                                Support</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page Content -->
+        <div class="page-content mx-[5px] lg:mx-[84px] min-h-[calc(100vh-180px)]">
+            <div class="p-4 md:p-8">
+
+                <!-- PAGE TITLE -->
+                <h1 class="text-xl md:text-2xl font-semibold">Edit Profile</h1>
+                <p class="text-sm md:text-base text-gray-600 mb-6 pb-4 border-b border-gray-200">Edit personal profile
+                    and business profile.</p>
+
+                <div class="flex flex-col md:flex-row gap-4 md:gap-10">
+
+                    <!-- SIDEBAR -->
+                    <div class="w-full md:w-48 text-sm border-b md:border-b-0 border-gray-200 pb-4 md:pb-0 md:pr-6">
+                        <p class="text-gray-400 uppercase mb-2 md:mb-4 tracking-wide text-xs">Account</p>
+
+                        <ul class="flex md:flex-col space-x-4 md:space-x-0 md:space-y-2">
+                            <li class="flex-1 md:flex-none">
+                                <button onclick="showSection('profileSection')"
+                                    class="sidebar-btn text-left block w-full py-1 px-2 md:px-0 text-gray-900 focus:text-black focus:font-medium transition-colors whitespace-nowrap border-none"
+                                    id="btnProfile">
+                                    Profile
+                                </button>
+                            </li>
+                            <li class="flex-1 md:flex-none">
+                                <button onclick="showSection('securitySection')"
+                                    class="sidebar-btn text-left block w-full py-1 px-2 md:px-0 text-gray-900 focus:text-black focus:font-medium transition-colors whitespace-nowrap border-none"
+                                    id="btnSecurity">
+                                    Login & Security
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- RIGHT CONTENT -->
+                    <div class="w-full md:flex-1">
+
+                        <!-- PROFILE SECTION -->
+                        <div id="profileSection">
+
+                            <h2 class="text-lg md:text-xl font-semibold mb-4">Personal Info</h2>
+
+                            <div class="flex items-center mb-6">
+                                <span class="uppercase text-xs font-semibold text-gray-700">Personal Info</span>
+                                <div class="flex-1 h-px bg-gray-300 ml-4"></div>
+                            </div>
+
+                            <!-- PERSONAL INFO -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6">
+
+                                <div class="flex flex-col search-filter">
+                                    <label class="text-xs md:text-sm mb-1">Name</label>
+                                    <input type="text" class="px-3 md:px-4 py-2 text-sm border rounded-lg"
+                                        placeholder="Name" autocomplete="off" value="<%= user.name %>">
+                                </div>
+
+                                <div class="flex flex-col search-filter">
+                                    <label class="text-xs md:text-sm mb-1">Mobile no.</label>
+                                    <input type="tel" class="px-3 md:px-4 py-2 text-sm border rounded-lg bg-gray-100"
+                                        autocomplete="off" placeholder="Phone" readonly disabled
+                                        value="<%= user.phone %>">
+                                </div>
+
+                                <div class="flex flex-col md:col-span-2 search-filter">
+                                    <label class="text-xs md:text-sm mb-1">Email Id</label>
+                                    <input type="email" placeholder="Email Id" autocomplete="off"
+                                        class="px-3 md:px-4 py-2 text-sm border rounded-lg bg-gray-100" readonly
+                                        disabled value="<%= user.email %>">
+                                </div>
+
+                            </div>
+
+                            <!-- BUSINESS PROFILE -->
+                            <div class="flex items-center mb-6">
+                                <span class="uppercase text-xs font-semibold text-gray-700">Business Profile</span>
+                                <div class="flex-1 h-px bg-gray-300 ml-4"></div>
+                            </div>
+
+                            <label class="text-xs md:text-sm mb-2">Business Logo</label>
+
+                            <div class="flex flex-col md:flex-row items-center gap-3 md:gap-4 mb-6 mt-3">
+                                <div
+                                    class="w-20 h-20 border border-gray-300 flex items-center justify-center rounded-full overflow-hidden">
+                                    <img id="logoPreview" src="<%= user.business_logo || '/assets/images/icon.png' %>"
+                                        class="w-20 h-20 rounded-full">
+
+                                </div>
+                                <input type="file" id="logoUpload" accept="image/*" style="display: none;">
+                                <button type="button" class="px-4 py-2 bg-gray-100 border rounded-lg hover:bg-gray-200"
+                                    onclick="document.getElementById('logoUpload').click()">
+                                    Upload Logo
+                                </button>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6">
+
+                                <div class="flex flex-col search-filter">
+                                    <label class="text-xs md:text-sm mb-1">Business Name*</label>
+                                    <input type="text"
+                                        class="px-3 md:px-4 py-2 text-sm border rounded-lg placeholder-gray-500"
+                                        autocomplete="off" placeholder="Business Name"
+                                        value="<%= user.business_name %>">
+                                </div>
+
+                                <div class="flex flex-col search-filter">
+                                    <label class="text-xs md:text-sm mb-1">State*</label>
+                                    <select autocomplete="off"
+                                        class="w-full px-3 py-2 text-sm border rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#1e2329]"
+                                        style="background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22rgb(55,65,81)%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3e%3cpolyline points=%226 9 12 15 18 9%22%3e%3c/polyline%3e%3c/svg%3e'); background-repeat: no-repeat; background-position: right 0.5rem center; background-size: 1em 1em; padding-right: 2.5rem; appearance: none; -webkit-appearance: none; -moz-appearance: none;">
+                                        <option value="" <%=!user.state ? "selected" : "" %>>Select State</option>
+
+                                        <option value="Andaman and Nicobar Islands"
+                                            <%=user.state==="Andaman and Nicobar Islands" ? "selected" : "" %>>Andaman
+                                            and
+                                            Nicobar Islands</option>
+                                        <option value="Andhra Pradesh" <%=user.state==="Andhra Pradesh" ? "selected"
+                                            : "" %>
+                                            >Andhra Pradesh</option>
+                                        <option value="Arunachal Pradesh" <%=user.state==="Arunachal Pradesh"
+                                            ? "selected" : "" %>>Arunachal Pradesh</option>
+                                        <option value="Assam" <%=user.state==="Assam" ? "selected" : "" %>>Assam
+                                        </option>
+                                        <option value="Bihar" <%=user.state==="Bihar" ? "selected" : "" %>>Bihar
+                                        </option>
+                                        <option value="Chhattisgarh" <%=user.state==="Chhattisgarh" ? "selected" : "" %>
+                                            >Chhattisgarh</option>
+                                        <option value="Chandigarh" <%=user.state==="Chandigarh" ? "selected" : "" %>
+                                            >Chandigarh</option>
+                                        <option value="Dadar and Nagar Haveli" <%=user.state==="Dadar and Nagar Haveli"
+                                            ? "selected" : "" %>>Dadar and Nagar Haveli</option>
+                                        <option value="Daman and Diu" <%=user.state==="Daman and Diu" ? "selected" : ""
+                                            %>
+                                            >Daman and Diu</option>
+                                        <option value="Delhi" <%=user.state==="Delhi" ? "selected" : "" %>>Delhi
+                                        </option>
+                                        <option value="Goa" <%=user.state==="Goa" ? "selected" : "" %>>Goa</option>
+                                        <option value="Gujarat" <%=user.state==="Gujarat" ? "selected" : "" %>>Gujarat
+                                        </option>
+                                        <option value="Haryana" <%=user.state==="Haryana" ? "selected" : "" %>>Haryana
+                                        </option>
+                                        <option value="Himachal Pradesh" <%=user.state==="Himachal Pradesh" ? "selected"
+                                            : "" %>>Himachal Pradesh</option>
+                                        <option value="Jharkhand" <%=user.state==="Jharkhand" ? "selected" : "" %>
+                                            >Jharkhand
+                                        </option>
+                                        <option value="Karnataka" <%=user.state==="Karnataka" ? "selected" : "" %>
+                                            >Karnataka
+                                        </option>
+                                        <option value="Kerala" <%=user.state==="Kerala" ? "selected" : "" %>>Kerala
+                                        </option>
+                                        <option value="Lakshadweep" <%=user.state==="Lakshadweep" ? "selected" : "" %>
+                                            >Lakshadweep</option>
+                                        <option value="Madhya Pradesh" <%=user.state==="Madhya Pradesh" ? "selected"
+                                            : "" %>
+                                            >Madhya Pradesh</option>
+                                        <option value="Maharashtra" <%=user.state==="Maharashtra" ? "selected" : "" %>
+                                            >Maharashtra</option>
+                                        <option value="Manipur" <%=user.state==="Manipur" ? "selected" : "" %>>Manipur
+                                        </option>
+                                        <option value="Meghalaya" <%=user.state==="Meghalaya" ? "selected" : "" %>
+                                            >Meghalaya
+                                        </option>
+                                        <option value="Mizoram" <%=user.state==="Mizoram" ? "selected" : "" %>>Mizoram
+                                        </option>
+                                        <option value="Nagaland" <%=user.state==="Nagaland" ? "selected" : "" %>
+                                            >Nagaland
+                                        </option>
+                                        <option value="Odisha" <%=user.state==="Odisha" ? "selected" : "" %>>Odisha
+                                        </option>
+                                        <option value="Puducherry" <%=user.state==="Puducherry" ? "selected" : "" %>
+                                            >Puducherry</option>
+                                        <option value="Punjab" <%=user.state==="Punjab" ? "selected" : "" %>>Punjab
+                                        </option>
+                                        <option value="Rajasthan" <%=user.state==="Rajasthan" ? "selected" : "" %>
+                                            >Rajasthan
+                                        </option>
+                                        <option value="Sikkim" <%=user.state==="Sikkim" ? "selected" : "" %>>Sikkim
+                                        </option>
+                                        <option value="Tamil Nadu" <%=user.state==="Tamil Nadu" ? "selected" : "" %>
+                                            >Tamil
+                                            Nadu</option>
+                                        <option value="Tripura" <%=user.state==="Tripura" ? "selected" : "" %>>Tripura
+                                        </option>
+                                        <option value="Telangana" <%=user.state==="Telangana" ? "selected" : "" %>
+                                            >Telangana
+                                        </option>
+                                        <option value="Uttar Pradesh" <%=user.state==="Uttar Pradesh" ? "selected" : ""
+                                            %>
+                                            >Uttar Pradesh</option>
+                                        <option value="Uttarakhand" <%=user.state==="Uttarakhand" ? "selected" : "" %>
+                                            >Uttarakhand</option>
+                                        <option value="West Bengal" <%=user.state==="West Bengal" ? "selected" : "" %>
+                                            >West
+                                            Bengal</option>
+                                    </select>
+                                </div>
+
+                                <div class="flex flex-col search-filter">
+                                    <label class="text-xs md:text-sm mb-1">Website URL*</label>
+                                    <input type="url" class="px-3 md:px-4 py-2 text-sm border rounded-lg"
+                                        autocomplete="off" placeholder="https://example.com"
+                                        value="<%= user.website_url %>">
+                                    <p class="text-xs text-gray-500 mt-1">Note: URL must include protocol (http / https)
+                                    </p>
+                                </div>
+
+                                <div class="flex flex-col search-filter">
+                                    <label class="text-xs md:text-sm mb-1">App URL</label>
+                                    <input type="url" class="px-3 md:px-4 py-2 text-sm border rounded-lg"
+                                        placeholder="App URL" autocomplete="off" value="<%= user.app_url %>">
+                                    <p class="text-xs text-gray-500 mt-1">Note: URL must include protocol (http / https)
+                                    </p>
+                                </div>
+
+                                <div class="flex flex-col md:col-span-2 search-filter">
+                                    <label class="text-xs md:text-sm mb-1">Whatsapp no.*</label>
+                                    <input type="tel" class="px-3 md:px-4 py-2 text-sm border rounded-lg"
+                                        placeholder="Whatsapp no." autocomplete="off" data-lpignore="true"
+                                        data-form-type="other" value="<%= user.whatsapp_no %>">
+                                    <p class="text-xs text-gray-500 mt-1">
+                                        Please save UPIExpress Whatsapp number. (+91-8509517215)
+                                    </p>
+                                </div>
+
+                            </div>
+
+                            <!-- UPDATE BUTTON -->
+                            <div class="flex flex-col md:flex-row gap-3 md:gap-4 mt-6 md:mt-8">
+                                <button type="button" id="updateProfileBtn"
+                                    class="bg-black text-white px-4 md:px-6 py-2 text-sm md:text-base rounded-lg hover:bg-gray-800 w-full md:w-auto">
+                                    Update Profile
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                        <!-- LOGIN & SECURITY SECTION -->
+                        <div id="securitySection" class="hidden">
+
+                            <h2 class="text-lg md:text-xl font-semibold mb-4">Login & Security</h2>
+
+                            <div class="flex items-center mb-6">
+                                <span class="uppercase text-xs font-semibold text-gray-700">Password Settings</span>
+                                <div class="flex-1 h-px bg-gray-300 ml-4"></div>
+                            </div>
+
+                            <div class="flex flex-col search-filter w-full md:w-[400px]">
+                                <label class="block text-xs md:text-sm mb-1">Current Password</label>
+                                <input class="px-3 md:px-4 py-2 text-sm border rounded-lg" type="password"
+                                    autocomplete="new-password" data-lpignore="true" data-form-type="other"
+                                    placeholder="Your current password">
+                            </div>
+
+                            <div class="flex flex-col search-filter w-full md:w-[400px] mt-4">
+                                <label class="block text-xs md:text-sm mb-1">New Password</label>
+                                <input class="px-3 md:px-4 py-2 text-sm border rounded-lg" type="password"
+                                    placeholder="New password" autocomplete="new-password" data-lpignore="true"
+                                    data-form-type="other">
+                            </div>
+
+                            <div class="flex flex-col search-filter w-full md:w-[400px] mt-4 mb-6">
+                                <label class="block text-xs md:text-sm mb-1">Confirm Password</label>
+                                <input class="px-3 md:px-4 py-2 text-sm border rounded-lg" type="password"
+                                    autocomplete="new-password" data-lpignore="true" data-form-type="other"
+                                    placeholder="Confirm password">
+                            </div>
+
+                            <button type="button" id="changePasswordBtn"
+                                class="bg-black text-white px-4 md:px-6 py-2 text-sm md:text-base rounded-lg hover:bg-gray-800 w-full md:w-auto">
+                                Change Password
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+
+
+
+
+        </div>
+        <!-- Error Messages Toast -->
+        <div id="errorMessages" role="alert" aria-live="assertive"
+            class="fixed bottom-6 left-1/2 transform -translate-x-1/2 flex items-center hidden z-[10999]">
+            <div
+                class="bg-red-500 text-white text-sm font-semibold py-2 px-4 rounded-lg shadow-md flex items-center space-x-3 max-w-md">
+                <p id="errorMessageText">Error message goes here</p>
+                <button type="button" id="errorClose"
+                    onclick="document.getElementById('errorMessages').classList.add('hidden')" class="ml-2">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Success Messages Toast -->
+        <div id="successMessage" role="alert" aria-live="assertive"
+            class="fixed bottom-6 left-1/2 transform -translate-x-1/2 flex items-center hidden z-[10999]">
+            <div
+                class="bg-green-500 text-white text-sm font-semibold py-2 px-4 rounded-lg shadow-md flex items-center space-x-3 max-w-md">
+                <p id="successMessageText">Success message goes here</p>
+                <button type="button" id="successClose"
+                    onclick="document.getElementById('successMessage').classList.add('hidden')" class="ml-2">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner"
+            class="fixed inset-0 flex justify-center items-center hidden bg-white bg-opacity-75 z-[10000] min-h-screen">
+            <div class="three-body">
+                <div class="three-body__dot"></div>
+                <div class="three-body__dot"></div>
+                <div class="three-body__dot"></div>
+            </div>
+        </div>
+
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <p class="text-gray-600">&copy; 2025 UPI Express. All rights reserved.</p>
+                </div>
+                <div class="footer-right">
+
+                    <a href="/terms" class="footer-link text-[var(--primary)]">Terms of Service</a>
+                    <a href="/privacy" class="footer-link text-[var(--primary)]">Privacy Policy</a>
+                    <a href="/contact-us" class="footer-link text-[var(--primary)]">Contact Us</a>
+                </div>
+            </div>
+
+        </div>
+
+
+        <script>
+            let currentSection = "profileSection";
+            let uploadedFile = null;
+            const csrfToken = "<%= csrfToken %>";
+
+            // Initialize - set Profile button as active on page load
+            document.addEventListener('DOMContentLoaded', function () {
+                const btnProfile = document.getElementById("btnProfile");
+                if (btnProfile) {
+                    btnProfile.classList.add("active");
+                }
+            });
+
+            // Show loading spinner
+            function showLoading() {
+                document.getElementById('loadingSpinner').classList.remove('hidden');
+            }
+
+            // Hide loading spinner
+            function hideLoading() {
+                document.getElementById('loadingSpinner').classList.add('hidden');
+            }
+
+            // Show error message
+            function showError(message) {
+                document.getElementById('errorMessageText').textContent = message;
+                document.getElementById('errorMessages').classList.remove('hidden');
+                setTimeout(() => {
+                    document.getElementById('errorMessages').classList.add('hidden');
+                }, 5000);
+            }
+
+            // Show success message
+            function showSuccess(message) {
+                document.getElementById('successMessageText').textContent = message;
+                document.getElementById('successMessage').classList.remove('hidden');
+                setTimeout(() => {
+                    document.getElementById('successMessage').classList.add('hidden');
+                }, 5000);
+            }
+
+            // Image upload preview
+            document.getElementById('logoUpload').addEventListener('change', function (e) {
+                const file = e.target.files[0];
+                if (file) {
+                    // Validate file size (max 5MB)
+                    if (file.size > 5 * 1024 * 1024) {
+                        showError('File size must be less than 5MB');
+                        return;
+                    }
+
+                    // Validate file type
+                    if (!file.type.startsWith('image/')) {
+                        showError('Please select a valid image file');
+                        return;
+                    }
+
+                    uploadedFile = file;
+                    const reader = new FileReader();
+                    reader.onload = function (event) {
+                        document.getElementById('logoPreview').src = event.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Update Profile Function
+            document.getElementById('updateProfileBtn').addEventListener('click', async function () {
+                showLoading();
+
+                try {
+                    const formData = new FormData();
+                    formData.append('type', 'profile');
+
+                    // Get all input values from profile section
+                    const nameInput = document.querySelector('#profileSection input[placeholder="Name"]').value;
+                    const businessNameInput = document.querySelector('#profileSection input[placeholder="Business Name"]').value;
+                    const stateSelect = document.querySelector('#profileSection select').value;
+                    const websiteUrlInput = document.querySelector('#profileSection input[placeholder="https://example.com"]').value;
+                    const appUrlInput = document.querySelector('#profileSection input[placeholder="App URL"]').value;
+                    const whatsappNoInput = document.querySelector('#profileSection input[placeholder="Whatsapp no."]').value;
+
+                    formData.append('name', nameInput);
+                    formData.append('business_name', businessNameInput);
+                    formData.append('state', stateSelect);
+                    formData.append('website_url', websiteUrlInput);
+                    formData.append('app_url', appUrlInput);
+                    formData.append('whatsapp_no', whatsappNoInput);
+
+                    if (uploadedFile) {
+                        formData.append('business_logo', uploadedFile);
+                    }
+
+                    const response = await fetch('/api/user/settings/update', {
+                        method: 'POST',
+                        headers: {
+                            'CSRF-Token': csrfToken
+                        },
+                        body: formData
+                    });
+
+                    const data = await response.json();
+
+                    if (data.status) {
+                        showSuccess(data.message || 'Profile updated successfully!');
+                        uploadedFile = null;
+                    } else {
+                        showError(data.message || 'Failed to update profile');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showError('An error occurred. Please try again.');
+                } finally {
+                    hideLoading();
+                }
+            });
+
+            // Change Password Function
+            document.getElementById('changePasswordBtn').addEventListener('click', async function () {
+                const currentPassword = document.querySelector('#securitySection input[placeholder="Your current password"]').value;
+                const newPassword = document.querySelector('#securitySection input[placeholder="New password"]').value;
+                const confirmPassword = document.querySelector('#securitySection input[placeholder="Confirm password"]').value;
+
+                if (!currentPassword || !newPassword || !confirmPassword) {
+                    showError('Please fill in all password fields');
+                    return;
+                }
+
+                if (newPassword !== confirmPassword) {
+                    showError('New password and confirm password do not match');
+                    return;
+                }
+
+                showLoading();
+
+                try {
+                    const response = await fetch('/api/user/settings/update', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'CSRF-Token': csrfToken
+                        },
+                        body: JSON.stringify({
+                            type: 'password',
+                            current_password: currentPassword,
+                            new_password: newPassword
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.status) {
+                        showSuccess(data.message || 'Password changed successfully!');
+                        // Clear password fields
+                        document.querySelector('#securitySection input[placeholder="Your current password"]').value = '';
+                        document.querySelector('#securitySection input[placeholder="New password"]').value = '';
+                        document.querySelector('#securitySection input[placeholder="Confirm password"]').value = '';
+                    } else {
+                        showError(data.message || 'Failed to change password');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showError('An error occurred. Please try again.');
+                } finally {
+                    hideLoading();
+                }
+            });
+
+            function showSection(id) {
+                // Don't animate if clicking same section
+                if (currentSection === id) {
+                    return;
+                }
+
+                const profileSection = document.getElementById("profileSection");
+                const securitySection = document.getElementById("securitySection");
+                const targetSection = id === "profileSection" ? profileSection : securitySection;
+                const hideSection = id === "profileSection" ? securitySection : profileSection;
+
+                // Hide current section
+                hideSection.classList.add("hidden");
+
+                // Show new section with fade animation
+                targetSection.classList.remove("hidden");
+                targetSection.classList.add("section-fade");
+
+                setTimeout(() => {
+                    targetSection.classList.remove("section-fade");
+                }, 300);
+
+                currentSection = id;
+
+                // Update button styling
+                const btnProfile = document.getElementById("btnProfile");
+                const btnSecurity = document.getElementById("btnSecurity");
+
+                // Desktop styling
+                if (id === "profileSection") {
+                    btnProfile.classList.add("text-black", "font-medium");
+                    btnProfile.classList.remove("text-gray-700");
+                    btnSecurity.classList.remove("text-black", "font-medium");
+                    btnSecurity.classList.add("text-gray-700");
+                } else {
+                    btnSecurity.classList.add("text-black", "font-medium");
+                    btnSecurity.classList.remove("text-gray-700");
+                    btnProfile.classList.remove("text-black", "font-medium");
+                    btnProfile.classList.add("text-gray-700");
+                }
+
+                // Mobile styling - add/remove active class
+                if (id === "profileSection") {
+                    btnProfile.classList.add("active");
+                    btnSecurity.classList.remove("active");
+                } else {
+                    btnSecurity.classList.add("active");
+                    btnProfile.classList.remove("active");
+                }
+            }
+
+
+        </script>
+
+        <script type="module">
+            const sidebar = document.getElementById('sidebar');
+            const toggleBtn = document.getElementById('toggleSidebar');
+            const profileDropdown = document.getElementById('profileDropdown');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            const mobileHamburger = document.getElementById('mobileHamburger');
+            const mobileSidebar = document.getElementById('mobileSidebar');
+            const mobileSidebarClose = document.getElementById('mobileSidebarClose');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+            let hoverEnabled = false;
+            let isCollapsed = false;
+
+            // Desktop sidebar toggle
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function () {
+                    isCollapsed = !isCollapsed;
+
+                    if (isCollapsed) {
+                        sidebar.classList.add('collapsed');
+                        sidebar.classList.remove('hover-enabled');
+
+                        setTimeout(() => {
+                            sidebar.classList.add('hover-enabled');
+                            hoverEnabled = true;
+                        }, 1000);
+
+                    } else {
+                        sidebar.classList.remove('collapsed');
+                        sidebar.classList.remove('hover-enabled');
+                        hoverEnabled = false;
+                    }
+                });
+            }
+
+
+            // Mobile sidebar toggle
+            if (mobileHamburger) {
+                mobileHamburger.addEventListener('click', function () {
+                    mobileSidebar.classList.add('active');
+                    sidebarOverlay.classList.add('active');
+                });
+            }
+
+            // Close mobile sidebar
+            if (mobileSidebarClose) {
+                mobileSidebarClose.addEventListener('click', function () {
+                    mobileSidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                });
+            }
+
+            // Close mobile sidebar when clicking overlay
+            if (sidebarOverlay) {
+                sidebarOverlay.addEventListener('click', function () {
+                    mobileSidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                });
+            }
+
+            // Profile dropdown functionality
+            if (profileDropdown && dropdownMenu) {
+                profileDropdown.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    dropdownMenu.classList.toggle('show');
+                });
+
+                document.addEventListener('click', function () {
+                    dropdownMenu.classList.remove('show');
+                });
+
+                dropdownMenu.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                });
+            }
+
+            // Close mobile sidebar when clicking menu items
+            const mobileMenuItems = document.querySelectorAll('.mobile-sidebar .menu-item');
+            mobileMenuItems.forEach(item => {
+                item.addEventListener('click', function () {
+                    mobileSidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                });
+            });
+
+
+        </script>
+
+</body>
+
+</html>

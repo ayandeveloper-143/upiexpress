@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Help Center | UPIExpress - Guides & Support Documentation</title>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-777328699">
+</script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-777328699');
+</script>
+    <meta name="description"
+        content="UPIExpress Help Center - Comprehensive guides for API integration, QR code generation, payment processing, and troubleshooting.">
+    <meta name="keywords"
+        content="UPIExpress help, API documentation, payment guides, integration tutorial, troubleshooting">
+    <link rel="canonical" href="https://upiexpress.com/main/help">
+    <meta property="og:title" content="Help Center - UPIExpress Documentation">
+    <meta property="og:description" content="Get help with UPI payments, API integration, and payment processing.">
+    <meta property="og:url" content="https://upiexpress.com/main/help">
+    <meta property="og:type" content="website">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HelpPage",
+  "name": "UPIExpress Help Center",
+  "description": "Documentation and guides for UPIExpress payment solutions",
+  "url": "https://upiexpress.com/main/help"
+}
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="icon" href="/images/icon.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-777328699"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'AW-777328699');
+    </script>
+    <style>
+        :root {
+            --primary: #181a20;
+            --primary-light: #1e2329;
+            --primary-dark: #2b3139;
+            --primary-transparent: rgba(0, 0, 0, 0.1);
+            --dark-1: #181a20;
+            --dark-2: #1e2329;
+            --dark-3: #2b3139;
+            --light-1: #eaecef;
+            --light-2: #b7bdc6;
+            --light-3: #848e9c;
+        }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow-x: hidden !important;
+            width: 100vw !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            font-family: "Inter", sans-serif;
+        }
+
+        .btn-theme {
+            background-color: var(--primary);
+            color: var(--light-1);
+            border: 1px solid var(--primary-dark);
+        }
+
+        .btn-theme:hover {
+            background-color: var(--primary-light);
+            color: var(--light-1);
+        }
+
+        .btn-outline-theme {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-outline-theme:hover {
+            background-color: var(--primary-transparent);
+            color: var(--primary-dark);
+        }
+
+        .section-padding {
+            padding: 3rem 0;
+        }
+
+        /* Mobile Menu Styles */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            z-index: 1000;
+            padding: 80px 20px 20px;
+            transform: translateX(-100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .mobile-menu nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .mobile-menu a {
+            font-size: 18px;
+            padding: 16px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: block;
+            transition: all 0.3s ease;
+            transform: translateX(-20px);
+            opacity: 0;
+        }
+
+        .mobile-menu.active a {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--primary-dark);
+            z-index: 1001;
+        }
+
+        .close-menu {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--primary-dark);
+            z-index: 1002;
+        }
+
+        .menu-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .menu-backdrop.active {
+            display: block;
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .desktop-nav {
+                display: none !important;
+            }
+
+            .header-buttons {
+                display: none !important;
+            }
+
+            .header-logo {
+                margin-right: auto;
+            }
+
+            .container {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+
+            .section-padding {
+                padding: 2rem 0;
+            }
+
+            h1 {
+                font-size: 2rem !important;
+                line-height: 1.2 !important;
+            }
+
+            h2 {
+                font-size: 1.75rem !important;
+            }
+
+            .btn-theme,
+            .btn-outline-theme {
+                padding: 14px 20px !important;
+                font-size: 16px !important;
+                width: 100%;
+                text-align: center;
+            }
+
+            .flex-col {
+                gap: 12px;
+            }
+
+            .section-padding {
+                padding: 1.5rem 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.75rem !important;
+            }
+
+            h2 {
+                font-size: 1.5rem !important;
+            }
+
+            .section-padding {
+                padding: 1rem 0;
+            }
+        }
+
+        /* Help Page Specific Styles */
+        .help-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 1px solid rgb(226 232 240 / var(--tw-border-opacity, 1));
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+        }
+
+        .help-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .faq-item {
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-question {
+            cursor: pointer;
+            padding: 1.5rem 0;
+            position: relative;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 0;
+        }
+
+        .faq-answer.active {
+            max-height: 500px;
+            padding-bottom: 1.5rem;
+        }
+
+        .faq-toggle {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-toggle.active {
+            transform: rotate(180deg);
+        }
+
+        .search-box {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-box input {
+            padding-right: 3rem;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--light-3);
+        }
+
+        .category-tab {
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .category-tab.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .resource-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background-color: #e0f2fe;
+            color: #0369a1;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .scale-in.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .stagger-item {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .stagger-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile Menu Login Button Fix */
+        .mobile-menu .btn-outline-theme {
+            border: 1px solid var(--primary) !important;
+            background-color: transparent;
+            color: var(--primary);
+            display: block;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        footer {
+            overflow-x: hidden !important;
+            width: 100vw !important;
+        }
+
+        footer input[type="email"] {
+            min-width: 0;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col bg-gray-50">
+    <!-- Menu Backdrop -->
+    <div class="menu-backdrop"></div>
+
+    <!-- Header (Updated from Contact Page) -->
+    <header
+        class="flex justify-between items-center px-4 sm:px-6 lg:px-8 py-4 border-b border-gray-200 w-full bg-white sticky top-0 z-50 shadow-sm">
+        <div class="flex items-center">
+            <img src="/images/icon.png" alt="UPIExpress" class="w-8 h-8">
+            <span class="sidebar-text font-bold text-xl mr-[2.2px] text-gray-800">UPI</span>
+            <span class="sidebar-text font-family text-xl text-gray-700">Express</span>
+        </div>
+
+        <nav class="desktop-nav hidden md:flex space-x-6">
+            <a href="/"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Home</a>
+            <a href="/about-us"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">About Us</a>
+            <a href="/faq"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">FAQ</a>
+            
+            <a href="/contact-us"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Contact
+                Us</a>
+            <a href="/doc"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Documentation</a>
+            <a href="/usecases"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Use Cases</a>
+            <a href="/features"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Features</a>
+             <a href="/pricing"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Pricing</a>   
+        </nav>
+
+        <div class="header-buttons flex items-center space-x-3">
+            <a href="/auth/login/"
+                class="btn-outline-theme rounded-lg px-3 py-2 text-sm transition-colors duration-200 font-medium hidden md:block">Login</a>
+            <a href="/auth/signup/"
+                class="btn-theme rounded-lg px-3 py-2 text-sm transition-colors duration-200 font-medium hidden md:block">Create
+                Account</a>
+        </div>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="menu-toggle md:hidden">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu md:hidden">
+        <button class="close-menu">
+            <i class="fas fa-times"></i>
+        </button>
+        <nav class="flex flex-col">
+            <a href="/" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Home</a>
+            <a href="/about-us" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">About Us</a>
+            <a href="/faq" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">FAQ</a>
+            <a href="/contact-us" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Contact Us</a>
+            <a href="/pricing" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Pricing</a>
+            <a href="/doc" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Documentation</a>
+            <a href="/usecases" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Use Cases</a>
+            <a href="/features" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Features</a>
+            <div class="menu-buttons pt-6 border-t border-gray-200 space-y-3">
+                <a href="/auth/login/"
+                    class="btn-outline-theme rounded-lg px-4 py-3 text-base transition-colors duration-200 font-medium block text-center">Login</a>
+                <a href="/auth/signup/"
+                    class="btn-theme rounded-lg px-4 py-3 text-base transition-colors duration-200 font-medium block text-center">Create
+                    Account</a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Help Hero Section -->
+    <section class="section-padding bg-white">
+        <div class="container mx-auto px-4 sm:px-6">
+            <div class="max-w-4xl mx-auto text-center fade-in">
+                <h1 class="mb-6 font-bold text-center text-3xl md:text-4xl lg:text-5xl text-gray-800 leading-tight">
+                    How can we help you today?
+                </h1>
+                <p class="text-gray-600 tracking-wide font-normal text-center text-lg md:text-xl mb-8">
+                    Find answers to common questions, browse documentation, or get support from our team.
+                </p>
+                
+                <!-- Search Bar -->
+                <div class="search-box fade-in">
+                    <div class="relative">
+                        <input type="text" 
+                               placeholder="Search for answers, documentation, or guides..."
+                               class="w-full px-6 py-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent text-base">
+                        <div class="search-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-3">Try searching for "QR code generation", "API integration", or "payment verification"</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Help Categories -->
+    <section class="section-padding bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2 text-center fade-in">Browse by Category</h2>
+            <p class="text-gray-600 text-center mb-8 fade-in">Select a category to find relevant help articles</p>
+            
+            <!-- Category Tabs -->
+            <div class="flex flex-wrap justify-center gap-2 mb-10 fade-in">
+                <div class="category-tab active" data-category="all">All Categories</div>
+                <div class="category-tab" data-category="getting-started">Getting Started</div>
+                <div class="category-tab" data-category="api">API & Integration</div>
+                <div class="category-tab" data-category="payments">Payments</div>
+                <div class="category-tab" data-category="qr-codes">QR Codes</div>
+                <div class="category-tab" data-category="account">Account & Billing</div>
+                <div class="category-tab" data-category="troubleshooting">Troubleshooting</div>
+            </div>
+
+            <!-- Help Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                <div class="help-card rounded-xl p-6 stagger-item" data-category="getting-started">
+                    <div class="bg-[var(--primary)] w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-rocket text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">Getting Started</h3>
+                    <p class="text-gray-600 mb-4">Learn how to set up your account and start accepting payments in minutes.</p>
+                    <div class="flex flex-wrap mb-4">
+                        <span class="resource-tag">Setup Guide</span>
+                        <span class="resource-tag">Quick Start</span>
+                    </div>
+                    
+                </div>
+
+                <div class="help-card rounded-xl p-6 stagger-item" data-category="api">
+                    <div class="bg-[var(--primary)] w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-code text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">API Documentation</h3>
+                    <p class="text-gray-600 mb-4">Comprehensive API reference and integration guides for developers.</p>
+                    <div class="flex flex-wrap mb-4">
+                        <span class="resource-tag">API Reference</span>
+                        <span class="resource-tag">SDKs</span>
+                        <span class="resource-tag">Webhooks</span>
+                    </div>
+                    
+                </div>
+
+                <div class="help-card rounded-xl p-6 stagger-item" data-category="qr-codes">
+                    <div class="bg-[var(--primary)] w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-qrcode text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">QR Code Generation</h3>
+                    <p class="text-gray-600 mb-4">Generate dynamic QR codes and customize them for your business needs.</p>
+                    <div class="flex flex-wrap mb-4">
+                        <span class="resource-tag">Dynamic QR</span>
+                        <span class="resource-tag">Customization</span>
+                        <span class="resource-tag">Bulk Generation</span>
+                    </div>
+                    
+                </div>
+
+                <div class="help-card rounded-xl p-6 stagger-item" data-category="payments">
+                    <div class="bg-[var(--primary)] w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-credit-card text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">Payment Processing</h3>
+                    <p class="text-gray-600 mb-4">Understand how payments are processed, verified, and settled to your account.</p>
+                    <div class="flex flex-wrap mb-4">
+                        <span class="resource-tag">Verification</span>
+                        <span class="resource-tag">Settlement</span>
+                        <span class="resource-tag">Reports</span>
+                    </div>
+                    
+                </div>
+
+                <div class="help-card rounded-xl p-6 stagger-item" data-category="troubleshooting">
+                    <div class="bg-[var(--primary)] w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-tools text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">Troubleshooting</h3>
+                    <p class="text-gray-600 mb-4">Find solutions to common issues and error messages.</p>
+                    <div class="flex flex-wrap mb-4">
+                        <span class="resource-tag">Common Issues</span>
+                        <span class="resource-tag">Error Codes</span>
+                        <span class="resource-tag">Debugging</span>
+                    </div>
+                    
+                </div>
+
+                <div class="help-card rounded-xl p-6 stagger-item" data-category="account">
+                    <div class="bg-[var(--primary)] w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-user-cog text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">Account & Billing</h3>
+                    <p class="text-gray-600 mb-4">Manage your account settings, billing information, and subscription plans.</p>
+                    <div class="flex flex-wrap mb-4">
+                        <span class="resource-tag">Billing</span>
+                        <span class="resource-tag">Account Settings</span>
+                        <span class="resource-tag">Security</span>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Frequently Asked Questions -->
+    <section class="section-padding bg-white">
+        <div class="container mx-auto px-4 sm:px-6">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2 text-center fade-in">Frequently Asked Questions</h2>
+                <p class="text-gray-600 text-center mb-10 fade-in">Quick answers to the most common questions</p>
+
+                <div class="space-y-1 fade-in">
+                    <!-- FAQ Item 1 -->
+                    <div class="faq-item">
+                        <div class="faq-question flex justify-between items-center" data-faq="1">
+                            <h3 class="text-lg font-medium text-gray-800">How do I generate my first QR code?</h3>
+                            <i class="fas fa-chevron-down faq-toggle text-[var(--primary)]"></i>
+                        </div>
+                        <div class="faq-answer" id="faq-1">
+                            <p class="text-gray-600 mb-3">To generate your first QR code:</p>
+                            <ol class="list-decimal pl-5 text-gray-600 space-y-2">
+                                <li>Sign up for a UPIExpress account</li>
+                                <li>Navigate to the QR Code Generator in your dashboard</li>
+                                <li>Enter the payment amount and other details</li>
+                                <li>Click "Generate QR Code"</li>
+                                <li>Download or embed the QR code as needed</li>
+                            </ol>
+                            <p class="text-gray-600 mt-3">For detailed instructions, check our <a href="/doc/getting-started" class="text-[var(--primary)] hover:underline">Getting Started guide</a>.</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 2 -->
+                    <div class="faq-item">
+                        <div class="faq-question flex justify-between items-center" data-faq="2">
+                            <h3 class="text-lg font-medium text-gray-800">How are payments verified?</h3>
+                            <i class="fas fa-chevron-down faq-toggle text-[var(--primary)]"></i>
+                        </div>
+                        <div class="faq-answer" id="faq-2">
+                            <p class="text-gray-600 mb-3">UPIExpress uses multiple methods to verify payments:</p>
+                            <ul class="list-disc pl-5 text-gray-600 space-y-2">
+                                <li><strong>Real-time UPI Verification:</strong> Instant verification through UPI network</li>
+                                <li><strong>Webhook Notifications:</strong> Instant callback to your server</li>
+                                <li><strong>Manual Verification:</strong> Check transaction status in dashboard</li>
+                                <li><strong>Settlement Reports:</strong> Daily settlement confirmations</li>
+                            </ul>
+                            <p class="text-gray-600 mt-3">Payments typically verify within 2-5 seconds. If verification fails, check our <a href="/doc/troubleshooting" class="text-[var(--primary)] hover:underline">troubleshooting guide</a>.</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 3 -->
+                    <div class="faq-item">
+                        <div class="faq-question flex justify-between items-center" data-faq="3">
+                            <h3 class="text-lg font-medium text-gray-800">What is the difference between static and dynamic QR codes?</h3>
+                            <i class="fas fa-chevron-down faq-toggle text-[var(--primary)]"></i>
+                        </div>
+                        <div class="faq-answer" id="faq-3">
+                            <p class="text-gray-600 mb-3">Here are the key differences:</p>
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead>
+                                        <tr>
+                                            <th class="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Feature</th>
+                                            <th class="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Static QR</th>
+                                            <th class="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dynamic QR</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200">
+                                        <tr>
+                                            <td class="px-4 py-3 text-sm text-gray-900">Amount</td>
+                                            <td class="px-4 py-3 text-sm text-gray-600">Fixed amount</td>
+                                            <td class="px-4 py-3 text-sm text-gray-600">Can be changed</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-3 text-sm text-gray-900">Expiry</td>
+                                            <td class="px-4 py-3 text-sm text-gray-600">Never expires</td>
+                                            <td class="px-4 py-3 text-sm text-gray-600">Configurable expiry</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-3 text-sm text-gray-900">Analytics</td>
+                                            <td class="px-4 py-3 text-sm text-gray-600">Limited</td>
+                                            <td class="px-4 py-3 text-sm text-gray-600">Detailed tracking</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="text-gray-600 mt-3">UPIExpress supports both types. Dynamic QR codes are recommended for most business use cases.</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 4 -->
+                    <div class="faq-item">
+                        <div class="faq-question flex justify-between items-center" data-faq="4">
+                            <h3 class="text-lg font-medium text-gray-800">How do I integrate UPIExpress with my website/app?</h3>
+                            <i class="fas fa-chevron-down faq-toggle text-[var(--primary)]"></i>
+                        </div>
+                        <div class="faq-answer" id="faq-4">
+                            <p class="text-gray-600 mb-3">Integration can be done in several ways:</p>
+                            <ul class="list-disc pl-5 text-gray-600 space-y-2">
+                                <li><strong>API Integration:</strong> Use our REST API for full control</li>
+                                <li><strong>JavaScript SDK:</strong> Easy integration for web applications</li>
+                                <li><strong>Mobile SDKs:</strong> Available for Android and iOS</li>
+                                <li><strong>Plugins:</strong> For popular platforms like WordPress, WooCommerce</li>
+                            </ul>
+                            <p class="text-gray-600 mt-3">We provide detailed documentation and code samples for each integration method. Check our <a href="/doc/api" class="text-[var(--primary)] hover:underline">API documentation</a> to get started.</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 5 -->
+                    <div class="faq-item">
+                        <div class="faq-question flex justify-between items-center" data-faq="5">
+                            <h3 class="text-lg font-medium text-gray-800">What are your support hours?</h3>
+                            <i class="fas fa-chevron-down faq-toggle text-[var(--primary)]"></i>
+                        </div>
+                        <div class="faq-answer" id="faq-5">
+                            <p class="text-gray-600 mb-3">Our support team is available during the following hours:</p>
+                            <ul class="list-disc pl-5 text-gray-600 space-y-2">
+                                <li><strong>Monday to Friday:</strong> 10:00 AM - 11:00 PM</li>
+                                <li><strong>Saturday:</strong> 10:00 AM - 11:00 PM</li>
+                                <li><strong>Sunday:</strong> Closed</li>
+                            </ul>
+                            <p class="text-gray-600 mt-3">We are closed on public holidays. For urgent issues outside these hours, you can email us at <a href="mailto:support@upiexpress.com" class="text-[var(--primary)] hover:underline">support@upiexpress.com</a> and we'll respond as soon as possible.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-10 fade-in">
+                    <a href="/faq" class="text-[var(--primary)] font-medium hover:underline">
+                        View all FAQs <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Additional Resources -->
+    <section class="section-padding bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2 text-center fade-in">Additional Resources</h2>
+            <p class="text-gray-600 text-center mb-10 fade-in">Explore more ways to get help and learn</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl p-6 shadow-sm fade-in">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-[var(--primary)] p-3 rounded-lg mr-4">
+                            <i class="fas fa-video text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold">Video Tutorials</h3>
+                            <p class="text-gray-600 text-sm">Step-by-step visual guides</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">Watch our video tutorials covering everything from basic setup to advanced integration techniques.</p>
+                    
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm fade-in">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-[var(--primary)] p-3 rounded-lg mr-4">
+                            <i class="fas fa-book-open text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold">Developer Guides</h3>
+                            <p class="text-gray-600 text-sm">Technical documentation</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">Comprehensive guides for developers including API references, SDK documentation, and integration examples.</p>
+                    
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm fade-in">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-[var(--primary)] p-3 rounded-lg mr-4">
+                            <i class="fas fa-comments text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold">Community Forum</h3>
+                            <p class="text-gray-600 text-sm">Connect with other users</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">Join our community forum to ask questions, share experiences, and learn from other UPIExpress users.</p>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- CTA Section -->
+    <section class="py-12 bg-[var(--primary)]">
+        <div class="container mx-auto px-4 sm:px-6 text-center">
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">Still Need Help?</h2>
+            <p class="text-base md:text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
+                Our support team is ready to assist you with any questions or issues you may have.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="/contact-us"
+                    class="bg-white text-[var(--primary)] rounded-lg px-6 py-3 font-medium text-base md:text-lg transition-all duration-200 inline-block hover:bg-gray-100">
+                    Contact Support Team
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (Same as Contact Page) -->
+    <footer class="w-full px-4 sm:px-6 py-8 text-gray-600 bg-white border-t border-gray-200">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="fade-in cta-title">
+                <div class="flex items-center mb-2">
+                    <img src="/images/icon.png" alt="UPIExpress" class="w-8 h-8">
+                    <span class="sidebar-text font-bold text-xl  mr-[2.2px] text-gray-800">UPI</span>
+                    <span class="sidebar-text font-family text-xl text-gray-700">Express</span>
+                </div>
+                <p class="text-sm mb-4">Revolutionizing payments with secure, dynamic UPI QR code technology.</p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-500 hover:text-[var(--primary)] transition-colors">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-[var(--primary)] transition-colors">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-[var(--primary)] transition-colors">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="fade-in cta-subtitle">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Product</h3>
+                <ul class="space-y-2">
+                    <li><a href="/features" class="text-sm hover:text-[var(--primary)] transition-colors">Features</a>
+                    </li>
+                    <li><a href="/usecases" class="text-sm hover:text-[var(--primary)] transition-colors">Use Cases</a>
+                    </li>
+                    <li><a href="/pricing" class="text-sm hover:text-[var(--primary)] transition-colors">Pricing</a>
+                    </li>
+                    <li><a href="/doc" class="text-sm hover:text-[var(--primary)] transition-colors">Documentation</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="fade-in cta-subtitle">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Company</h3>
+                <ul class="space-y-2">
+                    <li><a href="/about-us" class="text-sm hover:text-[var(--primary)] transition-colors">About Us</a>
+                    </li>
+                    <li><a href="/faq" class="text-sm hover:text-[var(--primary)] transition-colors">FAQ</a></li>
+                    <li><a href="/blog" class="text-sm hover:text-[var(--primary)] transition-colors">Blog</a></li>
+                    <li><a href="/contact-us" class="text-sm hover:text-[var(--primary)] transition-colors">Contact
+                            Us</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="fade-in cta-subtitle">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Contact Us</h3>
+                <p class="text-sm mb-2">Feel free to get in touch with us</p>
+                <p class="text-sm mb-4 flex items-center">
+                    <i class="fas fa-envelope mr-2"></i> support@upiexpress.com
+                </p>
+                <div class="mt-4">
+                    <p class="text-sm mb-2">Subscribe to our Newsletter:</p>
+                    <div class="flex w-full max-w-full overflow-hidden">
+                        <input type="email" placeholder="Enter your email"
+                            class="flex-grow min-w-0 border rounded-l-lg px-3 py-2 text-sm focus:outline-none">
+                        <button class="btn-theme rounded-r-lg px-4 py-2 text-sm flex-shrink-0 w-auto">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pt-6 border-t border-gray-200">
+            <p class="text-xs text-gray-500 mb-4">
+                *UPIExpress provides Dynamic UPI QR Generating service. UPIExpress does not offer payment gateway
+                service, nor does it provide UPI ID and UPI Merchant account. Please read our policy and T&C before
+                using our services.
+            </p>
+
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center text-sm">
+                <p class="mb-4 sm:mb-0">
+                    © UPIExpress 2023–25, All Rights Reserved.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a class="hover:text-[var(--primary)] transition-colors" href="/help">Help</a>
+                    <a class="hover:text-[var(--primary)] transition-colors" href="/refund">Refund Policy</a>
+                    <a class="hover:text-[var(--primary)] transition-colors" href="/terms">Terms Of Service</a>
+                    <a class="hover:text-[var(--primary)] transition-colors" href="/privacy">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module">
+        // Mobile menu functionality (same as contact page)
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const closeMenu = document.querySelector('.close-menu');
+            const menuBackdrop = document.querySelector('.menu-backdrop');
+            const mobileLinks = document.querySelectorAll('.mobile-menu a');
+
+            function openMenu() {
+                mobileMenu.classList.add('active');
+                menuBackdrop.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeMobileMenu() {
+                mobileMenu.classList.remove('active');
+                menuBackdrop.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            menuToggle.addEventListener('click', openMenu);
+            closeMenu.addEventListener('click', closeMobileMenu);
+            menuBackdrop.addEventListener('click', closeMobileMenu);
+
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', closeMobileMenu);
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    closeMobileMenu();
+                }
+            });
+        });
+
+        // FAQ Accordion Functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', function() {
+                    const faqId = this.getAttribute('data-faq');
+                    const answer = document.getElementById(`faq-${faqId}`);
+                    const toggleIcon = this.querySelector('.faq-toggle');
+                    
+                    // Close all other FAQ answers
+                    document.querySelectorAll('.faq-answer').forEach(ans => {
+                        if (ans.id !== `faq-${faqId}`) {
+                            ans.classList.remove('active');
+                        }
+                    });
+                    
+                    // Reset all other toggle icons
+                    document.querySelectorAll('.faq-toggle').forEach(icon => {
+                        if (icon !== toggleIcon) {
+                            icon.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current FAQ
+                    answer.classList.toggle('active');
+                    toggleIcon.classList.toggle('active');
+                });
+            });
+        });
+
+        // Category Filtering
+        document.addEventListener('DOMContentLoaded', function () {
+            const categoryTabs = document.querySelectorAll('.category-tab');
+            const helpCards = document.querySelectorAll('.help-card');
+            
+            categoryTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const category = this.getAttribute('data-category');
+                    
+                    // Update active tab
+                    categoryTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Filter cards
+                    helpCards.forEach(card => {
+                        if (category === 'all' || card.getAttribute('data-category') === category) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+
+        // Scroll animations with delays (same as contact page)
+        document.addEventListener('DOMContentLoaded', function () {
+            function isInViewport(element) {
+                const rect = element.getBoundingClientRect();
+                return (
+                    rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.85 &&
+                    rect.bottom >= 0
+                );
+            }
+
+            function handleScrollAnimation() {
+                const elements = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-in, .stagger-item');
+
+                elements.forEach((element, index) => {
+                    if (isInViewport(element) && !element.classList.contains('visible')) {
+                        let delay = 0;
+
+                        if (element.classList.contains('stagger-item')) {
+                            const parent = element.closest('.grid');
+                            if (parent) {
+                                const siblings = Array.from(parent.querySelectorAll('.stagger-item'));
+                                const elementIndex = siblings.indexOf(element);
+                                delay = elementIndex * 70;
+                            }
+                        } else {
+                            delay = index * 20;
+                        }
+
+                        if (element.classList.contains('cta-title') ||
+                            element.classList.contains('cta-subtitle')) {
+                            delay = 0;
+                        }
+
+                        setTimeout(() => {
+                            element.classList.add('visible');
+                        }, delay);
+                    }
+                });
+            }
+
+            setTimeout(() => {
+                handleScrollAnimation();
+
+                const ctaElements = document.querySelectorAll('.cta-title, .cta-subtitle');
+                ctaElements.forEach(element => {
+                    if (isInViewport(element)) {
+                        element.classList.add('visible');
+                    }
+                });
+            }, 70);
+
+            let scrollTimeout;
+            window.addEventListener('scroll', function () {
+                if (!scrollTimeout) {
+                    scrollTimeout = setTimeout(function () {
+                        scrollTimeout = null;
+                        handleScrollAnimation();
+                    }, 20);
+                }
+            });
+        });
+
+        // Search functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.querySelector('.search-box input');
+            const helpCards = document.querySelectorAll('.help-card');
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    const searchTerm = this.value.toLowerCase();
+                    
+                    // Search in help cards
+                    helpCards.forEach(card => {
+                        const cardText = card.textContent.toLowerCase();
+                        if (searchTerm === '' || cardText.includes(searchTerm)) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                    
+                    // Search in FAQ items
+                    faqItems.forEach(item => {
+                        const itemText = item.textContent.toLowerCase();
+                        if (searchTerm === '' || itemText.includes(searchTerm)) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            }
+        });
+
+        // Prevent zoom on double tap
+        document.addEventListener('touchstart', function (e) {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (e) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 100) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+</body>
+</html>

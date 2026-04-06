@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Payment Page</title>
+    <link rel="icon" href="/images/icon.png" type="image/png">
+    <style>
+        :root {
+            --theme-color: #<%=user.theme_color %>;
+        }
+
+        /* Smooth scroll behavior */
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            overscroll-behavior: none;
+        }
+
+        /* Slide animations with hardware acceleration */
+        .slide-out-left {
+            animation: slideOutLeft 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .slide-in-right {
+            animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .slide-out-right {
+            animation: slideOutRight 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .slide-in-left {
+            animation: slideInLeft 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .slide-up {
+            animation: slideUp 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .slide-down {
+            animation: slideDown 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        .fade-out {
+            animation: fadeOut 0.3s ease-out forwards;
+        }
+
+        @keyframes slideOutLeft {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(100%);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+
+        /* Footer animations */
+        .footer-slide-down {
+            animation: footerSlideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .footer-slide-up {
+            animation: footerSlideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes footerSlideDown {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(100%);
+            }
+        }
+
+        @keyframes footerSlideUp {
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        /* Coin bounce animation */
+        @keyframes coinBounce {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(-10px) scale(1.05);
+            }
+        }
+
+        .coin-animate {
+            animation: coinBounce 1.5s ease-in-out infinite;
+        }
+
+        /* Pulse animation for timer */
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .timer-pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+
+
+        /* Prevent page jumping */
+        .page-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .page-visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(0);
+            transition: opacity .35s ease, transform .35s ease;
+        }
+
+        .page-hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(20px);
+            transition: opacity .35s ease, transform .35s ease;
+        }
+
+        .breakup-slide-up {
+            animation: slideUp 0.35s ease forwards;
+        }
+
+        .breakup-slide-down {
+            animation: slideDown 0.35s ease forwards;
+        }
+
+        /* UPI Verification animations */
+        .verify-btn-shake {
+            animation: shake 0.4s ease-in-out;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            10%,
+            30%,
+            50%,
+            70%,
+            90% {
+                transform: translateX(-2px);
+            }
+
+            20%,
+            40%,
+            60%,
+            80% {
+                transform: translateX(2px);
+            }
+        }
+
+        .verify-btn-loading {
+            animation: btnPulse 0.8s ease-in-out infinite;
+        }
+
+        @keyframes btnPulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .checkmark-pop {
+            animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0) rotate(-45deg);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        .close-icon-spin {
+            animation: closeSpin 0.4s ease-in-out;
+        }
+
+        @keyframes closeSpin {
+            0% {
+                transform: rotate(0deg) scale(1);
+                opacity: 0;
+            }
+
+            50% {
+                transform: rotate(180deg) scale(1.1);
+            }
+
+            100% {
+                transform: rotate(360deg) scale(1);
+                opacity: 1;
+            }
+        }
+
+        #upiStatus {
+            min-height: 18px;
+            display: block;
+            transition: opacity 0.3s;
+        }
+
+        .hide {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .show {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        /* From Uiverse.io by dovatgabriel */
+        .three-body {
+            --uib-size: 35px;
+            --uib-speed: 0.8s;
+            --uib-color: var(--theme-color);
+            position: relative;
+            display: inline-block;
+            height: var(--uib-size);
+            width: var(--uib-size);
+            animation: spin78236 calc(var(--uib-speed) * 2.5) infinite linear;
+        }
+
+        .three-body__dot {
+            position: absolute;
+            height: 100%;
+            width: 30%;
+        }
+
+        .three-body__dot:after {
+            content: '';
+            position: absolute;
+            height: 0%;
+            width: 100%;
+            padding-bottom: 100%;
+            background-color: var(--uib-color);
+            border-radius: 50%;
+        }
+
+        .three-body__dot:nth-child(1) {
+            bottom: 5%;
+            left: 0;
+            transform: rotate(60deg);
+            transform-origin: 50% 85%;
+        }
+
+        .three-body__dot:nth-child(1)::after {
+            bottom: 0;
+            left: 0;
+            animation: wobble1 var(--uib-speed) infinite ease-in-out;
+            animation-delay: calc(var(--uib-speed) * -0.3);
+        }
+
+        .three-body__dot:nth-child(2) {
+            bottom: 5%;
+            right: 0;
+            transform: rotate(-60deg);
+            transform-origin: 50% 85%;
+        }
+
+        .three-body__dot:nth-child(2)::after {
+            bottom: 0;
+            left: 0;
+            animation: wobble1 var(--uib-speed) infinite calc(var(--uib-speed) * -0.15) ease-in-out;
+        }
+
+        .three-body__dot:nth-child(3) {
+            bottom: -5%;
+            left: 0;
+            transform: translateX(116.666%);
+        }
+
+        .three-body__dot:nth-child(3)::after {
+            top: 0;
+            left: 0;
+            animation: wobble2 var(--uib-speed) infinite ease-in-out;
+        }
+
+        @keyframes spin78236 {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes wobble1 {
+
+            0%,
+            100% {
+                transform: translateY(0%) scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: translateY(-66%) scale(0.65);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes wobble2 {
+
+            0%,
+            100% {
+                transform: translateY(0%) scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: translateY(66%) scale(0.65);
+                opacity: 0.8;
+            }
+        }
+    </style>
+
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+</head>
+
+<body class="bg-[#f7f7f7] min-h-screen flex flex-col overflow-hidden">
+    <!-- Loading Screen -->
+    <div id="loadingScreen"
+        class="fixed inset-0 bg-white h-[100%] w-full flex flex-col justify-between items-center z-20 hw-accelerate">
+        <!-- Main Content Center -->
+        <div class="flex flex-col items-center justify-center h-full">
+            <!-- Icon -->
+            <img src="/images/icon.png" class="w-16 h-16 mb-6" alt="Logo">
+
+            <!-- Text -->
+            <p class="text-xl font-medium text-black text-center">
+                Please wait,
+                <br>
+                processing your request
+            </p>
+
+            <!-- Loader -->
+            <div
+                class="mt-6 w-10 h-10 border-4 border-[var(--theme-color)] border-t-transparent rounded-full animate-spin">
+            </div>
+        </div>
+
+        <!-- Footer Message -->
+        <p class="text-[12px] text-gray-500 mb-6 text-center">
+            Please don't hit the back button until the action is complete.
+        </p>
+    </div>
+
+    <!-- Header -->
+    <div class="w-full px-5 py-5 flex items-center gap-3 border-b bg-white relative z-10">
+        <img src="/images/setup_upi/payments/2d05fb39ace947ff83f229daa398af73.svg" class="w-6 h-6 cursor-pointer"
+            onclick="handleBackButton()">
+
+        <div class="flex items-center gap-3">
+            <img src="<%= user.business_icon %>" class="w-9 h-9">
+
+            <!-- vertical layout -->
+            <div class="flex flex-col leading-tight">
+                <span class="text-[15px] font-semibold text-gray-900">
+                    <%= user.name %>
+                </span>
+                <span class="text-[12px] text-gray-500" id="expir">Expire in <%= data.expiresIn %></span>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Content Container -->
+    <div class="flex-1 relative overflow-hidden">
+        <!-- Main Content - Payment Selection -->
+        <div id="paymentSelection" class="page-container overflow-y-auto px-4 pt-5 pb-24 hw-accelerate">
+            <!-- UPI Apps -->
+            <div class="mb-6">
+                <h2 class="text-[15px] font-semibold mb-3">UPI Apps</h2>
+                <div class="bg-white border rounded-xl divide-y">
+                    <!-- PayTM -->
+                    <label
+                        class="flex items-center justify-between px-4 py-6 cursor-pointer active:bg-gray-50 transition-colors"
+                        onclick="selectApp('paytm', '/images/setup_upi/payments/paytm.svg', 'app')">
+                        <div class="flex items-center gap-3">
+                            <img src="/images/setup_upi/payments/paytm.svg" class="w-7 h-7 ml-1 mr-1">
+                            <span class="text-[15px]">Paytm</span>
+                        </div>
+                        <input type="radio" name="paymentMethod" class="h-5 w-5" value="paytm" checked>
+                    </label>
+                    <!-- Freecharge -->
+                    <label
+                        class="flex items-center justify-between px-4 py-6 cursor-pointer active:bg-gray-50 transition-colors <%=data.isIntent ? '' : 'hidden' %>"
+                        onclick="selectApp('freecharge', '/images/setup_upi/logo/freecharge.png', 'app')">
+                        <div class="flex items-center gap-3">
+                            <img src="/images/setup_upi/logo/freecharge.png" class="w-7 h-7 ml-1 mr-1">
+                            <span class="text-[15px]">Freecharge</span>
+                        </div>
+                        <input type="radio" name="paymentMethod" class="h-5 w-5" value="freecharge">
+                    </label>
+
+                    <label
+                        class="flex items-center justify-between px-4 py-6 cursor-pointer active:bg-gray-50 transition-colors <%=data.isIntent ? '' : 'hidden' %>"
+                        onclick="selectApp('gpay', '/images/setup_upi/logo/pngtree-google-pay-software-vector-png-image_9183297.png', 'app')">
+                        <div class="flex items-center gap-3">
+                            <img src="/images/setup_upi/logo/pngtree-google-pay-software-vector-png-image_9183297.png"
+                                class="w-7 h-7 ml-1 mr-1">
+                            <span class="text-[15px]">Google Pay</span>
+                        </div>
+                        <input type="radio" name="paymentMethod" class="h-5 w-5" value="gpay">
+                    </label>
+                    <!-- Other Apps -->
+                    <label
+                        class="flex items-center justify-between px-4 py-6 cursor-pointer active:bg-gray-50 transition-colors <%=data.isIntent ? '' : 'hidden' %>"
+                        onclick="selectApp('other', '/images/setup_upi/payments/more.svg', 'app')">
+                        <div class="flex items-center gap-3">
+                            <img src="/images/setup_upi/payments/more.svg" class="w-6 h-6 ml-1 mr-1">
+                            <span class="text-[15px]">Other UPI Apps</span>
+                        </div>
+                        <input type="radio" name="paymentMethod" class="h-5 w-5" value="other">
+                    </label>
+                    <!-- UPI QR -->
+                    <label
+                        class="flex items-center justify-between px-4 py-6 cursor-pointer active:bg-gray-50 transition-colors"
+                        onclick="selectApp('qr', '/images/setup_upi/payments/upi.svg', 'qr')">
+                        <div class="flex items-center gap-3">
+                            <img src="/images/setup_upi/payments/upi.svg" class="w-7 h-7 ml-1 mr-1">
+                            <span class="text-[15px]">UPI QR</span>
+                        </div>
+                        <input type="radio" name="paymentMethod" class="h-5 w-5" value="qr">
+                    </label>
+
+
+                </div>
+            </div>
+
+            <!-- Pay With UPI ID -->
+            <div class=<%=data.isUPIRequest ? '' : 'hidden' %>>
+                <h2 class="text-[15px] font-semibold mb-3">Pay with UPI ID</h2>
+                <div class="flex items-center gap-2 border bg-white rounded-xl px-4 py-4 mb-2">
+                    <input type="text" placeholder="example@ybl" id="upiInput"
+                        class="flex-1 outline-none text-[15px] placeholder-gray-400">
+                    <button id="verifyBtn" onclick="verifyUPI()"
+                        class="verify-btn text-xs border px-3 py-2 rounded-md text-gray-600 bg-gray-50 active:bg-gray-100 transition-colors">Verify</button>
+                </div>
+                <div id="upiStatus" class="px-2 text-xs text-gray-500 hide">
+
+                </div>
+
+
+            </div>
+            <!-- Footer Note -->
+            <div class="mt-8 px-8 py-4 text-[11px] text-gray-400 flex items-center justify-center gap-2">
+                <span>Powered by</span>
+                <div class="flex items-center">
+                    <img src="/images/icon.png" alt="UPIExpress" class="w-5 h-5">
+                    <span class="font-bold text-sm mr-[2.2px] text-gray-800">UPI</span>
+                    <span class="text-sm text-gray-700">Express</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- QR Code View -->
+        <div id="qrView" class="hidden page-container overflow-y-auto px-4 pt-5 pb-24 hw-accelerate">
+            <div class="bg-white border rounded-xl p-6">
+                <!-- Title -->
+                <h2 class="text-[17px] font-semibold text-gray-900 text-center mb-2">
+                    Scan QR Code to Pay
+                </h2>
+
+                <!-- Subtitle -->
+                <p class="text-[13px] text-gray-500 text-center mb-6">
+                    Open any UPI app and scan this QR code
+                </p>
+
+                <!-- UPI App Icons -->
+                <div class="flex items-center justify-center gap-3 mb-6">
+                    <img src="/images/setup_upi/payments/phonpe.svg" class="w-8 h-8">
+                    <img src="/images/setup_upi/payments/gpay.svg" class="w-8 h-8">
+                    <img src="/images/setup_upi/payments/cred.svg" class="w-8 h-8">
+                    <img src="/images/setup_upi/payments/paytm.svg" class="w-8 h-8">
+                    <img src="/images/setup_upi/payments/upi.svg" class="w-8 h-8">
+                </div>
+
+                <!-- QR Code Container -->
+                <div class="flex flex-col items-center mb-6">
+                    <div class="p-2 bg-white border-2 border-gray-200 rounded-2xl shadow-sm">
+                        <img src="https://upiexpress.com/assets/qr/?text=<%= encodeURIComponent(data.upiIntent) %>"
+                            alt="UPIExpress" class="w-60 h-60 rounded-lg">
+                    </div>
+                </div>
+
+                <!-- Timer -->
+                <div class="flex items-center justify-center mb-6">
+                    <div id="timer"
+                        class="px-4 py-2 rounded-full bg-gray-100 text-[13px] text-gray-600 border border-gray-200 timer-pulse">
+                        This QR will expire in <%= data.expiresIn %>
+                    </div>
+                </div>
+            </div>
+            <!-- Footer Note -->
+            <div class="mt-8 px-8 py-4 text-[11px] text-gray-400 flex items-center justify-center gap-2">
+                <span>Powered by</span>
+                <div class="flex items-center">
+                    <img src="/images/icon.png" alt="UPIExpress" class="w-5 h-5">
+                    <span class="font-bold text-sm mr-[2.2px] text-gray-800">UPI</span>
+                    <span class="text-sm text-gray-700">Express</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Footer -->
+        <div id="paymentFooter"
+            class="fixed bottom-0 left-0 w-full bg-white border-t px-4 py-3 flex items-center justify-between hw-accelerate">
+            <div>
+                <span class="font-semibold text-[17px]">₹<%= data.total %></span><br>
+                <a onclick="showBreakupSheet()" class="text-[11px] text-gray-500">View Breakup</a>
+
+            </div>
+            <button onclick="handlePayClick()" style="background-color: var(--theme-color);"
+                class="text-white px-10 py-3 rounded-lg text-[15px] font-medium active:brightness-90 transition-colors">
+                Pay
+            </button>
+        </div>
+
+        <!-- Overlay -->
+        <div id="overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40 hw-accelerate"
+            onclick="closeBottomSheet()"></div>
+
+        <!-- Bottom Sheet (for App Payment) -->
+        <div id="bottomSheet" class="hidden fixed bottom-0 left-0 w-full bg-white rounded-t-3xl z-50 hw-accelerate">
+            <div class="p-6">
+                <!-- Coin Animation -->
+                <div class="flex justify-center mb-6 py-8">
+                    <div class="relative">
+                        <img src="/images/setup_upi/payments/rupee.png" class="w-20 h-20 coin-animate">
+                        <div class="absolute inset-0 w-20 h-20 bg-yellow-300 rounded-full blur-md opacity-50"></div>
+                    </div>
+
+                </div>
+
+                <!-- Title -->
+                <h2 class="text-[17px] font-semibold text-gray-900 text-center mb-2">
+                    Complete your payment on your UPI app
+                </h2>
+
+                <!-- Description -->
+                <p class="text-[13px] text-gray-500 text-center mb-6">
+                    Please accept the payment request from <span class="font-medium text-gray-700">
+                        <%= user.name %>
+                    </span> in your
+                    chosen app
+                </p>
+
+                <!-- Cancel Button -->
+                <button onclick="closeBottomSheet()"
+                    class="w-full border border-gray-300 text-gray-700 py-3 rounded-lg text-[15px] font-medium mb-4 hover:bg-gray-50 active:bg-gray-100 transition-colors">
+                    Cancel Payment
+                </button>
+
+                <!-- Footer Note -->
+                <div class="px-8 py-4 text-[11px] text-gray-400 flex items-center justify-center gap-2">
+                    <span>Powered by</span>
+                    <div class="flex items-center">
+                        <img src="/images/icon.png" alt="UPIExpress" class="w-5 h-5">
+                        <span class="font-bold text-sm mr-[2.2px] text-gray-800">UPI</span>
+                        <span class="text-sm text-gray-700">Express</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cancel Confirmation Bottom Sheet -->
+        <div id="cancelSheet" class="hidden fixed bottom-0 left-0 w-full bg-white rounded-t-3xl z-[60] hw-accelerate">
+            <div class="p-6">
+                <!-- Icon -->
+                <div class="flex justify-center mb-4">
+                    <div class="relative">
+                        <div class="w-16 h-16 rounded-full flex items-center justify-center"
+                            style="background: color-mix(in srgb, var(--theme-color) 20%, transparent);">
+                            <svg class="w-8 h-8 text-[var(--theme-color)]" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                                </path>
+                            </svg>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Title -->
+                <h2 class="text-[17px] font-semibold text-gray-900 text-center mb-2">
+                    Cancel Payment?
+                </h2>
+
+                <!-- Description -->
+                <p class="text-[13px] text-gray-500 text-center mb-6">
+                    Your payment may be ongoing. Are you sure you want to cancel the payment?
+                </p>
+
+                <!-- Action Buttons -->
+                <div class="space-y-3">
+                    <button onclick="hideCancelSheet()" style="background-color: var(--theme-color);"
+                        class="w-full text-white py-3 rounded-lg text-[15px] font-medium hover:brightness-90 active:brightness-80 transition-colors">
+                        No, wait
+                    </button>
+                    <button onclick="confirmCancel()"
+                        class="w-full text-gray-700 py-3 text-[15px] font-medium hover:text-gray-900 active:text-black transition-colors">
+                        Yes, cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Price Breakup Bottom Sheet -->
+        <div id="breakupSheet" class="hidden fixed bottom-0 left-0 w-full bg-white rounded-t-3xl z-[80] shadow-xl">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-[16px] font-semibold">Price Summary</h2>
+                    <button onclick="closeBreakupSheet()">
+                        ✕
+                    </button>
+                </div>
+
+                <div class="space-y-3 text-[14px] text-gray-700">
+                    <div class="flex justify-between">
+                        <span>Paying to :</span>
+                        <span class="font-medium text-gray-900">
+                            <%= user.name %>
+                        </span>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <span>Subtotal</span>
+                        <span>₹<%= data.subtotal %></span>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <span>Convenience Fee</span>
+                        <span>₹<%= data.convenience_fee %></span>
+                    </div>
+
+                    <hr>
+
+                    <div class="flex justify-between font-semibold">
+                        <span>Grand Total</span>
+                        <span>₹<%= data.total %></span>
+                    </div>
+                </div>
+
+                <button onclick="handlePayClick()" style="background-color: var(--theme-color);"
+                    class="w-full mt-6 text-white py-3 rounded-lg text-[15px] font-medium">
+                    Continue to Pay
+                </button>
+            </div>
+        </div>
+
+        <div id="loading"
+            class="fixed inset-0 flex justify-center items-center hidden bg-white bg-opacity-75  z-[9999] min-h-screen">
+            <div class="three-body">
+                <div class="three-body__dot"></div>
+                <div class="three-body__dot"></div>
+                <div class="three-body__dot"></div>
+            </div>
+        </div>
+
+
+        <script>
+            let selectedAppName = 'paytm';
+            let selectedAppIcon = '/images/setup_upi/payments/paytm.svg';
+            let selectedPaymentType = 'app';
+            let timerInterval;
+            let currentPage = 'main';
+            let lastVerifiedVPA = '';
+            const orderid = '<%= data.orderid %>';
+
+            // Intent URLs
+            const upiIntent = '<%= data.upiIntent %>';
+            const paytmIntent = '<%= data.paytmIntent || "" %>';
+            const freechargeIntent = '<%= data.freechargeIntent || "" %>';
+            const gpayIntent = '<%= data.gpayIntent || "" %>';
+            // Decode HTML entities for display
+            const textarea = document.createElement('textarea');
+            textarea.innerHTML = upiIntent;
+            const decodedUpiIntent = textarea.value;
+            textarea.innerHTML = paytmIntent;
+            const decodedpaytmIntent = textarea.value;
+
+            // Loading screen functions
+            function showLoadingScreen() {
+                const loadingScreen = document.getElementById('loadingScreen');
+                loadingScreen.classList.remove('hidden');
+                loadingScreen.style.opacity = '1';
+                loadingScreen.style.pointerEvents = 'auto';
+            }
+
+            function hideLoadingScreen() {
+                const loadingScreen = document.getElementById('loadingScreen');
+                loadingScreen.style.opacity = '0';
+                loadingScreen.style.transition = 'opacity 0.3s ease-out';
+                setTimeout(() => {
+                    loadingScreen.classList.add('hidden');
+                    loadingScreen.style.opacity = '1';
+                }, 300);
+            }
+
+            // Show loading screen on page load and hide after 10 seconds
+            window.addEventListener('load', () => {
+                showLoadingScreen();
+                const socket = io({
+                    reconnection: true,
+                    reconnectionDelay: 1000,
+                    reconnectionDelayMax: 5000,
+                    reconnectionAttempts: Infinity,
+                    transports: ['websocket', 'polling']
+                });
+
+                socket.emit('init-payment', { orderid: orderid }, (response) => {
+                    console.log('Payment initialized:', response);
+                    if (response.status === false) {
+                        console.log('Payment session expired, reloading page.');
+                        window.location.reload();
+                        return;
+                    }
+                    hideLoadingScreen();
+                    const timerEl = document.getElementById('timer');
+                    let timeRemaining = response.data.remaining_time;
+                    timerEl.textContent = `This QR will expire in ${timeRemaining}`;
+                    const expir = document.getElementById('expir');
+                    expir.textContent = `Expire in ${timeRemaining}`;
+                });
+
+                socket.on('payment-update', (data) => {
+                    console.log('Payment update received:', data);
+                    if (data.status === false) {
+                        console.log('Payment session expired, reloading page.');
+                        window.location.reload();
+                        return;
+                    }
+                    const timerEl = document.getElementById('timer');
+                    let timeRemaining = data.data.remaining_time;
+                    timerEl.textContent = `This QR will expire in ${timeRemaining}`;
+                    const expir = document.getElementById('expir');
+                    expir.textContent = `Expire in ${timeRemaining}`;
+
+                    if (data.data.status !== 'Pending') {
+                        // reload page 
+                        window.location.reload();
+                    }
+                });
+
+                // Add input listener for VPA verification
+                const upiInput = document.getElementById('upiInput');
+                upiInput.addEventListener('input', handleUPIInputChange);
+
+                // Handle visibility changes - reconnect on page focus
+                document.addEventListener('visibilitychange', () => {
+                    if (document.visibilityState === 'visible') {
+                        console.log('Page is visible again, reconnecting socket...');
+                        if (!socket.connected) {
+                            socket.connect();
+                        }
+                        // Reinitialize payment when page becomes visible
+                        socket.emit('init-payment', { orderid: orderid }, (response) => {
+                            console.log('Payment re-initialized:', response);
+                            if (response.status === false) {
+                                console.log('Payment session expired, reloading page.');
+                                window.location.reload();
+                                return;
+                            }
+                            const timerEl = document.getElementById('timer');
+                            let timeRemaining = response.data.remaining_time;
+                            timerEl.textContent = `This QR will expire in ${timeRemaining}`;
+                            const expir = document.getElementById('expir');
+                            expir.textContent = `Expire in ${timeRemaining}`;
+                            if (response.data.status !== 'Pending') {
+                                // Payment status changed - reload page
+                                console.log('Payment status changed to:', response.data.status);
+                                window.location.reload();
+                            }
+                        });
+                    }
+                });
+
+                // Handle page blur/focus
+                window.addEventListener('focus', () => {
+                    if (!socket.connected) {
+                        socket.connect();
+                    }
+                });
+
+                // Socket error handling
+                socket.on('connect_error', (error) => {
+                    console.log('Socket connection error:', error);
+                });
+
+                socket.on('disconnect', (reason) => {
+                    console.log('Socket disconnected:', reason);
+                    // Try to reconnect immediately on any disconnect
+                    setTimeout(() => {
+                        if (!socket.connected) {
+                            console.log('Attempting to reconnect...');
+                            socket.connect();
+                        }
+                    }, 1000);
+                });
+
+                // On successful reconnection, reinitialize payment
+                socket.on('connect', () => {
+                    console.log('Socket reconnected');
+                    socket.emit('init-payment', { orderid: orderid }, (response) => {
+                        console.log('Payment re-initialized after reconnect:', response);
+                        const timerEl = document.getElementById('timer');
+                        let timeRemaining = response.data.remaining_time;
+                        timerEl.textContent = `This QR will expire in ${timeRemaining}`;
+                        const expir = document.getElementById('expir');
+                        expir.textContent = `Expire in ${timeRemaining}`;
+                        if (response.data.status !== 'Pending') {
+                            // Payment status changed - reload page
+                            console.log('Payment status changed to:', response.data.status);
+                            window.location.reload();
+                        }
+                    });
+                });
+
+                // Reconnect on network changes
+                window.addEventListener('online', () => {
+                    console.log('Network is back online, reconnecting socket...');
+                    if (!socket.connected) {
+                        socket.connect();
+                    }
+                });
+
+                window.addEventListener('offline', () => {
+                    console.log('Network is offline');
+                });
+
+
+            });
+
+            function selectApp(appName, iconPath, paymentType) {
+                selectedAppName = appName;
+                selectedAppIcon = iconPath;
+                selectedPaymentType = paymentType;
+
+                // Reset VPA verification when clicking radio buttons
+                const upiInput = document.getElementById('upiInput');
+                const verifyBtn = document.getElementById('verifyBtn');
+                const upiStatus = document.getElementById('upiStatus');
+
+                // Clear VPA input
+                upiInput.value = '';
+
+                // Reset verify button to original state
+                verifyBtn.classList.remove('verify-btn-loading', 'verify-btn-shake');
+                verifyBtn.style.backgroundColor = '';
+                verifyBtn.style.borderColor = '';
+                verifyBtn.style.color = '';
+                verifyBtn.innerHTML = 'Verify';
+                verifyBtn.disabled = false;
+
+                // Hide status message
+                upiStatus.classList.remove('show');
+                upiStatus.classList.add('hide');
+                upiStatus.innerHTML = '';
+            }
+
+            function handleUPIInputChange(event) {
+                const upiInput = document.getElementById('upiInput');
+                const verifyBtn = document.getElementById('verifyBtn');
+                const upiStatus = document.getElementById('upiStatus');
+                const currentValue = upiInput.value.trim();
+
+                // If input is empty or changed from verified value, reset
+                if (selectedPaymentType === 'upiid') {
+                    // If value changed from last verified value
+                    if (currentValue !== lastVerifiedVPA) {
+                        // Reset to app payment
+                        selectedAppName = 'paytm';
+                        selectedPaymentType = 'app';
+
+                        // Reset verify button
+                        verifyBtn.classList.remove('verify-btn-loading', 'verify-btn-shake');
+                        verifyBtn.style.backgroundColor = '';
+                        verifyBtn.style.borderColor = '';
+                        verifyBtn.style.color = '';
+                        verifyBtn.innerHTML = 'Verify';
+                        verifyBtn.disabled = false;
+
+                        // Check first radio button
+                        const firstRadio = document.querySelector('input[name="paymentMethod"]');
+                        if (firstRadio) firstRadio.checked = true;
+
+                        // Hide status message
+                        upiStatus.classList.remove('show');
+                        upiStatus.classList.add('hide');
+                        upiStatus.innerHTML = '';
+                    } else if (currentValue === lastVerifiedVPA && currentValue !== '') {
+                        // Auto-verify if same VPA is entered again
+                        verifyUPI();
+                    }
+                }
+            }
+
+            function handlePayClick() {
+                if (selectedPaymentType === 'qr') {
+                    closeBreakupSheet();
+                    showQRView();
+
+                } else if (selectedPaymentType === 'upiid') {
+                    sendUPIrequest();
+                }
+                else {
+                    // Open intent based on selected app
+                    openPaymentIntent();
+                }
+            }
+
+            async function sendUPIrequest() {
+                showBottomSheet();
+
+                try {
+                    const csrfToken = "<%= csrfToken %>";
+                    const response = await fetch('/api/payment/upi_request', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                            , 'CSRF-Token': csrfToken
+                        },
+                        body: JSON.stringify({
+                            orderid: orderid,
+                            upi_vpa: document.getElementById('upiInput').value.trim()
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.status) {
+                        // UPI request sent successfully
+                        console.log('UPI request sent successfully');
+                    } else {
+                        console.error('Error sending UPI request:', data.message);
+                    }
+                } catch (error) {
+                    console.error('Network error sending UPI request:', error);
+                }
+            }
+
+            function openPaymentIntent() {
+                let intentUrl = '';
+
+                if (selectedAppName === 'paytm') {
+                    intentUrl = paytmIntent;
+                } else if (selectedAppName === 'freecharge') {
+                    intentUrl = freechargeIntent;
+                } else if (selectedAppName === 'gpay') {
+                    intentUrl = gpayIntent;
+                } else {
+                    // For other UPI apps
+                    intentUrl = upiIntent;
+                }
+
+                // Decode HTML entities (convert &amp; to &, etc.)
+                const textarea = document.createElement('textarea');
+                textarea.innerHTML = intentUrl;
+                intentUrl = textarea.value;
+
+                // Open the intent
+                window.location.href = intentUrl;
+
+                // Show bottom sheet after a short delay
+                setTimeout(() => {
+                    showBottomSheet();
+                }, 500);
+            }
+            function showQRView() {
+                const paymentSelection = document.getElementById('paymentSelection');
+                const paymentFooter = document.getElementById('paymentFooter');
+                const qrView = document.getElementById('qrView');
+
+                // Hide footer first with animation
+                paymentFooter.classList.remove("footer-slide-up");
+                paymentFooter.classList.add("footer-slide-down");
+
+                // Animate main page out
+                paymentSelection.classList.remove("slide-in-left", "page-visible");
+                paymentSelection.classList.add("slide-out-left");
+
+                setTimeout(() => {
+
+                    // Hide main page after animation
+                    paymentSelection.classList.add("hidden");
+                    paymentSelection.classList.remove("slide-out-left");
+
+                    paymentFooter.classList.add("hidden");
+                    paymentFooter.classList.remove("footer-slide-down");
+
+                    // RESET QR animation state
+                    qrView.classList.remove("hidden", "slide-in-right", "page-visible");
+
+                    void qrView.offsetWidth; // <-- FORCE REPAINT (makes animation work everytime)
+
+                    // NOW apply animation
+                    qrView.classList.add("slide-in-right", "page-visible");
+
+                    currentPage = "qr";
+
+                }, 150);
+            }
+
+            function backToPayment() {
+                const paymentSelection = document.getElementById('paymentSelection');
+                const paymentFooter = document.getElementById('paymentFooter');
+                const qrView = document.getElementById('qrView');
+
+                // Animate QR out
+                qrView.classList.remove("slide-in-right");
+                qrView.classList.add("slide-out-right");
+
+                setTimeout(() => {
+
+                    qrView.classList.add("hidden");
+                    qrView.classList.remove("slide-out-right", "page-visible");
+
+                    // RESET main page animation
+                    paymentSelection.classList.remove("hidden", "slide-in-left", "page-visible");
+                    void paymentSelection.offsetWidth; // reset
+
+                    paymentSelection.classList.add("slide-in-left", "page-visible");
+
+                    // Show footer with animation
+                    paymentFooter.classList.remove("hidden");
+                    void paymentFooter.offsetWidth;
+                    paymentFooter.classList.add("footer-slide-up");
+
+                    if (timerInterval) clearInterval(timerInterval);
+
+                    currentPage = "main";
+
+                }, 150);
+            }
+
+
+            function handleBackButton() {
+                if (currentPage === 'qr') {
+                    backToPayment();
+                } else {
+                    // Check if any sheet is open
+                    const bottomSheet = document.getElementById('bottomSheet');
+                    const cancelSheet = document.getElementById('cancelSheet');
+
+                    if (!bottomSheet.classList.contains('hidden')) {
+                        closeBottomSheet();
+                    } else if (!cancelSheet.classList.contains('hidden')) {
+                        closeBottomSheet();
+                    } else {
+                        // Main page back - show cancel confirmation
+                        showMainPageCancelSheet();
+                    }
+                }
+            }
+
+            function showMainPageCancelSheet() {
+                const overlay = document.getElementById('overlay');
+                const cancelSheet = document.getElementById('cancelSheet');
+
+                // Show overlay
+                overlay.classList.remove('hidden');
+                overlay.classList.add('fade-in');
+
+                // Show cancel sheet
+                cancelSheet.classList.remove('hidden');
+                cancelSheet.classList.add('slide-up');
+            }
+
+
+            function showBottomSheet() {
+
+                const overlay = document.getElementById('overlay');
+                const bottomSheet = document.getElementById('bottomSheet');
+                const selectedAppIconEl = document.getElementById('selectedAppIcon');
+                const selectedAppNameEl = document.getElementById('selectedAppName');
+
+                const sheet = document.getElementById("breakupSheet");
+                sheet.classList.remove("breakup-slide-up");
+                sheet.classList.add("breakup-slide-down");
+                // Show overlay
+                overlay.classList.remove('hidden');
+                overlay.classList.add('fade-in');
+
+                // Show bottom sheet
+                bottomSheet.classList.remove('hidden');
+                bottomSheet.classList.add('slide-up');
+            }
+
+            function closeBottomSheet() {
+
+                const overlay = document.getElementById('overlay');
+                const bottomSheet = document.getElementById('bottomSheet');
+                const cancelSheet = document.getElementById('cancelSheet');
+                const sheet = document.getElementById("breakupSheet");
+                sheet.classList.remove("breakup-slide-up");
+                sheet.classList.add("breakup-slide-down");
+                // Remove animation classes and hide
+                bottomSheet.classList.remove('slide-up');
+                bottomSheet.classList.add('slide-down');
+
+                cancelSheet.classList.remove('slide-up');
+                cancelSheet.classList.add('slide-down');
+
+                overlay.classList.remove('fade-in');
+                overlay.classList.add('fade-out');
+
+                setTimeout(() => {
+                    bottomSheet.classList.add('hidden');
+                    bottomSheet.classList.remove('slide-down');
+
+                    cancelSheet.classList.add('hidden');
+                    cancelSheet.classList.remove('slide-down');
+
+                    overlay.classList.add('hidden');
+                    overlay.classList.remove('fade-out');
+
+                }, 350);
+            }
+
+            function showBreakupSheet() {
+                const overlay = document.getElementById('overlay');
+                const sheet = document.getElementById("breakupSheet");
+                sheet.classList.remove("hidden");
+                sheet.classList.remove("breakup-slide-down");
+                void sheet.offsetWidth;
+                sheet.classList.add("breakup-slide-up");
+                // Show overlay
+                overlay.classList.remove('hidden');
+                overlay.classList.add('fade-in');
+
+            }
+
+            function closeBreakupSheet() {
+                const overlay = document.getElementById('overlay');
+                const sheet = document.getElementById("breakupSheet");
+                sheet.classList.remove("breakup-slide-up");
+                sheet.classList.add("breakup-slide-down");
+                overlay.classList.remove('fade-in');
+                overlay.classList.add('fade-out');
+                setTimeout(() => {
+                    sheet.classList.add("hidden");
+                    overlay.classList.add('hidden');
+                    overlay.classList.remove('fade-out');
+                }, 300);
+            }
+
+
+            function showCancelSheet() {
+                const bottomSheet = document.getElementById('bottomSheet');
+                const cancelSheet = document.getElementById('cancelSheet');
+
+                // Hide first sheet
+                bottomSheet.classList.remove('slide-up');
+                bottomSheet.classList.add('slide-down');
+
+                setTimeout(() => {
+                    bottomSheet.classList.add('hidden');
+                    bottomSheet.classList.remove('slide-down');
+
+                    // Show cancel sheet
+                    cancelSheet.classList.remove('hidden');
+                    cancelSheet.classList.add('slide-up');
+                }, 350);
+            }
+
+            function hideCancelSheet() {
+                const bottomSheet = document.getElementById('bottomSheet');
+                const cancelSheet = document.getElementById('cancelSheet');
+
+                // Check if bottom sheet exists (app payment flow)
+                if (!bottomSheet.classList.contains('hidden')) {
+                    // Cancel sheet back to payment sheet
+                    cancelSheet.classList.remove('slide-up');
+                    cancelSheet.classList.add('slide-down');
+
+                    setTimeout(() => {
+                        cancelSheet.classList.add('hidden');
+                        cancelSheet.classList.remove('slide-down');
+
+                        // Show first sheet
+                        bottomSheet.classList.remove('hidden');
+                        bottomSheet.classList.add('slide-up');
+                    }, 350);
+                } else {
+                    // Main page cancel - just close
+                    closeBottomSheet();
+                }
+            }
+
+            async function confirmCancel() {
+                closeBottomSheet();
+                try {
+                    document.getElementById('loading').classList.remove('hidden');
+                    const csrfToken = "<%= csrfToken %>";
+                    const response = await fetch('/api/payment/cancel_payment', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'CSRF-Token': csrfToken
+                        },
+                        body: JSON.stringify({
+                            "orderid": orderid
+                        })
+                    });
+                    document.getElementById('loading').classList.add('hidden');
+                    const result = await response.json();
+                    window.location.reload();
+                } catch (error) {
+                    console.error('Cancel payment error:', error);
+                }
+            }
+
+            async function verifyUPI() {
+                const upiInput = document.getElementById('upiInput');
+                const verifyBtn = document.getElementById('verifyBtn');
+                const upiStatus = document.getElementById('upiStatus');
+                const value = upiInput.value.trim();
+
+                if (!value) {
+                    // Show error shake animation
+                    verifyBtn.classList.add('verify-btn-shake');
+                    verifyBtn.style.backgroundColor = '#fee2e2';
+                    verifyBtn.style.borderColor = '#fecaca';
+                    verifyBtn.style.color = '#dc2626';
+                    upiStatus.classList.remove('hide');
+                    upiStatus.classList.add('show');
+                    upiStatus.innerHTML = '<span style="color: #dc2626;">Please enter UPI ID</span>';
+
+                    setTimeout(() => {
+                        verifyBtn.classList.remove('verify-btn-shake');
+                    }, 400);
+                    return;
+                }
+
+                // Add loading animation
+                verifyBtn.classList.add('verify-btn-loading');
+                verifyBtn.disabled = true;
+                upiStatus.classList.remove('hide');
+                upiStatus.classList.add('show');
+                upiStatus.innerHTML = '<span style="color: #9ca3af;">Verifying...</span>';
+
+                try {
+                    document.getElementById('loading').classList.remove('hidden');
+                    const csrfToken = "<%= csrfToken %>";
+                    const response = await fetch('/api/payment/check_vpa', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'CSRF-Token': csrfToken
+                        },
+                        body: JSON.stringify({
+                            "vpa": value,
+                            "orderid": orderid
+                        })
+                    });
+                    document.getElementById('loading').classList.add('hidden');
+                    const result = await response.json();
+
+
+                    if (result.status && result.valid) {
+                        // Valid UPI - turn green with checkmark
+                        verifyBtn.classList.remove('verify-btn-loading');
+                        verifyBtn.style.backgroundColor = '#dcfce7';
+                        verifyBtn.style.borderColor = '#86efac';
+                        verifyBtn.style.color = '#16a34a';
+
+                        // Create checkmark SVG icon
+                        const checkmarkSvg = `<svg class="checkmark-pop" style="display: inline-block; margin-right: 6px; width: 14px; height: 14px; vertical-align: text-bottom;" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+
+                        verifyBtn.innerHTML = checkmarkSvg + 'Verified';
+                        upiStatus.classList.remove('hide');
+                        upiStatus.classList.add('show');
+                        upiStatus.innerHTML = `<span style="color: #16a34a;">${result.name || 'Valid UPI ID'}</span>`;
+                        verifyBtn.disabled = true;
+
+                        // Save the verified VPA
+                        lastVerifiedVPA = value;
+
+                        // Deselect all radio buttons
+                        document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {
+                            radio.checked = false;
+                        });
+
+                        // Set upiid as selected
+                        selectedAppName = 'upiid';
+                        selectedPaymentType = 'upiid';
+                    } else {
+                        // Invalid UPI - turn red with shake
+                        verifyBtn.classList.remove('verify-btn-loading');
+                        verifyBtn.classList.add('verify-btn-shake');
+                        verifyBtn.style.backgroundColor = '#fee2e2';
+                        verifyBtn.style.borderColor = '#fecaca';
+                        verifyBtn.style.color = '#dc2626';
+
+                        // Create close SVG icon
+                        const closeSvg = `<svg class="close-icon-spin" style="display: inline-block; margin-right: 6px; width: 14px; height: 14px; vertical-align: text-bottom;" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
+
+                        verifyBtn.innerHTML = closeSvg + 'Invalid';
+                        upiStatus.classList.remove('hide');
+                        upiStatus.classList.add('show');
+                        upiStatus.innerHTML = '<span style="color: #dc2626;">Invalid UPI ID</span>';
+                        verifyBtn.disabled = false;
+
+                        setTimeout(() => {
+                            verifyBtn.classList.remove('verify-btn-shake');
+                        }, 400);
+
+                        // Reset after 2 seconds
+                        setTimeout(() => {
+                            verifyBtn.innerHTML = 'Verify';
+                            verifyBtn.style.backgroundColor = '';
+                            verifyBtn.style.borderColor = '';
+                            verifyBtn.style.color = '';
+                            upiStatus.classList.remove('show');
+                            upiStatus.classList.add('hide');
+                            setTimeout(() => {
+                                upiStatus.innerHTML = '';
+                            }, 400);
+                        }, 2000);
+                    }
+                } catch (error) {
+                    console.error('VPA verification error:', error);
+                    verifyBtn.classList.remove('verify-btn-loading');
+                    verifyBtn.classList.add('verify-btn-shake');
+                    verifyBtn.style.backgroundColor = '#fee2e2';
+                    verifyBtn.style.borderColor = '#fecaca';
+                    verifyBtn.style.color = '#dc2626';
+                    upiStatus.classList.remove('hide');
+                    upiStatus.classList.add('show');
+                    upiStatus.innerHTML = '<span style="color: #dc2626;">Verification failed</span>';
+                    verifyBtn.disabled = false;
+
+                    setTimeout(() => {
+                        verifyBtn.classList.remove('verify-btn-shake');
+                    }, 400);
+
+                    // Reset after 2 seconds
+                    setTimeout(() => {
+                        verifyBtn.innerHTML = 'Verify';
+                        verifyBtn.style.backgroundColor = '';
+                        verifyBtn.style.borderColor = '';
+                        verifyBtn.style.color = '';
+                        upiStatus.classList.remove('show');
+                        upiStatus.classList.add('hide');
+                        setTimeout(() => {
+                            upiStatus.innerHTML = '';
+                        }, 400);
+                    }, 2000);
+                }
+            }
+
+            // Close on ESC key
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape') {
+                    const cancelSheet = document.getElementById('cancelSheet');
+                    const bottomSheet = document.getElementById('bottomSheet');
+
+                    if (!cancelSheet.classList.contains('hidden')) {
+                        hideCancelSheet();
+                    } else if (!bottomSheet.classList.contains('hidden')) {
+                        closeBottomSheet();
+                    } else if (currentPage === 'qr') {
+                        backToPayment();
+                    }
+                }
+            });
+
+            // Cleanup timer on page unload
+            window.addEventListener('beforeunload', () => {
+                if (timerInterval) {
+                    clearInterval(timerInterval);
+                }
+            });
+        </script>
+</body>
+
+</html>

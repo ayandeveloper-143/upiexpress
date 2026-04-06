@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Blog - UPIExpress Insights on Payments, Fintech & Business Growth</title>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-777328699">
+</script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-777328699');
+</script>
+    <meta name="description"
+        content="Read insights, tutorials, and industry updates from UPIExpress. Learn about digital payments, UPI trends, business growth strategies, and fintech innovations.">
+
+    <meta name="keywords"
+        content="UPIExpress blog, payment blog, fintech blog, UPI insights, digital payments, business growth, payment tutorials, fintech trends">
+
+    <link rel="canonical" href="https://upiexpress.com/blog">
+    <meta property="og:title" content="Blog - UPIExpress Insights on Payments & Fintech">
+    <meta property="og:description"
+        content="Expert insights, tutorials, and industry updates on digital payments, UPI technology, and business growth strategies.">
+    <meta property="og:image" content="https://upiexpress.com/images/blog-og-image.png">
+    <meta property="og:url" href="https://upiexpress.com/blog">
+    <meta property="og:type" content="website">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
+    <link rel="icon" href="/images/icon.png" type="image/png">
+    
+    <style>
+        :root {
+            --primary: #181a20;
+            --primary-light: #1e2329;
+            --primary-dark: #2b3139;
+            --primary-transparent: rgba(0, 0, 0, 0.1);
+            --dark-1: #181a20;
+            --dark-2: #1e2329;
+            --dark-3: #2b3139;
+            --light-1: #eaecef;
+            --light-2: #b7bdc6;
+            --light-3: #848e9c;
+        }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow-x: hidden !important;
+            width: 100vw !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            font-family: "Inter", sans-serif;
+        }
+
+        .btn-theme {
+            background-color: var(--primary);
+            color: var(--light-1);
+            border: 1px solid var(--primary-dark);
+        }
+
+        .btn-theme:hover {
+            background-color: var(--primary-light);
+            color: var(--light-1);
+        }
+
+        .btn-outline-theme {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-outline-theme:hover {
+            background-color: var(--primary-transparent);
+            color: var(--primary-dark);
+        }
+
+        .link-theme {
+            color: var(--primary);
+        }
+
+        .link-theme:hover {
+            color: var(--primary-light);
+            text-decoration: underline;
+        }
+
+        .hero-bg {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .section-padding {
+            padding: 3rem 0;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Blog Specific Styles */
+        .blog-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            border-color: var(--primary);
+        }
+
+        .blog-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .category-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: var(--primary-transparent);
+            color: var(--primary);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 8px;
+            margin-bottom: 12px;
+        }
+
+        .read-time {
+            color: var(--light-3);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Featured Post */
+        .featured-post {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .featured-post::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23fff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.1;
+        }
+
+        /* Categories */
+        .category-filter {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 8px 20px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 25px;
+            color: var(--light-3);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Newsletter */
+        .newsletter-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .newsletter-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23000' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.1;
+        }
+
+        /* Mobile Menu Styles */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            z-index: 1000;
+            padding: 80px 20px 20px;
+            transform: translateX(-100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--primary-dark);
+            z-index: 1001;
+        }
+
+        .close-menu {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--primary-dark);
+            z-index: 1002;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 3rem;
+        }
+
+        .page-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            background: white;
+            color: var(--light-3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .page-btn:hover,
+        .page-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .desktop-nav {
+                display: none !important;
+            }
+
+            .header-buttons {
+                display: none !important;
+            }
+
+            .section-padding {
+                padding: 2rem 0;
+            }
+
+            h1 {
+                font-size: 2rem !important;
+            }
+
+            h2 {
+                font-size: 1.75rem !important;
+            }
+
+            .blog-card {
+                margin-bottom: 1.5rem;
+            }
+
+            .category-filter {
+                justify-content: center;
+            }
+
+            .newsletter-card {
+                padding: 2rem;
+            }
+
+            .featured-post-content {
+                padding: 1.5rem !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.75rem !important;
+            }
+
+            h2 {
+                font-size: 1.5rem !important;
+            }
+
+            .blog-image {
+                height: 160px;
+            }
+
+            .category-btn {
+                padding: 6px 16px;
+                font-size: 14px;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Popular Posts */
+        .popular-post {
+            display: flex;
+            gap: 16px;
+            padding: 16px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            margin-bottom: 12px;
+        }
+
+        .popular-post:hover {
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .popular-post-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 50px 12px 20px;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-transparent);
+        }
+
+        .search-button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--light-3);
+            cursor: pointer;
+        }
+
+        /* Tags */
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #f3f4f6;
+            color: var(--light-3);
+            border-radius: 20px;
+            font-size: 12px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background: var(--primary);
+            color: white;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col bg-gray-50">
+    <!-- Menu Backdrop -->
+    <div class="menu-backdrop"></div>
+
+    <!-- Header -->
+    <header
+        class="flex justify-between items-center px-4 sm:px-6 lg:px-8 py-4 border-b border-gray-200 w-full bg-white sticky top-0 z-50 shadow-sm">
+        <div class="flex items-center">
+            <img src="/images/icon.png" alt="UPIExpress" class="w-8 h-8">
+            <span class="sidebar-text font-bold text-xl  mr-[2.2px] text-gray-800">UPI</span>
+            <span class="sidebar-text font-family text-xl text-gray-700">Express</span>
+        </div>
+
+        <nav class="desktop-nav hidden md:flex space-x-6">
+            <a href="/"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Home</a>
+            <a href="/about-us"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">About Us</a>
+            <a href="/faq"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">FAQ</a>
+            
+            <a href="/contact-us"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Contact
+                Us</a>
+            <a href="/doc"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Documentation</a>
+            <a href="/usecases"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Use Cases</a>
+            <a href="/features"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Features</a>
+             <a href="/pricing"
+                class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200 text-sm">Pricing</a>   
+        </nav>
+
+        <div class="header-buttons flex items-center space-x-3">
+            <a href="/auth/login/"
+                class="btn-outline-theme rounded-lg px-3 py-2 text-sm transition-colors duration-200 font-medium hidden md:block">Login</a>
+            <a href="/auth/signup/"
+                class="btn-theme rounded-lg px-3 py-2 text-sm transition-colors duration-200 font-medium hidden md:block">Create
+                Account</a>
+        </div>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="menu-toggle md:hidden">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu md:hidden">
+        <button class="close-menu">
+            <i class="fas fa-times"></i>
+        </button>
+        <nav class="flex flex-col">
+            <a href="/" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Home</a>
+            <a href="/about-us" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">About Us</a>
+            <a href="/faq" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">FAQ</a>
+            <a href="/contact-us" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Contact Us</a>
+            <a href="/pricing" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Pricing</a>
+            <a href="/doc" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Documentation</a>
+            <a href="/usecases" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Use Cases</a>
+            <a href="/features" class="text-xl font-medium text-gray-800 py-4 border-b border-gray-100">Features</a>
+            <div class="menu-buttons pt-6 border-t border-gray-200 space-y-3">
+                <a href="/auth/login/"
+                    class="btn-outline-theme rounded-lg px-4 py-3 text-base transition-colors duration-200 font-medium block text-center">Login</a>
+                <a href="/auth/signup/"
+                    class="btn-theme rounded-lg px-4 py-3 text-base transition-colors duration-200 font-medium block text-center">Create
+                    Account</a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-bg border-b border-t border-gray-200">
+        <div class="container mx-auto px-4 sm:px-6 py-16">
+            <div class="max-w-4xl mx-auto text-center">
+                <div class="inline-block bg-[var(--primary)] text-white text-xs font-medium px-3 py-1 rounded-full mb-6">
+                    Insights & Updates
+                </div>
+                <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4 leading-tight">
+                    UPIExpress Blog
+                </h1>
+                <p class="text-lg md:text-xl text-gray-600 mb-8">
+                    Expert insights, tutorials, and industry updates on digital payments, UPI technology, and business growth strategies. Stay ahead in the fintech revolution.
+                </p>
+                <div class="search-bar max-w-2xl mx-auto">
+                    <input type="text" placeholder="Search articles..." class="search-input">
+                    <button class="search-button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Post -->
+    <section class="section-padding bg-white">
+        <div class="container mx-auto px-4 sm:px-6">
+            <div class="featured-post">
+                <div class="relative z-10">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="p-8 lg:p-12">
+                            <div class="inline-block bg-white text-[var(--primary)] text-xs font-medium px-3 py-1 rounded-full mb-6">
+                                Featured
+                            </div>
+                            <div class="category-badge bg-white bg-opacity-20 text-white">Trends</div>
+                            <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">UPI 2024: The Future of Digital Payments in India</h2>
+                            <p class="text-white text-opacity-90 mb-6">
+                                Explore how UPI is transforming India's digital economy, new features launched in 2024, and what businesses need to know to stay ahead. Expert analysis on market trends and future predictions.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                                         alt="Author" 
+                                         class="author-avatar mr-3">
+                                    <div>
+                                        <div class="text-white font-medium">Rahul Kumar</div>
+                                        <div class="text-white text-opacity-80 text-sm">April 15, 2024 • 8 min read</div>
+                                    </div>
+                                </div>
+                                <a href="/blog/upi-2024-future-digital-payments" class="text-white font-medium flex items-center">
+                                    Read Article <i class="fas fa-arrow-right ml-2"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="hidden lg:block">
+                            <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 alt="Featured Post" 
+                                 class="h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="section-padding bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Main Blog Content -->
+                <div class="lg:col-span-2">
+                    <!-- Category Filter -->
+                    <div class="category-filter">
+                        <button class="category-btn active" data-category="all">All Articles</button>
+                        <button class="category-btn" data-category="trends">Trends</button>
+                        <button class="category-btn" data-category="tutorials">Tutorials</button>
+                        <button class="category-btn" data-category="business">Business Growth</button>
+                        <button class="category-btn" data-category="security">Security</button>
+                        <button class="category-btn" data-category="api">API & Tech</button>
+                    </div>
+
+                    <!-- Blog Grid -->
+                    <div id="blogGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Article 1 -->
+                        <div class="blog-card" data-category="tutorials">
+                            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 alt="QR Code Integration" 
+                                 class="blog-image">
+                            <div class="p-6">
+                                <div class="category-badge">Tutorials</div>
+                                <div class="category-badge">Integration</div>
+                                <h3 class="text-xl font-semibold text-gray-800 mb-3">How to Integrate Dynamic UPI QR Codes in Your E-commerce Store</h3>
+                                <p class="text-gray-600 mb-4">Step-by-step guide to implementing UPIExpress dynamic QR codes in popular e-commerce platforms including Shopify, WooCommerce, and custom websites.</p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center mr-3">
+                                            <span class="text-gray-600 text-sm font-medium">PK</span>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-800">Priya Sharma</div>
+                                            <div class="text-xs text-gray-500">Mar 28, 2024</div>
+                                        </div>
+                                    </div>
+                                    <div class="read-time">
+                                        <i class="far fa-clock"></i> 6 min
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Article 2 -->
+                        <div class="blog-card" data-category="business">
+                            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 alt="Business Analytics" 
+                                 class="blog-image">
+                            <div class="p-6">
+                                <div class="category-badge">Business Growth</div>
+                                <div class="category-badge">Analytics</div>
+                                <h3 class="text-xl font-semibold text-gray-800 mb-3">Maximizing Revenue: Payment Analytics Every Merchant Should Track</h3>
+                                <p class="text-gray-600 mb-4">Learn which payment metrics matter most for your business growth and how to use UPIExpress analytics to boost conversions and reduce cart abandonment.</p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center mr-3">
+                                            <span class="text-gray-600 text-sm font-medium">AP</span>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-800">Arun Patel</div>
+                                            <div class="text-xs text-gray-500">Mar 22, 2024</div>
+                                        </div>
+                                    </div>
+                                    <div class="read-time">
+                                        <i class="far fa-clock"></i> 7 min
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Article 3 -->
+                        <div class="blog-card" data-category="security">
+                            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 alt="Payment Security" 
+                                 class="blog-image">
+                            <div class="p-6">
+                                <div class="category-badge">Security</div>
+                                <div class="category-badge">Best Practices</div>
+                                <h3 class="text-xl font-semibold text-gray-800 mb-3">Payment Security 2024: Protecting Your Business from Fraud</h3>
+                                <p class="text-gray-600 mb-4">Essential security practices every business should implement to protect against payment fraud. Learn about the latest threats and prevention strategies.</p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center mr-3">
+                                            <span class="text-gray-600 text-sm font-medium">NR</span>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-800">Neha Reddy</div>
+                                            <div class="text-xs text-gray-500">Mar 18, 2024</div>
+                                        </div>
+                                    </div>
+                                    <div class="read-time">
+                                        <i class="far fa-clock"></i> 10 min
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Article 4 -->
+                        <div class="blog-card" data-category="api">
+                            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 alt="API Development" 
+                                 class="blog-image">
+                            <div class="p-6">
+                                <div class="category-badge">API & Tech</div>
+                                <div class="category-badge">Development</div>
+                                <h3 class="text-xl font-semibold text-gray-800 mb-3">Advanced UPIExpress API: Webhooks, Events, and Automation</h3>
+                                <p class="text-gray-600 mb-4">Deep dive into our API features. Learn how to implement webhooks, automate payment workflows, and build custom payment solutions.</p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center mr-3">
+                                            <span class="text-gray-600 text-sm font-medium">RS</span>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-800">Ravi Singh</div>
+                                            <div class="text-xs text-gray-500">Mar 12, 2024</div>
+                                        </div>
+                                    </div>
+                                    <div class="read-time">
+                                        <i class="far fa-clock"></i> 12 min
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Article 5 -->
+                        <div class="blog-card" data-category="trends">
+                            <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 alt="Small Business" 
+                                 class="blog-image">
+                            <div class="p-6">
+                                <div class="category-badge">Trends</div>
+                                <div class="category-badge">SMB</div>
+                                <h3 class="text-xl font-semibold text-gray-800 mb-3">Digital Payments for Small Businesses: Success Stories</h3>
+                                <p class="text-gray-600 mb-4">Real stories from small businesses that transformed their operations with digital payments. Learn practical tips and strategies that actually work.</p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center mr-3">
+                                            <span class="text-gray-600 text-sm font-medium">SK</span>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-800">Sonia Kapoor</div>
+                                            <div class="text-xs text-gray-500">Mar 8, 2024</div>
+                                        </div>
+                                    </div>
+                                    <div class="read-time">
+                                        <i class="far fa-clock"></i> 5 min
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Article 6 -->
+                        <div class="blog-card" data-category="tutorials">
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 alt="Multi-merchant Setup" 
+                                 class="blog-image">
+                            <div class="p-6">
+                                <div class="category-badge">Tutorials</div>
+                                <div class="category-badge">Setup</div>
+                                <h3 class="text-xl font-semibold text-gray-800 mb-3">Setting Up Multi-Merchant Accounts: A Complete Guide</h3>
+                                <p class="text-gray-600 mb-4">Learn how agencies, franchises, and large businesses can manage multiple merchant accounts efficiently using UPIExpress's advanced features.</p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center mr-3">
+                                            <span class="text-gray-600 text-sm font-medium">VM</span>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-800">Vikram Mehta</div>
+                                            <div class="text-xs text-gray-500">Mar 3, 2024</div>
+                                        </div>
+                                    </div>
+                                    <div class="read-time">
+                                        <i class="far fa-clock"></i> 9 min
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination">
+                        <button class="page-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn">2</button>
+                        <button class="page-btn">3</button>
+                        <button class="page-btn">4</button>
+                        <button class="page-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="lg:col-span-1">
+                    <!-- Newsletter -->
+                    <div class="newsletter-card mb-8">
+                        <div class="relative z-10">
+                            <h3 class="text-xl font-bold text-white mb-4">Stay Updated</h3>
+                            <p class="text-white text-opacity-90 mb-6">Get the latest payment insights, tutorials, and industry updates directly in your inbox.</p>
+                            <form id="newsletterForm" class="space-y-4">
+                                <input type="email" 
+                                       placeholder="Your email address" 
+                                       class="w-full px-4 py-3 rounded-lg bg-white bg-opacity-20 border border-white border-opacity-30 text-white placeholder-white placeholder-opacity-70 focus:outline-none focus:bg-opacity-30">
+                                <button type="submit" class="w-full bg-white text-[var(--primary)] py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                                    Subscribe Now
+                                </button>
+                            </form>
+                            <p class="text-white text-opacity-80 text-sm mt-4">No spam. Unsubscribe anytime.</p>
+                        </div>
+                    </div>
+
+                    <!-- Popular Posts -->
+                    <div class="bg-white rounded-xl p-6 mb-8">
+                        <h3 class="text-xl font-bold text-gray-800 mb-6">Popular Posts</h3>
+                        <div class="space-y-4">
+                            <a href="/blog/zero-transaction-fees-explained" class="popular-post">
+                                <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" 
+                                     alt="Zero Fees" 
+                                     class="popular-post-image">
+                                <div>
+                                    <h4 class="font-semibold text-gray-800 mb-2">Zero Transaction Fees: How It Actually Works</h4>
+                                    <div class="text-sm text-gray-500">Feb 28, 2024 • 5 min read</div>
+                                </div>
+                            </a>
+                            <a href="/blog/upi-express-vs-payment-gateways" class="popular-post">
+                                <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" 
+                                     alt="Comparison" 
+                                     class="popular-post-image">
+                                <div>
+                                    <h4 class="font-semibold text-gray-800 mb-2">UPIExpress vs Traditional Payment Gateways</h4>
+                                    <div class="text-sm text-gray-500">Feb 22, 2024 • 6 min read</div>
+                                </div>
+                            </a>
+                            <a href="/blog/optimizing-payment-checkout" class="popular-post">
+                                <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" 
+                                     alt="Checkout Optimization" 
+                                     class="popular-post-image">
+                                <div>
+                                    <h4 class="font-semibold text-gray-800 mb-2">Checkout Optimization: Increase Conversions by 40%</h4>
+                                    <div class="text-sm text-gray-500">Feb 18, 2024 • 8 min read</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Categories -->
+                    <div class="bg-white rounded-xl p-6 mb-8">
+                        <h3 class="text-xl font-bold text-gray-800 mb-6">Categories</h3>
+                        <div class="space-y-3">
+                            <a href="/blog/category/trends" class="flex items-center justify-between py-2 border-b border-gray-100">
+                                <span class="text-gray-700">Trends & Insights</span>
+                                <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">12</span>
+                            </a>
+                            <a href="/blog/category/tutorials" class="flex items-center justify-between py-2 border-b border-gray-100">
+                                <span class="text-gray-700">Tutorials & Guides</span>
+                                <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">18</span>
+                            </a>
+                            <a href="/blog/category/business" class="flex items-center justify-between py-2 border-b border-gray-100">
+                                <span class="text-gray-700">Business Growth</span>
+                                <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">15</span>
+                            </a>
+                            <a href="/blog/category/security" class="flex items-center justify-between py-2 border-b border-gray-100">
+                                <span class="text-gray-700">Security & Compliance</span>
+                                <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">8</span>
+                            </a>
+                            <a href="/blog/category/api" class="flex items-center justify-between py-2">
+                                <span class="text-gray-700">API & Technology</span>
+                                <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">10</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Tags -->
+                    <div class="bg-white rounded-xl p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-6">Popular Tags</h3>
+                        <div>
+                            <a href="/blog/tag/upi" class="tag">UPI</a>
+                            <a href="/blog/tag/payments" class="tag">Payments</a>
+                            <a href="/blog/tag/fintech" class="tag">Fintech</a>
+                            <a href="/blog/tag/ecommerce" class="tag">E-commerce</a>
+                            <a href="/blog/tag/security" class="tag">Security</a>
+                            <a href="/blog/tag/api" class="tag">API</a>
+                            <a href="/blog/tag/qr-codes" class="tag">QR Codes</a>
+                            <a href="/blog/tag/business" class="tag">Business</a>
+                            <a href="/blog/tag/digital-india" class="tag">Digital India</a>
+                            <a href="/blog/tag/startup" class="tag">Startup</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter CTA -->
+    <section class="section-padding bg-white">
+        <div class="container mx-auto px-4 sm:px-6">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">Never Miss an Update</h2>
+                <p class="text-gray-600 mb-8 max-w-2xl mx-auto">
+                    Join 10,000+ business owners, developers, and payment professionals who receive our weekly insights on digital payments and business growth.
+                </p>
+                <form class="max-w-md mx-auto">
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <input type="email" 
+                               placeholder="Enter your email" 
+                               class="flex-grow px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[var(--primary)]">
+                        <button type="submit" class="btn-theme px-8 py-3 rounded-lg font-medium">
+                            Subscribe
+                        </button>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-4">We respect your privacy. Unsubscribe at any time.</p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-12 bg-[var(--primary)]">
+        <div class="container mx-auto px-4 sm:px-6 text-center">
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">Ready to Transform Your Payment Experience?</h2>
+            <p class="text-base md:text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
+                Start accepting payments with zero transaction fees today. Join thousands of businesses already using UPIExpress.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="/auth/signup"
+                    class="bg-white text-[var(--primary)] rounded-lg px-8 py-3 font-medium text-base md:text-lg transition-all duration-200 inline-block hover:bg-gray-100">
+                    Start Free Trial
+                </a>
+                <a href="/contact-us"
+                    class="bg-transparent border border-white text-white rounded-lg px-8 py-3 font-medium text-base md:text-lg transition-all duration-200 inline-block hover:bg-white hover:text-[var(--primary)]">
+                    Contact Sales
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="w-full px-4 sm:px-6 py-8 text-gray-600 bg-white border-t border-gray-200">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div>
+                <div class="flex items-center mb-2">
+                    <img src="/images/icon.png" alt="UPIExpress" class="w-8 h-8">
+                    <span class="sidebar-text font-bold text-xl  mr-[2.2px] text-gray-800">UPI</span>
+                    <span class="sidebar-text font-family text-xl text-gray-700">Express</span>
+                </div>
+                <p class="text-sm mb-4">Revolutionizing payments with secure, dynamic UPI QR code technology.</p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-500 hover:text-[var(--primary)] transition-colors">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-[var(--primary)] transition-colors">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-[var(--primary)] transition-colors">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Product</h3>
+                <ul class="space-y-2">
+                    <li><a href="/features" class="text-sm hover:text-[var(--primary)] transition-colors">Features</a></li>
+                    <li><a href="/usecases" class="text-sm hover:text-[var(--primary)] transition-colors">Use Cases</a></li>
+                    <li><a href="/pricing" class="text-sm hover:text-[var(--primary)] transition-colors">Pricing</a></li>
+                    <li><a href="/doc" class="text-sm hover:text-[var(--primary)] transition-colors">Documentation</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Company</h3>
+                <ul class="space-y-2">
+                    <li><a href="/about-us" class="text-sm hover:text-[var(--primary)] transition-colors">About Us</a></li>
+                    <li><a href="/faq" class="text-sm hover:text-[var(--primary)] transition-colors">FAQ</a></li>
+                    <li><a href="/blog" class="text-sm hover:text-[var(--primary)] transition-colors">Blog</a></li>
+                    <li><a href="/contact-us" class="text-sm hover:text-[var(--primary)] transition-colors">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Contact Us</h3>
+                <p class="text-sm mb-2">Feel free to get in touch with us</p>
+                <p class="text-sm mb-4 flex items-center">
+                    <i class="fas fa-envelope mr-2"></i> support@upiexpress.com
+                </p>
+                <div class="mt-4">
+                    <p class="text-sm mb-2">Subscribe to our Newsletter:</p>
+                    <div class="flex w-full max-w-full overflow-hidden">
+                        <input type="email" placeholder="Enter your email"
+                            class="flex-grow min-w-0 border rounded-l-lg px-3 py-2 text-sm focus:outline-none">
+                        <button class="btn-theme rounded-r-lg px-4 py-2 text-sm flex-shrink-0 w-auto">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pt-6 border-t border-gray-200">
+            <p class="text-xs text-gray-500 mb-4">
+                *UPIExpress provides Dynamic UPI QR Generating service. UPIExpress does not offer payment gateway
+                service, nor does it provide UPI ID and UPI Merchant account. Please read our policy and T&C before
+                using our services.
+            </p>
+
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center text-sm">
+                <p class="mb-4 sm:mb-0">
+                    © UPIExpress 2023–25, All Rights Reserved.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a class="hover:text-[var(--primary)] transition-colors" href="/help">Help</a>
+                    <a class="hover:text-[var(--primary)] transition-colors" href="/refund">Refund Policy</a>
+                    <a class="hover:text-[var(--primary)] transition-colors" href="/terms">Terms Of Service</a>
+                    <a class="hover:text-[var(--primary)] transition-colors" href="/privacy">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+        // Mobile menu functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const closeMenu = document.querySelector('.close-menu');
+            const menuBackdrop = document.querySelector('.menu-backdrop');
+            const mobileLinks = document.querySelectorAll('.mobile-menu a');
+
+            function openMenu() {
+                mobileMenu.classList.add('active');
+                menuBackdrop.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeMobileMenu() {
+                mobileMenu.classList.remove('active');
+                menuBackdrop.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            menuToggle.addEventListener('click', openMenu);
+            closeMenu.addEventListener('click', closeMobileMenu);
+            menuBackdrop.addEventListener('click', closeMobileMenu);
+
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', closeMobileMenu);
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    closeMobileMenu();
+                }
+            });
+
+            // Back to top button
+            const backToTop = document.getElementById('backToTop');
+            
+            window.addEventListener('scroll', function () {
+                if (window.pageYOffset > 300) {
+                    backToTop.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
+                }
+            });
+
+            backToTop.addEventListener('click', function () {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+            // Category filtering
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            const blogCards = document.querySelectorAll('.blog-card');
+            
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    // Remove active class from all buttons
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    const category = this.getAttribute('data-category');
+                    
+                    // Show/hide blog cards based on category
+                    blogCards.forEach(card => {
+                        if (category === 'all' || card.getAttribute('data-category') === category) {
+                            card.style.display = 'block';
+                            setTimeout(() => {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0)';
+                            }, 50);
+                        } else {
+                            card.style.opacity = '0';
+                            card.style.transform = 'translateY(20px)';
+                            setTimeout(() => {
+                                card.style.display = 'none';
+                            }, 300);
+                        }
+                    });
+                });
+            });
+
+            // Search functionality
+            const searchInput = document.querySelector('.search-input');
+            const searchButton = document.querySelector('.search-button');
+            
+            function performSearch() {
+                const searchTerm = searchInput.value.toLowerCase();
+                
+                blogCards.forEach(card => {
+                    const title = card.querySelector('h3').textContent.toLowerCase();
+                    const excerpt = card.querySelector('p').textContent.toLowerCase();
+                    const categories = card.getAttribute('data-category');
+                    
+                    if (title.includes(searchTerm) || excerpt.includes(searchTerm) || categories.includes(searchTerm)) {
+                        card.style.display = 'block';
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 50);
+                    } else {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            card.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            }
+            
+            searchButton.addEventListener('click', performSearch);
+            searchInput.addEventListener('keyup', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+
+            // Newsletter form submission
+            const newsletterForm = document.getElementById('newsletterForm');
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const email = this.querySelector('input[type="email"]').value;
+                    
+                    // Here you would typically send this to your backend
+                    alert('Thank you for subscribing to our newsletter!');
+                    this.reset();
+                });
+            }
+
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        e.preventDefault();
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Animation on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-in');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe blog cards
+            blogCards.forEach(card => {
+                observer.observe(card);
+            });
+
+            // Observe popular posts
+            const popularPosts = document.querySelectorAll('.popular-post');
+            popularPosts.forEach(post => {
+                observer.observe(post);
+            });
+
+            // Pagination
+            const pageButtons = document.querySelectorAll('.page-btn');
+            pageButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    if (this.classList.contains('active')) return;
+                    
+                    pageButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Here you would typically fetch new page content
+                    // For demo, we'll just scroll to top
+                    window.scrollTo({
+                        top: document.getElementById('blogGrid').offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Tag click functionality
+            const tags = document.querySelectorAll('.tag');
+            tags.forEach(tag => {
+                tag.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const tagText = this.textContent.toLowerCase();
+                    
+                    // Filter blog posts by tag
+                    blogCards.forEach(card => {
+                        const cardTags = card.querySelectorAll('.category-badge');
+                        let hasTag = false;
+                        
+                        cardTags.forEach(cardTag => {
+                            if (cardTag.textContent.toLowerCase() === tagText) {
+                                hasTag = true;
+                            }
+                        });
+                        
+                        if (hasTag) {
+                            card.style.display = 'block';
+                            setTimeout(() => {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0)';
+                            }, 50);
+                        } else {
+                            card.style.opacity = '0';
+                            card.style.transform = 'translateY(20px)';
+                            setTimeout(() => {
+                                card.style.display = 'none';
+                            }, 300);
+                        }
+                    });
+                    
+                    // Update category filter
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    categoryButtons[0].classList.add('active'); // Show "All Articles" as active
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
