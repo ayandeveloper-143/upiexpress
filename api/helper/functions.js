@@ -282,9 +282,13 @@ If this wasn’t you, please ignore this message.
 UPI Express
 https://upiexpress.com`;
     axios.post('http://localhost:5051/send', {
-        phone: "91" + phone,
-        message: message
-    });
+    phone: "91" + phone,
+    message: message
+})
+.then(() => {})
+.catch(err => {
+    console.error("SMS failed:", err.message);
+});
     await axios.post('https://ninzasms.in.net/auth/send_sms', {
         variables_values: otp,
         sender_id: '15422',
@@ -343,9 +347,13 @@ If you did not create this account, please contact support.
 
 — UPI Express Team`
     axios.post('http://localhost:5051/send', {
-        phone: "91" + otpRecord.phone,
-        message: message
-    });
+    phone: "91" + otpRecord.phone,
+    message: message
+})
+.then(() => {})
+.catch(err => {
+    console.error("SMS failed:", err.message);
+});
 
     await sendWelcomeEmail(otpRecord.email, userRows[0].name);
     // Return success with userToken
@@ -401,9 +409,13 @@ If you don’t recognize this login, please secure your account:
 
 UPI Express Security Team`
     axios.post('http://localhost:5051/send', {
-        phone: "91" + otpRecord.phone,
-        message: message
-    });
+    phone: "91" + otpRecord.phone,
+    message: message
+})
+.then(() => {})
+.catch(err => {
+    console.error("SMS failed:", err.message);
+});
     // Return success with userToken
     return { success: true, message: 'Login verified successfully.', userToken: newUserToken };
 }
@@ -486,10 +498,14 @@ If this wasn’t you, please ignore this message.
 
 UPI Express
 https://upiexpress.com`;
-             axios.post('http://localhost:5051/send', {
-                phone: "91" + user.phone,
-                message: message
-            });
+           axios.post('http://localhost:5051/send', {
+    phone: "91" + user.phone,
+    message: message
+})
+.then(() => {})
+.catch(err => {
+    console.error("SMS failed:", err.message);
+});
             await axios.post('https://ninzasms.in.net/auth/send_sms', {
                 variables_values: otp,
                 sender_id: '15422',
@@ -533,10 +549,14 @@ If you don’t recognize this login, please secure your account:
 —
 
 UPI Express Security Team`
-             axios.post('http://localhost:5051/send', {
-                phone: "91" + user.phone,
-                message: message
-            });
+          axios.post('http://localhost:5051/send', {
+    phone: "91" + user.phone,
+    message: message
+})
+.then(() => {})
+.catch(err => {
+    console.error("SMS failed:", err.message);
+});
             return { success: true, message: 'Login successful.', userToken: newUserToken };
         }
     } else {
@@ -575,10 +595,14 @@ If this wasn’t you, please ignore this message.
 
 UPI Express
 https://upiexpress.com`;
-     axios.post('http://localhost:5051/send', {
-        phone: "91" + user.phone,
-        message: message
-    });
+   axios.post('http://localhost:5051/send', {
+    phone: "91" + otpRecord.phone,
+    message: message
+})
+.then(() => {})
+.catch(err => {
+    console.error("SMS failed:", err.message);
+});
     await axios.post('https://ninzasms.in.net/auth/send_sms', {
         variables_values: otp,
         sender_id: '15422',
@@ -883,9 +907,9 @@ async function sendPaytmOTP(phone, password, userid) {
         }
 
         const response = await axios.post(
-            'http://localhost:3240/api/sendotp',
+            'https://paytm.upiexpress.com/api/auth/send-otp',
             { phone, password },
-            { headers: { 'Content-Type': 'application/json' }, timeout: 10000 }
+            { headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJzY29wZSI6ImZ1bGwtYWNjZXNzIiwiYXBwIjoicGF5dG0tYXV0aC1hcGkiLCJpYXQiOjE3NzU3NDk4ODEsImV4cCI6MjA5MTEwOTg4MX0.ORMCrDig3J8BxzhDQoCTGKtQQRVcL3OgPFcA1y7yi_w' }, timeout: 10000 }
         );
 
 
@@ -902,9 +926,9 @@ async function sendPaytmOTP(phone, password, userid) {
 async function verifyPaytmOTP(phone, otp, userid) {
     try {
         const response = await axios.post(
-            'http://localhost:3240/api/verify',
+            'https://paytm.upiexpress.com/api/auth/verify',
             { phone, otp },
-            { headers: { 'Content-Type': 'application/json' }, timeout: 10000 }
+            { headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJzY29wZSI6ImZ1bGwtYWNjZXNzIiwiYXBwIjoicGF5dG0tYXV0aC1hcGkiLCJpYXQiOjE3NzU3NDk4ODEsImV4cCI6MjA5MTEwOTg4MX0.ORMCrDig3J8BxzhDQoCTGKtQQRVcL3OgPFcA1y7yi_w' }, timeout: 10000 }
         );
 
         if (response.data && response.data.success) {

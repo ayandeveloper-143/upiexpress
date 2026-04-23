@@ -5,7 +5,7 @@ const path = require('path');
 
 // Create transporter 
 const transporter = nodemailer.createTransport({
-    host: 'mail.srv1070916.hstgr.cloud',
+    host: 'mail.srv1415479.hstgr.cloud',
     port: 587, // or 465 for SSL, 25 for non-SSL
     secure: false, // true for 465, false for other ports
     auth: {

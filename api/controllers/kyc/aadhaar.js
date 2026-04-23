@@ -227,10 +227,10 @@ async function example() {
     // try {
     //     const otpResult = await captchaGenerator.generateAadhaarOTP(
     //         "539965171349", // uidNumber
-    //         "NAIPk5Fv3HEn", // captchaTxnId
-    //         "7h7nbr", // captchaValue
-    //         "1559f0ad-cae4-47f4-9228-0c6c08764539", // transactionId
-    //         "1559f0ad-cae4-47f4-9228-0c6c08764539" // xRequestId
+    //         "YQ55FtdPc7YA", // captchaTxnId
+    //         "r75c5e", // captchaValue
+    //         "212e3801-215b-4ef8-9085-46ee293fdb82", // transactionId
+    //         "212e3801-215b-4ef8-9085-46ee293fdb82" // xRequestId
     //     );
 
     //     console.log('\nOTP Generation Result:');
@@ -239,7 +239,7 @@ async function example() {
     //     console.log('Transaction ID:', otpResult.transactionId);
 
     //     if (otpResult.success) {
-    //         console.log('OTP Data:', otpResult.data);
+    //         console.log('OTP Data:', JSON.stringify(otpResult.data, null, 2));
     //     } else {
     //         console.log('Error:', otpResult.error);
     //     }
@@ -252,10 +252,10 @@ async function example() {
     //     const downloadResult = await captchaGenerator.downloadAadhaar(
     //         "539965171349", // uid
     //         false, // mask
-    //         "960489", // otp
-    //         "MYAADHAAR:bae77c14-32cb-414f-9182-16560fda9887", // otpTxnId
-    //         "2052ddf3-1c3c-4f3a-bd20-17852014ddf5", // transactionId
-    //         "2052ddf3-1c3c-4f3a-bd20-17852014ddf5" // xRequestId
+    //         "333509", // otp
+    //         "MYAADHAAR:7de87114-221c-4a36-bc37-b88a0e09dd7a", // otpTxnId
+    //         "cbe44a74-7ea6-4e44-bca4-9a50c4250dca", // transactionId
+    //         "cbe44a74-7ea6-4e44-bca4-9a50c4250dca" // xRequestId
     //     );
 
     //     console.log('\nAadhaar Download Result:');
