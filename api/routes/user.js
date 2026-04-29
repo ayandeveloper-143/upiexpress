@@ -559,7 +559,7 @@ router.get('/success', async (req, res) => {
         }
         const transaction = await getPaymentDetailsByClientTxnId(client_txn_id, 'Uaa60f193605538e8597a4abf58f3e898594a4ff46ee74de8');
 
-        if (!transaction.status || transaction.status !== 'Success') {
+        if (!transaction || transaction.status !== 'Success') {
             return res.redirect('/user/dashboard');
         }
 
