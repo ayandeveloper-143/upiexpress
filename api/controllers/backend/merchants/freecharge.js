@@ -34,6 +34,7 @@ async function checkFreechagrePendings() {
                 const history = await getTransactionHistory(details.fcWalletToken);
 
 
+
                 let isFound = false;
                 if (history.success) {
                     let transactions = history.transactions;
