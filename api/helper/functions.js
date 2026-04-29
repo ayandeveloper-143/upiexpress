@@ -909,7 +909,7 @@ async function sendPaytmOTP(phone, password, userid) {
         const response = await axios.post(
             'https://paytm.upiexpress.com/api/auth/send-otp',
             { phone, password },
-            { headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJzY29wZSI6ImZ1bGwtYWNjZXNzIiwiYXBwIjoicGF5dG0tYXV0aC1hcGkiLCJpYXQiOjE3NzU3NDk4ODEsImV4cCI6MjA5MTEwOTg4MX0.ORMCrDig3J8BxzhDQoCTGKtQQRVcL3OgPFcA1y7yi_w' }, timeout: 10000 }
+            { headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJzY29wZSI6ImZ1bGwtYWNjZXNzIiwiYXBwIjoicGF5dG0tYXV0aC1hcGkiLCJpYXQiOjE3Nzc0NTYzMzEsImV4cCI6MjA5MjgxNjMzMX0.-olHwmXV0CtcsPv1CIHUVjR8TL8CQgj1BQxNKWb3XEw' }, timeout: 10000 }
         );
 
 
@@ -928,7 +928,7 @@ async function verifyPaytmOTP(phone, otp, userid) {
         const response = await axios.post(
             'https://paytm.upiexpress.com/api/auth/verify',
             { phone, otp },
-            { headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJzY29wZSI6ImZ1bGwtYWNjZXNzIiwiYXBwIjoicGF5dG0tYXV0aC1hcGkiLCJpYXQiOjE3NzU3NDk4ODEsImV4cCI6MjA5MTEwOTg4MX0.ORMCrDig3J8BxzhDQoCTGKtQQRVcL3OgPFcA1y7yi_w' }, timeout: 10000 }
+            { headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJzY29wZSI6ImZ1bGwtYWNjZXNzIiwiYXBwIjoicGF5dG0tYXV0aC1hcGkiLCJpYXQiOjE3Nzc0NTYzMzEsImV4cCI6MjA5MjgxNjMzMX0.-olHwmXV0CtcsPv1CIHUVjR8TL8CQgj1BQxNKWb3XEw' }, timeout: 10000 }
         );
 
         if (response.data && response.data.success) {

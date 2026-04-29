@@ -1554,13 +1554,13 @@
 
         <!-- Edit Merchant Modal -->
         <div id="editMerchantModal"
-            class="fixed inset-0 bg-black/50 flex items-center justify-center  z-[10000] hidden modal-overlay">
-            <div class="bg-white rounded-xl w-full max-w-md mx-4 modal-content">
+            class="fixed inset-0 bg-black/50 flex items-center justify-center z-[10000] hidden modal-overlay p-4 overflow-y-auto">
+            <div class="bg-white rounded-xl w-full max-w-md mx-4 modal-content max-h-[calc(100vh-2rem)] flex flex-col">
                 <div class="p-6 border-b border-gray-200">
                     <h3 class="text-xl font-semibold text-gray-900">Edit Merchant Details</h3>
                 </div>
 
-                <div class="p-6">
+                <div class="p-6 overflow-y-auto min-h-0 flex-1">
                     <form id="editMerchantForm">
                         <input type="hidden" id="editMerchantId">
                         <input type="hidden" id="editMerchantType">
@@ -1586,8 +1586,8 @@
 
         <!-- Delete Confirmation Modal -->
         <div id="deleteMerchantModal"
-            class="fixed inset-0 bg-black/50 flex items-center justify-center  z-[10000] hidden modal-overlay">
-            <div class="bg-white rounded-xl w-full max-w-md mx-4 modal-content">
+            class="fixed inset-0 bg-black/50 flex items-center justify-center z-[10000] hidden modal-overlay p-4 overflow-y-auto">
+            <div class="bg-white rounded-xl w-full max-w-md mx-4 modal-content max-h-[calc(100vh-2rem)] flex flex-col">
                 <div class="p-6 border-b border-gray-200">
                     <h3 class="text-xl font-semibold text-gray-900">Delete Merchant</h3>
                 </div>
