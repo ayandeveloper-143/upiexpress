@@ -3,6 +3,7 @@ const router = express.Router();
 const db = require('../../controllers/db'); // db connction mysql 
 const { validateVPA, upiCollectPayment } = require('../../controllers/merchant/hdfc');
 const axios = require("axios");
+const { sendTransactionWebhookOnce } = require('../../helper/webhook');
 
 function generateID(length = 18) {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -226,25 +227,7 @@ router.post('/cancel_payment', async (req, res) => {
             upi_transaction_id: null
         };
 
-        // Send webhook
-        try {
-            const response = await axios.post(txn.webhook, payload, { timeout: 10000 });
-
-            await db.execute(
-                `UPDATE transactions 
-                                 SET webhook_status = ?, webhook_statusCode = ? 
-                                 WHERE txn_id = ?`,
-                ["Sent", response.status, transaction.txn_id]
-            );
-
-        } catch (err) {
-            await db.execute(
-                `UPDATE transactions 
-                                 SET webhook_status = ?, webhook_statusCode = ? 
-                                 WHERE txn_id = ?`,
-                ["Failed", err.response ? err.response.status : 500, transaction.txn_id]
-            );
-        }
+        await sendTransactionWebhookOnce(transaction.txn_id, transaction.webhook, payload);
         // Mark transaction as Expired
         await db.execute(
             `UPDATE transactions 

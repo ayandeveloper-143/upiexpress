@@ -21,7 +21,7 @@ router.get('/:txn_id', async (req, res) => {
         return res.render('payment/status', { status: "failed", redirect_url });
     }
 
-    if (transaction.status !== 'Pending') {
+    if (String(transaction.status).toLowerCase() !== 'pending') {
         return res.render('payment/status', { status: transaction.status.toLowerCase(), redirect_url });
     }
 

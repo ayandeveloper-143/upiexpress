@@ -13,6 +13,36 @@ const sitemapData = [
         priority: '0.9'
     },
     {
+        loc: 'https://upiexpress.com/features',
+        lastmod: new Date().toISOString().split('T')[0],
+        changefreq: 'weekly',
+        priority: '0.9'
+    },
+    {
+        loc: 'https://upiexpress.com/usecases',
+        lastmod: new Date().toISOString().split('T')[0],
+        changefreq: 'weekly',
+        priority: '0.9'
+    },
+    {
+        loc: 'https://upiexpress.com/doc',
+        lastmod: new Date().toISOString().split('T')[0],
+        changefreq: 'weekly',
+        priority: '0.9'
+    },
+    {
+        loc: 'https://upiexpress.com/about-us',
+        lastmod: new Date().toISOString().split('T')[0],
+        changefreq: 'monthly',
+        priority: '0.8'
+    },
+    {
+        loc: 'https://upiexpress.com/blog',
+        lastmod: new Date().toISOString().split('T')[0],
+        changefreq: 'weekly',
+        priority: '0.8'
+    },
+    {
         loc: 'https://upiexpress.com/faq',
         lastmod: new Date().toISOString().split('T')[0],
         changefreq: 'weekly',
@@ -92,12 +122,6 @@ function generateSitemapIndex() {
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <sitemap>
         <loc>https://upiexpress.com/sitemap.xml</loc>
-    </sitemap>
-    <sitemap>
-        <loc>https://upiexpress.com/sitemap-pages.xml</loc>
-    </sitemap>
-    <sitemap>
-        <loc>https://upiexpress.com/sitemap-blog.xml</loc>
     </sitemap>
 </sitemapindex>`;
     return xml;

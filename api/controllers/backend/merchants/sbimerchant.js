@@ -1,6 +1,7 @@
 const { getHistory } = require('../../merchant/sbimerchant');
 const db = require('../../db');
 const axios = require("axios");
+const { sendTransactionWebhookOnce } = require('../../../helper/webhook');
 
 async function checkSBIMerchantPendings() {
     try {
@@ -35,7 +36,7 @@ async function checkSBIMerchantPendings() {
                 const totalAmount = (Number(txn.amount) + Number(txn.convenience_fee)).toFixed(2);
                 const transactionList = history?.data?.Result?.[0]?.Values || [];
 
-                const isFound = false;
+                let isFound = false;
 
                 for (const record of transactionList) {
                     if (record.Invoice_Number === txn.orderid && record.Transaction_Status === 'Paid' && record.Transaction_Amount === totalAmount) {
@@ -68,24 +69,7 @@ async function checkSBIMerchantPendings() {
                             }
                         };
 
-                        // Send webhook
-                        try {
-                            const response = await axios.post(txn.webhook, payload, { timeout: 10000 });
-                            await db.execute(
-                                `UPDATE transactions 
-                         SET webhook_status = ?, webhook_statusCode = ? 
-                         WHERE txn_id = ?`,
-                                ["Sent", response.status, txn.txn_id]
-                            );
-
-                        } catch (err) {
-                            await db.execute(
-                                `UPDATE transactions 
-                         SET webhook_status = ?, webhook_statusCode = ? 
-                         WHERE txn_id = ?`,
-                                ["Failed", err.response ? err.response.status : 500, txn.txn_id]
-                            );
-                        }
+                        await sendTransactionWebhookOnce(txn.txn_id, txn.webhook, payload);
 
                         // Mark transaction success
                         await db.execute(
@@ -103,17 +87,6 @@ async function checkSBIMerchantPendings() {
                 if (!isFound) {
                     //  check is txn.expires_at is passed 
                     if (new Date(txn.expires_at) < new Date()) {
-                        // Check if webhook was already sent
-                        const [webhookCheck] = await db.query(
-                            `SELECT webhook_status FROM transactions WHERE txn_id = ?`,
-                            [txn.txn_id]
-                        );
-
-                        if (webhookCheck.length > 0 && webhookCheck[0].webhook_status === 'Sent') {
-                            // Webhook already sent, skip
-                            return;
-                        }
-
                         // Prepare webhook payload
                         const payload = {
                             success: false,
@@ -144,25 +117,7 @@ async function checkSBIMerchantPendings() {
                             }
                         };
 
-                        // Send webhook
-                        try {
-                            const response = await axios.post(txn.webhook, payload, { timeout: 10000 });
-
-                            await db.execute(
-                                `UPDATE transactions 
-                         SET webhook_status = ?, webhook_statusCode = ? 
-                         WHERE txn_id = ?`,
-                                ["Sent", response.status, txn.txn_id]
-                            );
-
-                        } catch (err) {
-                            await db.execute(
-                                `UPDATE transactions 
-                         SET webhook_status = ?, webhook_statusCode = ? 
-                         WHERE txn_id = ?`,
-                                ["Failed", err.response ? err.response.status : 500, txn.txn_id]
-                            );
-                        }
+                        await sendTransactionWebhookOnce(txn.txn_id, txn.webhook, payload);
                         // Mark transaction as Expired
                         await db.execute(
                             `UPDATE transactions 

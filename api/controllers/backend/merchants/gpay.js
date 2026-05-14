@@ -1,5 +1,6 @@
 const db = require('../../db');
 const axios = require("axios");
+const { sendTransactionWebhookOnce } = require('../../../helper/webhook');
 
 async function getGPayTransactionStatus(at, cookies, RPtkab) {
     const options = {
@@ -95,23 +96,7 @@ async function checkGPayPendings() {
                                 }
                             };
 
-                            // Send webhook
-                            try {
-                                const response = await axios.post(txn.webhook, payload, { timeout: 10000 });
-                                await db.execute(
-                                    `UPDATE transactions 
-                         SET webhook_status = ?, webhook_statusCode = ? 
-                         WHERE txn_id = ?`,
-                                    ["Sent", response.status, txn.txn_id]
-                                );
-                            } catch (error) {
-                                await db.execute(
-                                    `UPDATE transactions 
-                         SET webhook_status = ?, webhook_statusCode = ? 
-                         WHERE txn_id = ?`,
-                                    ["Failed", error.response ? error.response.status : null, txn.txn_id]
-                                );
-                            }
+                            await sendTransactionWebhookOnce(txn.txn_id, txn.webhook, payload);
 
                             // Mark transaction success
                             await db.execute(
@@ -130,17 +115,6 @@ async function checkGPayPendings() {
                 if (!isFound) {
                     //  check is txn.expires_at is passed 
                     if (new Date(txn.expires_at) < new Date()) {
-                        // Check if webhook was already sent
-                        const [webhookCheck] = await db.query(
-                            `SELECT webhook_status FROM transactions WHERE txn_id = ?`,
-                            [txn.txn_id]
-                        );
-
-                        if (webhookCheck.length > 0 && webhookCheck[0].webhook_status === 'Sent') {
-                            // Webhook already sent, skip
-                            return;
-                        }
-
                         // Prepare webhook payload
                         const payload = {
                             success: false,
@@ -171,25 +145,7 @@ async function checkGPayPendings() {
                             }
                         };
 
-                        // Send webhook
-                        try {
-                            const response = await axios.post(txn.webhook, payload, { timeout: 10000 });
-
-                            await db.execute(
-                                `UPDATE transactions 
-                         SET webhook_status = ?, webhook_statusCode = ? 
-                         WHERE txn_id = ?`,
-                                ["Sent", response.status, txn.txn_id]
-                            );
-
-                        } catch (err) {
-                            await db.execute(
-                                `UPDATE transactions 
-                         SET webhook_status = ?, webhook_statusCode = ? 
-                         WHERE txn_id = ?`,
-                                ["Failed", err.response ? err.response.status : 500, txn.txn_id]
-                            );
-                        }
+                        await sendTransactionWebhookOnce(txn.txn_id, txn.webhook, payload);
                         // Mark transaction as Expired
                         await db.execute(
                             `UPDATE transactions 
