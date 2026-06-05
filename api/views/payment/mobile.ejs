@@ -442,7 +442,7 @@
         }
     </style>
 
-    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
 </head>
 
 <body class="bg-[#f7f7f7] min-h-screen flex flex-col overflow-hidden">
@@ -608,8 +608,8 @@
                 <!-- QR Code Container -->
                 <div class="flex flex-col items-center mb-6">
                     <div class="p-2 bg-white border-2 border-gray-200 rounded-2xl shadow-sm">
-                        <img src="https://upiexpress.com/assets/qr/?text=<%= encodeURIComponent(data.upiIntent) %>"
-                            alt="UPIExpress" class="w-60 h-60 rounded-lg">
+                        <img src="/qr?text=<%= encodeURIComponent(data.upiIntent) %>" alt="UPIExpress"
+                            class="w-60 h-60 rounded-lg">
                     </div>
                 </div>
 

@@ -5,6 +5,7 @@ const csurf = require('csurf');
 const path = require('path');  // ✅ Add this
 const app = express();
 const socketIo = require('socket.io');
+const qr = require('qrcode');
 const server = require('http').createServer(app);
 const io = socketIo(server, {
     cors: {
@@ -50,6 +51,10 @@ app.use(cookieParser());
 
 const publicDir = path.join(__dirname, '../public');
 const uploadsAssetsDir = path.join(publicDir, 'uploads');
+const imagesDir = path.join(__dirname, '../images');
+const assetsImagesDir = path.join(__dirname, '../assets/images');
+const othersDir = path.join(__dirname, '../others');
+const socketIoClientPath = require.resolve('socket.io-client/dist/socket.io.js');
 
 const uploadsProtection = (req, res, next) => {
     const normalizedPath = path.posix.normalize(req.path);
@@ -67,7 +72,37 @@ const uploadsProtection = (req, res, next) => {
 };
 
 app.use('/uploads', uploadsProtection, express.static(uploadsAssetsDir, { dotfiles: 'deny', index: false }));
+app.use('/images', express.static(imagesDir, { dotfiles: 'deny', index: false }));
+app.use('/assets/images', express.static(assetsImagesDir, { dotfiles: 'deny', index: false }));
+app.use('/others', express.static(othersDir, { dotfiles: 'deny', index: false }));
 app.use(express.static(publicDir));
+
+app.use((req, res, next) => {
+    if (req.path.startsWith('/socket.io')) {
+        console.log('PROXY SOCKET.IO REQUEST', req.method, req.originalUrl, req.path, req.url);
+    }
+    next();
+});
+
+app.get('/socket.io/socket.io.js', (req, res) => {
+    res.sendFile(socketIoClientPath);
+});
+
+app.get('/qr', async (req, res) => {
+    const text = req.query.text;
+    if (!text) {
+        return res.status(400).send('Missing QR text');
+    }
+
+    try {
+        const svg = await qr.toString(text, { type: 'svg', margin: 1, width: 260 });
+        res.type('image/svg+xml');
+        res.send(svg);
+    } catch (error) {
+        console.error('QR generation failed:', error);
+        res.status(500).send('QR generation failed');
+    }
+});
 
 app.use('/admin/api/daily/plan/check', async (req, res, next) => {
 

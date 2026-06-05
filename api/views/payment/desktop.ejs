@@ -299,7 +299,7 @@
             }
         }
     </style>
-    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
 </head>
 
 <body class="min-h-screen bg-[#f3f4f6] flex items-center justify-center">
@@ -513,8 +513,8 @@
                             <!-- QR Code -->
                             <div class="flex flex-col items-center">
                                 <div class="p-2 bg-white border-2 border-gray-200 rounded-2xl shadow-sm">
-                                    <img src="https://upiexpress.com/assets/qr/?text=<%= encodeURIComponent(data.upiIntent) %>"
-                                        alt="UPI QR Code" class="w-44 h-44 rounded-lg">
+                                    <img src="/qr?text=<%= encodeURIComponent(data.upiIntent) %>" alt="UPI QR Code"
+                                        class="w-44 h-44 rounded-lg">
                                 </div>
                                 <div id="timerQR"
                                     class="mt-4 px-4 py-2 rounded-full bg-gray-100 text-[11px] text-gray-600 border border-gray-200 timer-pulse">
