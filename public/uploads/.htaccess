@@ -1,0 +1,20 @@
+<IfModule mod_authz_core.c>
+    <FilesMatch "\.(php|phtml|phar|cgi|sh|exe|pl|py|js|asp|aspx|jsp|bash|bin|cmd|msi|dll|shtml?)$">
+        Require all denied
+    </FilesMatch>
+    <FilesMatch "^\..*">
+        Require all denied
+    </FilesMatch>
+</IfModule>
+<IfModule !mod_authz_core.c>
+    <FilesMatch "\.(php|phtml|phar|cgi|sh|exe|pl|py|js|asp|aspx|jsp|bash|bin|cmd|msi|dll|shtml?)$">
+        Deny from all
+    </FilesMatch>
+    <FilesMatch "^\..*">
+        Deny from all
+    </FilesMatch>
+</IfModule>
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>
+Options -Indexes -ExecCGI

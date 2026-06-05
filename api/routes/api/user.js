@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const crypto = require('crypto');
 const db = require('../../controllers/db'); // db connction mysql 
 const { generateAadhaarCaptcha, generateAadhaarOTP, downloadAadhaar } = require('../../controllers/kyc/aadhaar');
 const { createPayment, generateID } = require('../../helper/payment');
@@ -64,7 +65,7 @@ const isValidUrl = (urlString) => {
 };
 
 // Create uploads directory if it doesn't exist
-const uploadsDir = path.join('../public/uploads/logos');
+const uploadsDir = path.resolve(__dirname, '../../public/uploads/logos');
 if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir, { recursive: true });
 }
@@ -75,21 +76,33 @@ const storage = multer.diskStorage({
         cb(null, uploadsDir);
     },
     filename: (req, file, cb) => {
-        // Generate unique filename
-        const uniqueName = Date.now() + '-' + Math.round(Math.random() * 1E9) + path.extname(file.originalname);
+        const extension = path.extname(file.originalname).toLowerCase();
+        const uniqueName = `${Date.now()}-${crypto.randomBytes(16).toString('hex')}${extension}`;
         cb(null, uniqueName);
     }
 });
 
-// File filter - only allow images
-const fileFilter = (req, file, cb) => {
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml', 'image/svg'];
+const allowedExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.svg'];
+const blockedExtensions = ['.php', '.phtml', '.phar', '.cgi', '.sh', '.exe', '.js', '.pl', '.py', '.asp', '.aspx', '.jsp', '.bash', '.bin', '.cmd', '.msi', '.dll', '.shtml'];
 
-    if (allowedTypes.includes(file.mimetype)) {
-        cb(null, true);
-    } else {
-        cb(new Error('Only image files are allowed (JPEG, PNG, GIF, WebP)'), false);
+const hasBlockedExtension = (filename) => {
+    const parts = path.basename(filename).toLowerCase().split('.').slice(1);
+    return parts.some((segment) => blockedExtensions.includes(`.${segment}`));
+};
+
+const fileFilter = (req, file, cb) => {
+    const extension = path.extname(file.originalname).toLowerCase();
+
+    if (!allowedExtensions.includes(extension) || hasBlockedExtension(file.originalname)) {
+        return cb(new Error('Invalid file extension. Only JPG, JPEG, PNG, WEBP, GIF, and SVG are allowed.'), false);
     }
+
+    if (!allowedTypes.includes(file.mimetype)) {
+        return cb(new Error('Invalid file type. Only image files are allowed (JPEG, PNG, GIF, WEBP, SVG).'), false);
+    }
+
+    cb(null, true);
 };
 
 // Multer upload instance
@@ -194,7 +207,11 @@ router.post('/merchant/upi/setup', csrfProtection, async (req, res) => {
         } else if (merchant.merchant_id === 'phonepe_business') {
             const response = await sendPhonePeOTP(req.body.supervisor_mobile, data.user.userid);
             if (response.success) {
-                res.cookie('merchantTXNID', response.merchantTXNID, { httpOnly: false, sameSite: 'lax' });
+                res.cookie('merchantTXNID', response.merchantTXNID, {
+                    httpOnly: true,
+                    sameSite: 'lax',
+                    secure: req.secure || req.get('x-forwarded-proto') === 'https'
+                });
                 const respo = {
                     success: true,
                     message: 'OTP sent successfully',

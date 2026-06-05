@@ -9,8 +9,14 @@ const csrfProtection = csurf({
     cookie: {
         httpOnly: true,
         sameSite: 'lax',
-        secure: false // set true in HTTPS
+        secure: process.env.NODE_ENV === 'production'
     }
+});
+
+const getCookieOptions = (req) => ({
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: req.secure || req.get('x-forwarded-proto') === 'https'
 });
 // Check session
 router.get('/check-session', async (req, res) => {
@@ -27,7 +33,7 @@ router.post('/signup', csrfProtection, async (req, res) => {
 
         if (result.success) {
             // store requestId in cookie
-            res.cookie('requestId', result.requestId, { httpOnly: false, sameSite: 'lax' });
+            res.cookie('requestId', result.requestId, getCookieOptions(req));
             res.json({
                 success: true,
                 message: 'Signup successful. Please verify OTP.',
@@ -52,9 +58,7 @@ router.post('/verify-otp', csrfProtection, async (req, res) => {
         if (result.success) {
             // ✅ Store userToken in cookie
             res.cookie('userToken', result.userToken, {
-                httpOnly: false,
-                sameSite: 'lax',
-                secure: false, // true if HTTPS
+                ...getCookieOptions(req),
                 maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
             });
             res.json({
@@ -98,9 +102,7 @@ router.post('/login', csrfProtection, async (req, res) => {
             if (result.userToken) {
                 // ✅ Save token in cookie
                 res.cookie('userToken', result.userToken, {
-                    httpOnly: false,
-                    sameSite: 'lax',
-                    secure: false,
+                    ...getCookieOptions(req),
                     maxAge: 7 * 24 * 60 * 60 * 1000
                 });
                 res.json({
@@ -109,7 +111,7 @@ router.post('/login', csrfProtection, async (req, res) => {
                     redirectUrl: '/user/dashboard'
                 });
             } else {
-                res.cookie('requestId', result.requestId, { httpOnly: false, sameSite: 'lax' });
+                res.cookie('requestId', result.requestId, getCookieOptions(req));
                 res.json({
                     success: true,
                     message: 'Login requires OTP verification.',

@@ -42,13 +42,32 @@ app.set('views', './views');
 // ==========================
 // Middleware setup
 // ==========================
+app.set('trust proxy', 1);
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-// ✅ Static Files Configuration - Add this BEFORE routes
-app.use(express.static(path.join('./public')));
-app.use('/uploads', express.static(path.join('./public/uploads')));
+const publicDir = path.join(__dirname, '../public');
+const uploadsAssetsDir = path.join(publicDir, 'uploads');
+
+const uploadsProtection = (req, res, next) => {
+    const normalizedPath = path.posix.normalize(req.path);
+
+    if (normalizedPath.includes('..')) {
+        return res.status(400).end();
+    }
+
+    const blockedExtensions = /\.(php|phtml|phar|cgi|sh|exe|pl|py|js|asp|aspx|jsp|bash|bin|cmd|msi|dll|shtml?)$/i;
+    if (blockedExtensions.test(normalizedPath) || path.basename(normalizedPath).startsWith('.')) {
+        return res.status(404).end();
+    }
+
+    next();
+};
+
+app.use('/uploads', uploadsProtection, express.static(uploadsAssetsDir, { dotfiles: 'deny', index: false }));
+app.use(express.static(publicDir));
 
 app.use('/admin/api/daily/plan/check', async (req, res, next) => {
 
